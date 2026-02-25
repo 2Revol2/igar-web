@@ -65,9 +65,14 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
     const body = document.querySelector('body');
     const serializedBody = body?.innerHTML ?? "<h1>Body is empty</h1>";
     const fixedContent = contentFix(serializedBody);
-    const bodyFinal = fixedContent
-        .replace(/(<(img|video)[^>]*\ssrc=")\/upload/g,'$1/api/assets')
-        .replace(/(<(img|video)[^>]*\ssrc=")\/local\/templates/g,'$1/api/static')
+
+  const bodyFinal = fixedContent
+    .replace(/(<(img|video)[^>]*?\bsrc\s*=\s*["'])\/upload/gi, '$1/api/assets?path=')
+    .replace(/(<source[^>]*?\bsrcset\s*=\s*["'])\/upload/gi, '$1/api/assets?path=')
+    .replace(/url\(\s*['"]?\/(upload)/gi, '$1/api/assets?path=')
+    .replace(/(<(img|video)[^>]*\ssrc=["'])\/local\/templates/g, '$1/api/static?path=')
+    .replace(/url\(\s*['"]?\/local\/templates/g, '$1/api/static?path=')
+
     await writeFile(cacheFilePath + ".html", bodyFinal, 'utf-8');
 
     return { content: bodyFinal, links: linksArray, meta: pageMeta }

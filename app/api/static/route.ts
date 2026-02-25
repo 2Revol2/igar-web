@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { URL } from 'url';
 
 const WEBSITE = "https://velvet-pro.ru"
-const websiteStaticPath = `${WEBSITE}/uploads`;
 
 const ALLOWED_DOMAINS = [
-    WEBSITE,
+  "velvet-pro.ru", "localhost:3000"
 ];
 
 export async function GET(request: NextRequest) {
