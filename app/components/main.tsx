@@ -29,10 +29,7 @@ export const AppMain = () => {
             .catch((error) => console.log(error))
             .finally(() => setIsLoading(false));
     }, [pathname, _fetchContent]);
-
-    return   isLoading
-                ? <AppLoader />
-                : content.length > 0
-                    ? <AppSafeContent html={content} />
-                    : <AppNotFound />
+  return isLoading
+    ? <AppLoader />
+    : content ? <AppSafeContent html={content} /> : <AppNotFound />;
 }

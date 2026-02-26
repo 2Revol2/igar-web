@@ -4,6 +4,7 @@ import "./globals.css";
 import {ContentResponse} from "@/app/types";
 import {AppSafeContent} from "@/app/components/content";
 import {AppHeader} from "@/app/components/header";
+import {AppMain} from "@/app/components/main";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -61,7 +62,7 @@ export default async function RootLayout({
   return (
     <html lang="ru">
         <head>
-            {links.map((link, index) => (
+            {links?.map((link, index) => (
                 <link
                     key={index}
                     rel={link.rel}
@@ -74,9 +75,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AppHeader />
-        <main>
-            <AppSafeContent html={content} />
-        </main>
+        <AppMain/>
       </body>
     </html>
   );

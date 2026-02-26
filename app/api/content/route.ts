@@ -82,6 +82,8 @@ export async function PUT(
   request: NextRequest,
 ) {
         const body = await request.json();
+
+        const {path} = body
         console.log(body);
         // await new Promise(resolve => {
         //     setTimeout(resolve, 3000);
@@ -93,7 +95,7 @@ export async function PUT(
         //     );
         // }
 
-        const pathToFetch = "/";
+        const pathToFetch = path ?? "/";
 
         const fileName = !pathToFetch || pathToFetch === "/" ? "___" : pathToFetch;
 
@@ -103,8 +105,8 @@ export async function PUT(
             const isCached = existsSync(cacheFilePath + ".html");
 
             if (!isCached) {
-                const content = await _fetchContent(pathToFetch, cacheFilePath);
-                return NextResponse.json({ content }, { status: 200 });
+              const result: ContentResponse = await _fetchContent(pathToFetch, cacheFilePath);
+              return NextResponse.json(result, { status: 200 });
             }
 
             // @TODO: Prevent content fetching too often
@@ -119,9 +121,8 @@ export async function PUT(
             const result: ContentResponse  = { content, meta, links };
             return NextResponse.json(result, { status: 200 });
         } catch (reason) {
-            console.log(reason);
-            const message =
-                reason instanceof Error ? reason.message : 'Unexpected exception'
-            return new Response(message, { status: 500 })
+          console.error(reason);
+          const message = reason instanceof Error ? reason.message : 'Unexpected exception';
+          return NextResponse.json({ error: message }, { status: 500 });
         }
 }
