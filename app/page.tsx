@@ -1,13 +1,13 @@
-import { AppMain} from "./components/main"
-import { AppHeader } from "./components/header"
+import { AppMain } from "./components/main";
+import { AppHeader } from "./components/header";
 
 export default function Home() {
   return (
     <div className="min-h-screen">
-        <AppHeader />
-        <main className="flex items-center justify-cente">
-            <AppMain />
-        </main>
+      <AppHeader />
+      <main className="flex items-center justify-cente">
+        <AppMain />
+      </main>
     </div>
   );
 }
