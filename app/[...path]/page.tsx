@@ -38,9 +38,9 @@ export async function generateMetadata(
   const { meta } = await fetchPageData(fullUrl);
 
   return {
-    title: meta.title,
-    description: meta.description,
-    keywords: meta.keywords,
+    title: meta?.title,
+    description: meta?.description,
+    keywords: meta?.keywords,
   };
 }
 

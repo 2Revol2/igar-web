@@ -1,14 +1,15 @@
 import { readFile, writeFile } from "fs/promises";
 import { join } from "path";
-import { JSDOM } from "jsdom";
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
-import type { ContentResponse } from "@/app/types";
 import { existsSync } from "node:fs";
+import { JSDOM } from "jsdom";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import type { ContentResponse } from "@/app/types";
 
 const WEBSITE = "https://velvet-pro.ru";
 const CACHE_DIR = join(process.cwd(), "cache");
 const linksFile = join(CACHE_DIR, "_links.json");
+const scriptsFile = join(CACHE_DIR, "_scripts.json");
 
 const contentFix = (content?: string): string => {
   if (!content) {
@@ -17,12 +18,51 @@ const contentFix = (content?: string): string => {
   return content.replace("/россии/gi", "Беларуси").replace("/россия/gi", "Беларусь");
 };
 
+const replaceUrl = (url: string): string => {
+  if (url.startsWith("http") || url.startsWith("data:")) return url;
+
+  if (url.startsWith("/upload/")) {
+    const path = url.slice(8);
+    return `/api/assets?path=${encodeURIComponent(path)}`;
+  }
+  if (url.startsWith("/local/templates/")) {
+    const path = url.slice(17);
+    return `/api/static?path=${encodeURIComponent(path)}`;
+  }
+  return url;
+};
+
+const processSrcset = (srcset: string): string => {
+  return srcset
+    .split(",")
+    .map((part) => {
+      const trimmed = part.trim();
+      if (!trimmed) return "";
+      const [url, ...descriptors] = trimmed.split(/\s+/);
+      const newUrl = replaceUrl(url);
+      return descriptors.length ? `${newUrl} ${descriptors.join(" ")}` : newUrl;
+    })
+    .join(", ");
+};
+
+const processInlineStyle = (style: string): string => {
+  return style.replace(/url\((['"]?)([^'")]+)(['"]?)\)/g, (match, quoteStart, path, quoteEnd) => {
+    const newUrl = replaceUrl(path);
+    return `url(${quoteStart}${newUrl}${quoteEnd})`;
+  });
+};
+
 const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promise<ContentResponse> => {
-  const res = await fetch(`${WEBSITE}${pathToFetch}`);
+  const res = await fetch(`${WEBSITE}${pathToFetch}`, {
+    headers: {
+      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    },
+  });
   if (!res.ok) {
     throw new Error(`Failed to fetch: ${res.statusText}`);
   }
   const html = await res.text();
+
   const dom = new JSDOM(html);
   const { window } = dom;
   const { document } = window;
@@ -47,6 +87,16 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
     defer: script.defer ?? false,
     async: script.async ?? false,
   }));
+  await writeFile(scriptsFile, JSON.stringify(scriptsArray), "utf-8");
+
+  scripts.forEach((script) => {
+    if (script.textContent && !script.src) {
+      const updated = script.textContent
+        .replace(/\/upload\/([^"'\s]+)/g, "/api/assets?path=$1")
+        .replace(/\/local\/templates\/([^"'\s]+)/g, "/api/static?path=$1");
+      script.textContent = updated;
+    }
+  });
 
   // meta
   const titleNode = document.querySelector("title");
@@ -64,26 +114,72 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
   const pageMeta = { title, description, keywords };
   await writeFile(cacheFilePath + ".json", JSON.stringify(pageMeta), "utf-8");
 
-  // content
   const header = document.querySelector("header");
   if (header) {
     header.remove();
   }
 
+  // normalize content
+  const elementsWithSrc = document.querySelectorAll("[src]");
+  elementsWithSrc.forEach((el) => {
+    const src = el.getAttribute("src");
+    if (src) {
+      el.setAttribute("src", replaceUrl(src));
+    }
+  });
+
+  const elementsWithSrcset = document.querySelectorAll("[srcset]");
+  elementsWithSrcset.forEach((el) => {
+    const srcset = el.getAttribute("srcset");
+    if (srcset) {
+      el.setAttribute("srcset", processSrcset(srcset));
+    }
+  });
+
+  const elementsWithStyle = document.querySelectorAll("[style]");
+  elementsWithStyle.forEach((el) => {
+    const style = el.getAttribute("style");
+    if (style) {
+      el.setAttribute("style", processInlineStyle(style));
+    }
+  });
+
+  const dataAttributes = ["data-src", "data-srcset", "data-original", "data-lazy"];
+  dataAttributes.forEach((attr) => {
+    const elements = document.querySelectorAll(`[${attr}]`);
+    elements.forEach((el) => {
+      const value = el.getAttribute(attr);
+      if (value) {
+        if (attr === "data-srcset") {
+          el.setAttribute(attr, processSrcset(value));
+        } else {
+          el.setAttribute(attr, replaceUrl(value));
+        }
+      }
+    });
+  });
+
+  const styleTags = document.querySelectorAll("style");
+  styleTags.forEach((styleTag) => {
+    if (styleTag.textContent) {
+      const updatedCss = styleTag.textContent.replace(
+        /url\((['"]?)([^'")]+)(['"]?)\)/g,
+        (match, quoteStart, path, quoteEnd) => {
+          const newUrl = replaceUrl(path);
+          return `url(${quoteStart}${newUrl}${quoteEnd})`;
+        },
+      );
+      styleTag.textContent = updatedCss;
+    }
+  });
+
   const body = document.querySelector("body");
   const serializedBody = body?.innerHTML ?? "<h1>Body is empty</h1>";
   const fixedContent = contentFix(serializedBody);
 
-  const bodyFinal = fixedContent
-    .replace(/(<(img|video)[^>]*?\bsrc\s*=\s*["'])\/upload/gi, "$1/api/assets?path=")
-    .replace(/(<source[^>]*?\bsrcset\s*=\s*["'])\/upload/gi, "$1/api/assets?path=")
-    .replace(/url\(\s*['"]?\/(upload)/gi, "$1/api/assets?path=")
-    .replace(/(<(img|video)[^>]*\ssrc=["'])\/local\/templates/g, "$1/api/static?path=")
-    .replace(/url\(\s*['"]?\/local\/templates/g, "$1/api/static?path=");
+  await writeFile(cacheFilePath + ".html", fixedContent, "utf-8");
 
-  await writeFile(cacheFilePath + ".html", bodyFinal, "utf-8");
-
-  return { content: bodyFinal, links: linksArray, meta: pageMeta, scripts: scriptsArray };
+  return { content: fixedContent, links: linksArray, meta: pageMeta, scripts: scriptsArray };
 };
 
 export async function PUT(request: NextRequest) {
@@ -91,45 +187,37 @@ export async function PUT(request: NextRequest) {
 
   const { path } = body;
   console.log(body);
-  // await new Promise(resolve => {
-  //     setTimeout(resolve, 3000);
-  // })
-  // if (!url) {
-  //     return new Response(
-  //         JSON.stringify({ error: 'URL is required' }),
-  //         { status: 400 }
-  //     );
-  // }
 
   const pathToFetch = path ?? "/";
-
   const fileName = !pathToFetch || pathToFetch === "/" ? "___" : pathToFetch;
-
   const cacheFilePath = join(CACHE_DIR, encodeURIComponent(fileName));
 
   try {
-    const isCached = existsSync(cacheFilePath + ".html");
+    const htmlFile = cacheFilePath + ".html";
+    const metaFile = cacheFilePath + ".json";
+    const linksFile = cacheFilePath + ".links.json";
+    const scriptsFile = cacheFilePath + ".scripts.json";
 
-    if (!isCached) {
-      const result: ContentResponse = await _fetchContent(pathToFetch, cacheFilePath);
-      return NextResponse.json(result, { status: 200 });
+    const isCached = existsSync(htmlFile) && existsSync(metaFile) && existsSync(linksFile) && existsSync(scriptsFile);
+
+    if (isCached) {
+      const [content, metaString, linksString, scriptsString] = await Promise.all([
+        readFile(htmlFile, "utf-8"),
+        readFile(metaFile, "utf-8"),
+        readFile(linksFile, "utf-8"),
+        readFile(scriptsFile, "utf-8"),
+      ]);
+
+      const meta = JSON.parse(metaString);
+      const links = JSON.parse(linksString);
+      const scripts = JSON.parse(scriptsString);
+
+      return NextResponse.json({ content, meta, links, scripts }, { status: 200 });
     }
 
-    // @TODO: Prevent content fetching too often
     const data = await _fetchContent(pathToFetch, cacheFilePath);
-    const scripts = data.scripts;
 
-    const [content, metaString, linksString] = await Promise.all([
-      readFile(cacheFilePath + ".html", "utf-8"),
-      readFile(cacheFilePath + ".json", "utf-8"),
-      readFile(linksFile, "utf-8"),
-    ]);
-
-    const meta = metaString ? JSON.parse(metaString) : {};
-    const links = linksString ? JSON.parse(linksString) : [];
-    const result: ContentResponse = { content, meta, links, scripts };
-
-    return NextResponse.json(result, { status: 200 });
+    return NextResponse.json(data, { status: 200 });
   } catch (reason) {
     console.error(reason);
     const message = reason instanceof Error ? reason.message : "Unexpected exception";
