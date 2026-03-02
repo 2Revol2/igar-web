@@ -233,11 +233,12 @@ export async function PUT(request: NextRequest) {
       const links = JSON.parse(linksString);
       const scripts = JSON.parse(scriptsString);
 
+      _fetchContent(pathToFetch, cacheFilePath).catch(console.error);
+
       return NextResponse.json({ content, meta, links, scripts }, { status: 200 });
     }
 
     const data = await _fetchContent(pathToFetch, cacheFilePath);
-
     return NextResponse.json(data, { status: 200 });
   } catch (reason) {
     console.error(reason);
