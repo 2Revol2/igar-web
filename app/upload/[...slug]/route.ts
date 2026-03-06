@@ -3,28 +3,21 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const WEBSITE = "https://velvet-pro.ru";
-const websiteStaticPath = `${WEBSITE}/uploads`;
 
 const ALLOWED_DOMAINS = ["velvet-pro.ru", "localhost:3000"];
 
-export async function GET(request: NextRequest) {
-  const path = request.nextUrl.searchParams.get("path");
-
-  if (!path) {
-    return NextResponse.json({ error: 'Missing "path" parameter' }, { status: 400 });
-  }
-
-  // Формируем полный URL
-  const videoUrl = `${WEBSITE}/upload/${path}`;
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+  const { slug } = await params;
+  const url = `${WEBSITE}/upload/${slug.join("/")}`;
 
   try {
-    const parsedUrl = new URL(videoUrl);
+    const parsedUrl = new URL(url);
     if (!ALLOWED_DOMAINS.includes(parsedUrl.hostname)) {
       return NextResponse.json({ error: "Domain not allowed" }, { status: 403 });
     }
 
     // Загрузка видео (потоково!)
-    const response = await fetch(videoUrl, {
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         // Передаём заголовки из запроса (например, Range для чанков)

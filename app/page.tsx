@@ -1,9 +1,8 @@
+import { AppSafeContent } from "@/app/components/content";
 import type { ContentResponse } from "@/app/types";
 import type { Metadata, ResolvingMetadata } from "next";
-import { AppSafeContent } from "@/app/components/content";
 
 type Props = {
-  paramsPromise: Promise<{ id: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
@@ -14,15 +13,11 @@ const fetchPageData = async (pathToFetch: string): Promise<ContentResponse> => {
   return response.json();
 };
 
-export async function generateMetadata(
-  { paramsPromise, searchParams }: Props,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
-  const params = await paramsPromise;
+export async function generateMetadata({ searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const sp = await searchParams;
 
-  const pathname = params ? `/${Object.values(params).join("/")}` : "/";
-
+  const pathname = "/";
+  console.log(pathname, "MAIN");
   const filtered: Record<string, string> = {};
   for (const [key, value] of Object.entries(sp)) {
     if (typeof value === "string") {

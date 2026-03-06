@@ -6,14 +6,10 @@ const WEBSITE = "https://velvet-pro.ru";
 
 const ALLOWED_DOMAINS = ["velvet-pro.ru", "localhost:3000"];
 
-export async function GET(request: NextRequest) {
-  const path = request.nextUrl.searchParams.get("path");
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+  const { slug } = await params;
 
-  if (!path) {
-    return NextResponse.json({ error: 'Missing "path" parameter' }, { status: 400 });
-  }
-
-  const staticFileUrl = `${WEBSITE}/local/templates/${path}`;
+  const staticFileUrl = `${WEBSITE}/local/templates/${slug.join("/")}`;
 
   try {
     const parsedUrl = new URL(staticFileUrl);

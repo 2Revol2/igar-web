@@ -1,13 +1,12 @@
+import { notFound } from "next/navigation";
+import { AppSafeContent } from "@/app/components/content";
 import type { ContentResponse } from "@/app/types";
 import type { Metadata, ResolvingMetadata } from "next";
-import { AppSafeContent } from "@/app/components/content";
-import { notFound } from "next/navigation";
 
 type Props = {
-  paramsPromise: Promise<{ id: string }>;
+  params: Promise<{ path: string[] }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
-
 const fetchPageData = async (pathToFetch: string): Promise<ContentResponse> => {
   const body = JSON.stringify({ path: pathToFetch });
   const options = { method: "PUT", body };
@@ -15,15 +14,13 @@ const fetchPageData = async (pathToFetch: string): Promise<ContentResponse> => {
   return response.json();
 };
 
-export async function generateMetadata(
-  { paramsPromise, searchParams }: Props,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
-  const params = await paramsPromise;
+export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const { path } = await params;
   const sp = await searchParams;
+  console.log("GENERATE_METADATA", path);
 
-  const pathname = params ? `/${Object.values(params).join("/")}` : "/";
-
+  const pathname = path ? `/${Object.values(path).join("/")}` : "/";
+  console.log(pathname, "SLUG");
   const filtered: Record<string, string> = {};
   for (const [key, value] of Object.entries(sp)) {
     if (typeof value === "string") {
@@ -35,6 +32,7 @@ export async function generateMetadata(
 
   const queryString = new URLSearchParams(filtered).toString();
   const fullUrl = `${pathname}${queryString ? "?" + queryString : ""}`;
+  console.log("FULLL", fullUrl);
 
   const { meta } = await fetchPageData(fullUrl);
 
@@ -49,7 +47,7 @@ export default async function Pages({ params }: { params: Promise<{ path: string
   const { path } = await params;
   const normalizedPaths = path.join("/");
   const { content, links, scripts } = await fetchPageData(`/${normalizedPaths}`);
-
+  console.log("PAGE__________________PAGE__________________PAGE");
   if (!content) {
     return notFound();
   }
