@@ -17,10 +17,9 @@ const fetchPageData = async (pathToFetch: string): Promise<ContentResponse> => {
 export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const { path } = await params;
   const sp = await searchParams;
-  console.log("GENERATE_METADATA", path);
 
   const pathname = path ? `/${Object.values(path).join("/")}` : "/";
-  console.log(pathname, "SLUG");
+
   const filtered: Record<string, string> = {};
   for (const [key, value] of Object.entries(sp)) {
     if (typeof value === "string") {
@@ -32,7 +31,6 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 
   const queryString = new URLSearchParams(filtered).toString();
   const fullUrl = `${pathname}${queryString ? "?" + queryString : ""}`;
-  console.log("FULLL", fullUrl);
 
   const { meta } = await fetchPageData(fullUrl);
 
