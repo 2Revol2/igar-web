@@ -15,7 +15,7 @@ const contentFix = (content?: string): string => {
   if (!content) {
     return "";
   }
-  return content.replace(/россии/gi, "Беларуси").replace(/россия/gi, "Беларусь");
+  return content.replace(/России/gm, "Беларуси").replace(/Россия/gm, "Беларусь");
 };
 
 const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promise<ContentResponse> => {
