@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
+import { config } from "@/app/config";
 import type { NextRequest } from "next/server";
-
-const WEBSITE = "https://velvet-pro.ru";
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params;
 
-  const staticFileUrl = `${WEBSITE}/local/templates/${slug.join("/")}`;
+  const staticFileUrl = `${config.SOURCE_WEBSITE}/local/templates/${slug.join("/")}`;
 
   try {
     // Загрузка видео (потоково!)

@@ -1,10 +1,3 @@
-type Metadata = {
-  name: string;
-  content: string;
-  property: string;
-  httpEquiv: string;
-  charset: string;
-};
 export type PageMetadata = { title: string; description: string; keywords: string };
 
 type HeadLink = {

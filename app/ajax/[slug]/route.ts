@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
+import { config } from "@/app/config";
 import type { NextRequest } from "next/server";
-
-const WEBSITE = "https://velvet-pro.ru";
 
 export async function GET(request: NextRequest) {
   try {
     const { pathname, search } = new URL(request.url);
 
-    const fullUrl = WEBSITE + pathname + search;
+    const fullUrl = config.SOURCE_WEBSITE + pathname + search;
 
     const response = await fetch(fullUrl, {
       headers: {
