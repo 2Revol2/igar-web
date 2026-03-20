@@ -3,10 +3,11 @@ import { join } from "path";
 import { existsSync } from "node:fs";
 import { JSDOM } from "jsdom";
 import { NextResponse } from "next/server";
+import { applyGoogleFonts } from "@/app/api/helpers/content.helpers";
+import { config } from "@/app/config";
 import type { NextRequest } from "next/server";
 import type { ContentResponse } from "@/app/types";
 
-const WEBSITE = "https://velvet-pro.ru";
 const CACHE_DIR = join(process.cwd(), "cache");
 const locks = new Map<string, Promise<ContentResponse>>();
 const updating = new Set<string>();
@@ -19,17 +20,21 @@ const contentFix = (content?: string): string => {
 };
 
 const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promise<ContentResponse> => {
-  const res = await fetch(`${WEBSITE}${pathToFetch}`, {
+  const p = pathToFetch || "";
+  const pageAddress = config.SOURCE_WEBSITE + p;
+  const res = await fetch(pageAddress, {
     headers: {
       Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
     },
   });
 
   if (res.status === 404) {
+    console.log(`[Error] ${pageAddress} - ${res.status}`);
     throw new Error("Page not found");
   }
 
   if (!res.ok) {
+    console.log(`[Error] ${pageAddress} - ${res.statusText}`);
     throw new Error(`Failed to fetch: ${res.statusText}`);
   }
 
@@ -39,12 +44,16 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
   const { window } = dom;
   const { document } = window;
 
+  console.log("222");
+  applyGoogleFonts(document);
+  console.log("333");
+
   // links
   const links = document.querySelectorAll("link");
   const linksArray = Array.from(links)
     .map((link) => ({
       rel: link.rel,
-      href: WEBSITE + link.href,
+      href: config.SOURCE_WEBSITE + link.href,
       type: link.type,
     }))
     .filter((l) => l.rel);
@@ -61,7 +70,7 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
     }
 
     scriptsArray.push({
-      src: src ? (src.startsWith("http") ? src : WEBSITE + src) : "",
+      src: src ? (src.startsWith("http") ? src : config.SOURCE_WEBSITE + src) : "",
       innerHTML: text,
       type: script.type ?? "text/javascript",
       defer: script.defer ?? false,
@@ -93,6 +102,8 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
   const body = document.querySelector("body");
   const serializedBody = body?.innerHTML ?? "<h1>Body is empty</h1>";
   const fixedContent = contentFix(serializedBody);
+  console.log("NNNNN");
+  console.log(linksArray);
 
   await Promise.all([
     writeFile(cacheFilePath + ".html", fixedContent, "utf-8"),

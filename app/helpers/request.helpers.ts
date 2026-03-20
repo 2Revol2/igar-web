@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 
 export async function getSsrBaseUrl() {
   if (typeof window !== "undefined") {
+    console.log("11111", window.location.origin);
     return window.location.origin;
   }
   const h = await headers();
@@ -11,5 +12,6 @@ export async function getSsrBaseUrl() {
   if (!host) {
     throw new Error("Cannot determine host");
   }
+  console.log("11111", `${proto}://${host}`);
   return `${proto}://${host}`;
 }

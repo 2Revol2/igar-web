@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { AppSafeContent } from "@/app/components/content";
 import { getSsrBaseUrl } from "@/app/helpers/request.helpers";
 import type { ContentResponse } from "@/app/types";
@@ -8,6 +7,7 @@ type Props = {
   params: Promise<{ path: string[] }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
+
 const fetchPageData = async (pathToFetch: string): Promise<ContentResponse> => {
   const body = JSON.stringify({ path: pathToFetch });
   const options = { method: "PUT", body };
@@ -46,10 +46,6 @@ export default async function Pages({ params }: { params: Promise<{ path: string
   const { path } = await params;
   const normalizedPaths = path.join("/");
   const { content, links, scripts } = await fetchPageData(`/${normalizedPaths}`);
-
-  if (!content) {
-    return notFound();
-  }
 
   return (
     <>
