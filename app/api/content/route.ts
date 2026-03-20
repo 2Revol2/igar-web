@@ -44,9 +44,7 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
   const { window } = dom;
   const { document } = window;
 
-  console.log("222");
   applyGoogleFonts(document);
-  console.log("333");
 
   // links
   const links = document.querySelectorAll("link");
@@ -102,8 +100,6 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
   const body = document.querySelector("body");
   const serializedBody = body?.innerHTML ?? "<h1>Body is empty</h1>";
   const fixedContent = contentFix(serializedBody);
-  console.log("NNNNN");
-  console.log(linksArray);
 
   await Promise.all([
     writeFile(cacheFilePath + ".html", fixedContent, "utf-8"),
