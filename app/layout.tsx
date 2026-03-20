@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import type { Metadata, ResolvingMetadata } from "next";
 import "./globals.css";
 import { AppHeader } from "@/app/components/header";
 import { fetchPageData } from "@/app/lib/page-data";
+import type { Metadata } from "next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +18,7 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({ searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const sp = await searchParams;
   const pathname = "/";
 
