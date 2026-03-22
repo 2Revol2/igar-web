@@ -7,9 +7,7 @@ interface PageRendererProps {
   path: string;
 }
 
-export const PageRenderer = async (props: PageRendererProps) => {
-  const { path } = props;
-
+export const PageRenderer = async ({ path }: PageRendererProps) => {
   const { content, links, scripts } = await fetchPageData(path);
 
   if (!content) {

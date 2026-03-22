@@ -1,5 +1,3 @@
 export const removeDomain = (url: string) => {
-  const path = url.trim().replace(/^https?:\/\/[^\/]+/, "");
-
-  return path.startsWith("/") ? path : `/${path}`;
+  return url.trim().replace(/^https?:\/\/[^\/]+/, "");
 };

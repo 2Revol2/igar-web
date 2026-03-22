@@ -4,7 +4,7 @@ import { removeDomain } from "@/app/helpers/proxy.heplers";
 describe("removeDomain", () => {
   it("should starts with /", async () => {
     const baseUrl = "http://localhost:3000";
-    expect(removeDomain(baseUrl)).toBe("/");
+    expect(removeDomain(baseUrl)).toBe("");
   });
 
   it("should remove https://ab-market.by", async () => {
