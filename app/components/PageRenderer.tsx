@@ -3,8 +3,12 @@ import { notFound } from "next/navigation";
 import { AppSafeContent } from "@/app/components/content";
 import { fetchPageData } from "@/app/lib/page-data";
 
-export const PageRenderer = async () => {
-  const { content, links, scripts } = await fetchPageData("/");
+interface PageRendererProps {
+  path: string;
+}
+
+export const PageRenderer = async ({ path }: PageRendererProps) => {
+  const { content, links, scripts } = await fetchPageData(path);
 
   if (!content) {
     return notFound();
