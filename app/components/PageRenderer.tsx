@@ -1,15 +1,16 @@
 import Script from "next/script";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { AppSafeContent } from "@/app/components/content";
 import { fetchPageData } from "@/app/lib/page-data";
 
-export const PageRenderer = async () => {
-  const h = await headers();
-  const currentUrl = h.get("x-url") ?? "";
-  const urlPath = currentUrl.replace(/^https?:\/\/[^/]+/, "");
+interface PageRendererProps {
+  path: string;
+}
 
-  const { content, links, scripts } = await fetchPageData(urlPath);
+export const PageRenderer = async (props: PageRendererProps) => {
+  const { path } = props;
+
+  const { content, links, scripts } = await fetchPageData(path);
 
   if (!content) {
     return notFound();
