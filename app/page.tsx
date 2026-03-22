@@ -8,7 +8,7 @@ export async function generateMetadata(pageProps: PageProps): Promise<Metadata> 
 }
 
 const PageComponent = async () => {
-  return <PageRenderer />;
+  return <PageRenderer path={"/"} />;
 };
 
 export default PageComponent;
