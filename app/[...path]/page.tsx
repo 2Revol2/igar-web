@@ -7,10 +7,8 @@ export async function generateMetadata(pageProps: PageProps): Promise<Metadata> 
   return setPageMeta(pageProps);
 }
 
-const PageComponent = async ({ params }: { params: Promise<{ path: string[] }> }) => {
-  const { path } = await params;
-  const normalizedPaths = `/${path.join("/")}`;
-  return <PageRenderer path={normalizedPaths} />;
+const PageComponent = async () => {
+  return <PageRenderer />;
 };
 
 export default PageComponent;
