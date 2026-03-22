@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const { config } = require("./app/config.ts");
+const { config } = require("./config");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
