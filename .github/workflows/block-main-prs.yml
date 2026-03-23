@@ -1,8 +1,9 @@
-name: block-main-prs.yml
+name: Allow only develop/hotfix -> main
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   check:
@@ -10,7 +11,7 @@ jobs:
     steps:
       - name: Validate source branch
         run: |
-          if [[ "${{ github.head_ref }}" != "develop" ]]; then
-            echo "Only develop branch can be merged into main"
+          if [[ "${{ github.head_ref }}" != "develop" && "${{ github.head_ref }}" != hotfix/*  ]]; then
+            echo "Only develop or hotfix can be merged into main"
             exit 1
           fi
