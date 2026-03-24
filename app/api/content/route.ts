@@ -48,13 +48,20 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
 
   // links
   const links = document.querySelectorAll("link");
-  const linksArray = Array.from(links)
-    .map((link) => ({
-      rel: link.rel,
-      href: config.SOURCE_WEBSITE + link.href,
-      type: link.type,
-    }))
-    .filter((l) => l.rel);
+  const linksArray = [];
+  for (const link of Array.from(links)) {
+    const rawHref = link.getAttribute("href") || "";
+    const isAbsolute = rawHref.startsWith("http://") || rawHref.startsWith("https://") || rawHref.startsWith("//");
+    const fullHref = isAbsolute ? rawHref : config.SOURCE_WEBSITE + rawHref;
+
+    if (link.rel) {
+      linksArray.push({
+        rel: link.rel,
+        href: fullHref,
+        type: link.type,
+      });
+    }
+  }
 
   // scripts
   const scripts = Array.from(document.querySelectorAll("script"));
