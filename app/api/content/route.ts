@@ -3,8 +3,8 @@ import { join } from "path";
 import { existsSync } from "node:fs";
 import { JSDOM } from "jsdom";
 import { NextResponse } from "next/server";
-import { applyGoogleFonts } from "@/app/api/helpers/content.helpers";
 import { config } from "@/config";
+import { applyGoogleFonts } from "@/app/api/helpers/content.helpers";
 import type { NextRequest } from "next/server";
 import type { ContentResponse } from "@/app/types";
 
@@ -44,24 +44,26 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
   const { window } = dom;
   const { document } = window;
 
-  applyGoogleFonts(document);
-
   // links
-  const links = document.querySelectorAll("link");
+  const links = Array.from(document.querySelectorAll("link"));
   const linksArray = [];
-  for (const link of Array.from(links)) {
-    const rawHref = link.getAttribute("href") || "";
-    const isAbsolute = rawHref.startsWith("http://") || rawHref.startsWith("https://") || rawHref.startsWith("//");
-    const fullHref = isAbsolute ? rawHref : config.SOURCE_WEBSITE + rawHref;
-
-    if (link.rel) {
-      linksArray.push({
-        rel: link.rel,
-        href: fullHref,
-        type: link.type,
-      });
+  for (const link of links) {
+    if (!link.rel) {
+      continue;
     }
+
+    const rawHref = link.href || "";
+    const isAbsolute = /^https?:\/\//.test(rawHref);
+    const fullHref = isAbsolute ? rawHref : `${config.SOURCE_WEBSITE}${rawHref}`;
+
+    linksArray.push({
+      rel: link.rel,
+      href: fullHref,
+      type: link.type,
+    });
   }
+
+  applyGoogleFonts(document);
 
   // scripts
   const scripts = Array.from(document.querySelectorAll("script"));
