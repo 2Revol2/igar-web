@@ -126,7 +126,7 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
   document.querySelectorAll<HTMLAnchorElement>('a[href^="https://max.ru/"]').forEach((a) => {
     a.href = "https://wa.me/375296038038";
     a.classList.remove("max");
-    a.innerHTML = '<img src="whatsapp.svg" alt="WhatsApp">';
+    a.innerHTML = '<img src="/whatsapp.svg" alt="WhatsApp">';
   });
 
   if (authBtn) {
