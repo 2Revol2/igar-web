@@ -1,5 +1,6 @@
-import "./globals.css";
 import { AppHeader } from "@/app/components/header";
+import { HeaderOffset } from "./components/HeaderOffset";
+import "./globals.css";
 
 const RootLayout = async ({
   children,
@@ -11,6 +12,7 @@ const RootLayout = async ({
       <head></head>
       <body>
         <AppHeader />
+        <HeaderOffset />
         {children}
       </body>
     </html>

@@ -10,3 +10,9 @@ body {
   color: var(--foreground);
 }
 
+@media (max-width: 756px) {
+    .header-custom-block {
+        height: 57px;
+        visibility: hidden;
+    }
+}
