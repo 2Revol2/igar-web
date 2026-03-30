@@ -129,8 +129,7 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
   const geo = document.querySelector<HTMLElement>(".header__geo");
   const mobileCopyright = document.querySelector(".header-mobile__inner-copyright");
   const contacts = document.querySelectorAll(".header-mobile__inner-contact");
-  const innerHeader = document.querySelector(".header__inner");
-
+  const headerBottom = document.querySelector(".header__bottom");
   if (authBtn) {
     authBtn.remove();
   }
@@ -159,14 +158,22 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
     geo.textContent = "Беларусь";
   }
 
-  if (innerHeader) {
+  if (headerBottom) {
     const customBlock = document.createElement("div");
-    customBlock.innerHTML = `<p style="font-size: 13px;" class="container-2025" ><strong>ООО "АБ Маркет"</strong> является официальным представителем <strong>Фабрика "Нева Тафт"</strong> - крупнейшего производителя ковровых покрытий в России, Беларуси и ЕАЭС, <strong> ООО "Вельвет Про"</strong> производитель ковров и штор под заказ в Росии.</p>`;
+
+    customBlock.innerHTML = `<p style="font-size: 11px;" class="container-2025">
+    <strong>ООО "АБ Маркет"</strong> является официальным представителем 
+    <strong>Фабрика "Нева Тафт"</strong> - крупнейшего производителя ковровых покрытий в России, Беларуси и ЕАЭС, 
+    <strong>ООО "Вельвет Про"</strong> производитель ковров и штор под заказ в Росии.
+  </p>`;
 
     customBlock.style.position = "relative";
+    customBlock.style.paddingBlock = "9px";
     customBlock.style.borderBottom = "1px solid #e8ecf0";
-    customBlock.classList.add("custom-block");
-    innerHeader.appendChild(customBlock);
+    customBlock.style.backgroundColor = "#F8F9FA";
+    customBlock.classList.add("header-custom-block");
+
+    headerBottom.insertAdjacentElement("beforebegin", customBlock);
   }
 
   // header on mobile

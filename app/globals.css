@@ -11,7 +11,8 @@ body {
 }
 
 @media (max-width: 756px) {
-    .custom-block {
-        padding-top: 57px;
+    .header-custom-block {
+        height: 57px;
+        visibility: hidden;
     }
 }
