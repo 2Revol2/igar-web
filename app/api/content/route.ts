@@ -10,14 +10,12 @@ import type { NextRequest } from "next/server";
 import type { ContentResponse } from "@/app/types";
 
 const CACHE_DIR = join(process.cwd(), "cache");
-const locks = new Map<string, Promise<ContentResponse>>();
-const updating = new Set<string>();
 
 const contentFix = (content?: string): string => {
   if (!content) {
     return "";
   }
-  return content.replace(/России/gm, "Беларуси").replace(/Россия/gm, "Беларусь");
+  return content.replace(/россии/gi, "Беларуси").replace(/россия/gi, "Беларусь");
 };
 
 const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promise<ContentResponse> => {
