@@ -193,6 +193,12 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
     mobileCopyright.innerHTML = '© ООО "АБ Маркет" 2026';
   }
 
+  const featuresBlock = document.querySelector(".features-section-2025");
+
+  if (featuresBlock) {
+    featuresBlock.remove();
+  }
+
   const nevaBlock = document.querySelector(".neva-taft");
   const main = document.querySelector("main");
 
