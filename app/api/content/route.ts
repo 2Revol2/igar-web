@@ -121,78 +121,25 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
   const pageMeta = { title, description, keywords };
 
   // header
-  const authBtn = document.querySelector(".header__account-link");
-  const cartBtn = document.querySelector(".header__cart");
-  const search = document.querySelector("#title-search");
-  const mobileSearch = document.querySelector(".open-mobile-search");
-  const logoImg = document.querySelector<HTMLImageElement>(".logo__img");
-  const geo = document.querySelector<HTMLElement>(".header__geo");
-  const mobileCopyright = document.querySelector(".header-mobile__inner-copyright");
-  const contacts = document.querySelectorAll(".header-mobile__inner-contact");
-  const headerBottom = document.querySelector(".header__bottom");
-  if (authBtn) {
-    authBtn.remove();
+  const header = document.querySelector("header");
+  let headerNavbar = "";
+
+  if (header) {
+    const innerHeader = header.querySelector(".header__inner");
+    const headerMobile = header.querySelector(".header-mobile");
+    const headerMobileOverlay = header.querySelector(".header-mobile-overlay");
+    const headerTop = header.querySelector(".header__top");
+
+    headerTop?.remove();
+
+    if (innerHeader && headerMobile && headerMobileOverlay) {
+      headerNavbar = innerHeader.outerHTML + headerMobile.outerHTML + headerMobileOverlay.outerHTML;
+    }
+
+    header.remove();
   }
 
-  if (cartBtn) {
-    cartBtn.remove();
-  }
-
-  if (search) {
-    search.remove();
-  }
-
-  if (mobileSearch) {
-    mobileSearch.remove();
-  }
-
-  if (logoImg) {
-    logoImg.src = "/logo.svg";
-    logoImg.alt = "Ab-market";
-    logoImg.style.height = "100%";
-  }
-
-  if (geo) {
-    geo.removeAttribute("data-geo-location");
-    geo.removeAttribute("data-real-city");
-    geo.textContent = "Беларусь";
-  }
-
-  if (headerBottom) {
-    const customBlock = document.createElement("div");
-
-    customBlock.innerHTML = `<p style="font-size: 12px; display: flex; flex-wrap: wrap" class="container-2025">
-    <span> <strong>ООО "АБ Маркет"</strong> является официальным представителем  
-    <a style="color: inherit; border: none; text-decoration: underline;"  href="https://nevatuft.ru/" target="_blank">фабрики "Нева Тафт"</a>
-     -&nbsp;</span><span>крупнейшего производителя ковровых покрытий в ЕАЭС,</span>
-    <span>а также представителем <a style="color: inherit; border: none; text-decoration: underline;" href="https://velvet-pro.ru/" target="_blank">ООО "Вельвет Про"</a> 
-    - ведущего производителя ковров и штор под заказ в Российской Федерации.</span>
-  </p>`;
-
-    customBlock.style.position = "relative";
-    customBlock.style.paddingBlock = "9px";
-    customBlock.style.borderBottom = "1px solid #e8ecf0";
-    customBlock.style.backgroundColor = "#F8F9FA";
-    customBlock.classList.add("header-custom-block");
-
-    headerBottom.insertAdjacentElement("beforebegin", customBlock);
-  }
-
-  // header on mobile
-  if (contacts[1]) {
-    contacts[1].remove();
-  }
-  const firstContact = contacts[0];
-  const info = firstContact?.querySelector(".info");
-
-  if (info) {
-    info.remove();
-  }
-
-  if (mobileCopyright) {
-    mobileCopyright.innerHTML = '© ООО "АБ Маркет" 2026';
-  }
-
+  // content
   const featuresBlock = document.querySelector(".features-section-2025");
 
   if (featuresBlock) {
@@ -219,9 +166,16 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
     writeFile(cacheFilePath + ".json", JSON.stringify(pageMeta), "utf-8"),
     writeFile(cacheFilePath + ".links.json", JSON.stringify(linksArray), "utf-8"),
     writeFile(cacheFilePath + ".scripts.json", JSON.stringify(scriptsArray), "utf-8"),
+    writeFile(cacheFilePath + ".header.html", headerNavbar, "utf-8"),
   ]);
 
-  return { content: fixedContent, links: linksArray, meta: pageMeta, scripts: scriptsArray };
+  return {
+    content: fixedContent,
+    links: linksArray,
+    meta: pageMeta,
+    scripts: scriptsArray,
+    headerNavbar: headerNavbar,
+  };
 };
 
 export async function PUT(request: NextRequest) {
@@ -237,16 +191,23 @@ export async function PUT(request: NextRequest) {
     const metaFile = cacheFilePath + ".json";
     const linksFile = cacheFilePath + ".links.json";
     const scriptsFile = cacheFilePath + ".scripts.json";
+    const headerFile = cacheFilePath + ".header.html";
 
-    const isCached = existsSync(htmlFile) && existsSync(metaFile) && existsSync(linksFile) && existsSync(scriptsFile);
+    const isCached =
+      existsSync(htmlFile) &&
+      existsSync(metaFile) &&
+      existsSync(linksFile) &&
+      existsSync(scriptsFile) &&
+      existsSync(headerFile);
     const lockKey = cacheFilePath;
 
     if (isCached) {
-      const [content, metaString, linksString, scriptsString] = await Promise.all([
+      const [content, metaString, linksString, scriptsString, header] = await Promise.all([
         readFile(htmlFile, "utf-8"),
         readFile(metaFile, "utf-8"),
         readFile(linksFile, "utf-8"),
         readFile(scriptsFile, "utf-8"),
+        readFile(headerFile, "utf-8"),
       ]);
 
       const meta = JSON.parse(metaString);
@@ -260,7 +221,7 @@ export async function PUT(request: NextRequest) {
           .finally(() => updating.delete(lockKey));
       }
 
-      return NextResponse.json({ content, meta, links, scripts }, { status: 200 });
+      return NextResponse.json({ content, meta, links, scripts, headerNavbar: header }, { status: 200 });
     }
 
     if (locks.has(lockKey)) {
