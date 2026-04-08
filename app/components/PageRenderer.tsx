@@ -20,10 +20,8 @@ export const PageRenderer = async ({ path }: PageRendererProps) => {
         <link key={index} rel={link.rel} href={link.href} type={link.type} />
       ))}
 
-      <>
-        <AppHeader headerNavbar={headerNavbar} />
-        <AppSafeContent html={content} />
-      </>
+      <AppHeader headerNavbar={headerNavbar} />
+      <AppSafeContent html={content} />
 
       {scripts?.map((script, index) =>
         script.src ? (

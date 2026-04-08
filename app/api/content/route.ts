@@ -162,7 +162,7 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
   ]);
 
   return {
-    content: fixedContent,
+    content: serializedBody,
     links: linksArray,
     meta: pageMeta,
     scripts: scriptsArray,
