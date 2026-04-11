@@ -67,6 +67,9 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
     if (!link.rel || !link.href) {
       continue;
     }
+    if (/icon/.test(link.rel) || link.rel === "preconnect" || link.rel === "manifest") {
+      continue;
+    }
     const mappedLink = {
       rel: link.rel,
       href: link.href,
