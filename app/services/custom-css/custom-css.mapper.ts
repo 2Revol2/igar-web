@@ -26,17 +26,14 @@ function buildCss(matches: CssMatch[]) {
 \t--color-red-hover: ${OUR.Light};
 }\n\n`;
 
-  const body = matches
-    .map((item) => {
-      const selectors = item.selectors.map((selector) => prefixSelector(selector, ROOT_SELECTOR)).join(",\n");
-      const value = replaceColor(item.value);
-      const declarations = [
-        `${item.property}: ${value};`,
-        ...(item.property === "background" ? ["color: white;"] : []),
-      ];
-      return `${selectors} {\n  ${declarations.join("\n  ")}\n}`;
-    })
-    .join("\n\n");
+  const blocks = matches.map((item) => {
+    const selectors = item.selectors.map((selector) => prefixSelector(selector, ROOT_SELECTOR)).join(",\n");
+    const value = replaceColor(item.value);
+    const declarations = [`${item.property}: ${value};`, ...(item.property === "background" ? ["color: white;"] : [])];
+    return `${selectors} {\n  ${declarations.join("\n  ")}\n}`;
+  });
+
+  const body = [...new Set(blocks)].join("\n\n");
 
   return header + body;
 }
