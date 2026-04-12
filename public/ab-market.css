@@ -1,22 +1,10 @@
 /* 
-	Generated at: 2026-04-12T17:37:16.206Z
+	Generated at: 2026-04-12T18:00:12.306Z
 */
 
 :root {
 	--color-red: #009399;
 	--color-red-hover: #44aaae;
-}
-
-#ab-market .advantages-2025_item .action a {
-  color: #009399;
-}
-
-#ab-market .catalog-popular-2025_list .swiper-slide .info .title2 {
-  color: #009399;
-}
-
-#ab-market .yandex-reviews-slider .item .text-block[data-collapsed] span.switcher {
-  color: #009399;
 }
 
 #ab-market a {
@@ -859,3 +847,6 @@
 #ab-market .brief-v26 .input-file [data-input-file-button] {
   color: #009399;
 }
+
+/* --- Nuxt --- */
+

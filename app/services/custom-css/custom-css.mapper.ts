@@ -16,9 +16,11 @@ function prefixSelector(selector: string, rootSelector: string) {
   return `${rootSelector} ${selector}`;
 }
 
-function buildCss(matches: CssMatch[]) {
+function buildCss(matches: CssMatch[], isCssCollect?: boolean) {
   const now = new Date();
-  const header = `/* 
+  const header = isCssCollect
+    ? `\n\n/* --- Nuxt --- */\n\n`
+    : `/* 
 \tGenerated at: ${now.toISOString()}
 */\n
 :root {
@@ -38,13 +40,19 @@ function buildCss(matches: CssMatch[]) {
   return header + body;
 }
 
-export async function applyCssAndSaveOurCssFile(matches: CssMatch[]) {
-  const cssText = buildCss(matches);
+export async function applyCssAndSaveOurCssFile(matches: CssMatch[], isCssCollect?: boolean) {
+  console.log("----- ", isCssCollect);
+  console.log(matches);
+  const cssText = buildCss(matches, isCssCollect);
 
   const outputPath = path.join(process.cwd(), "public", "ab-market.css");
 
-  await fs.mkdir(path.dirname(outputPath), { recursive: true });
-  await fs.writeFile(outputPath, cssText, "utf-8");
+  if (isCssCollect) {
+    await fs.appendFile(outputPath, cssText, "utf-8");
+  } else {
+    await fs.mkdir(path.dirname(outputPath), { recursive: true });
+    await fs.writeFile(outputPath, cssText, "utf-8");
+  }
 
   return {
     outputPath,

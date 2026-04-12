@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { customCssService } from "../../services/custom-css/custom-css.service";
 import type { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -7,11 +8,11 @@ export async function POST(req: NextRequest) {
 
     const { hrefs, pageUrl } = body;
 
+    await customCssService.readCssAndReplaceColors(hrefs, true);
+
+    console.log(" --- Nuxt css fetch: ");
     console.log("CSS URLs:", hrefs);
     console.log("Page:", pageUrl);
-
-    // 👉 тут вызываешь свой сервис
-    // await customCssService.readCssAndReplaceColors(...)
 
     return NextResponse.json({ success: true });
   } catch (error) {
