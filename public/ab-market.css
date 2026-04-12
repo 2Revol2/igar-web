@@ -1,731 +1,861 @@
 /* 
-    Generated at: 2026-04-12T08:31:55.582Z
+    Generated at: 2026-04-12T09:36:55.408Z
   */
 
 #ab-market .advantages-2025_item .action a {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .catalog-popular-2025_list .swiper-slide .info .title2 {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .yandex-reviews-slider .item .text-block[data-collapsed] span.switcher {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market a {
-  color: var(--ab-primary);
+  color: #009399;
+}
+
+#ab-market a:hover {
+  color: #006569;
 }
 
 #ab-market ul li:before {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .btn {
-  border: 1px solid var(--ab-primary);
+  border: 1px solid #009399;
 }
 
 #ab-market .btn {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .btn:hover:not(:disabled) {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .btn--outline-gray:hover:not(:disabled) {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .btn--outline-gray:hover:not(:disabled) {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .btn--outline-gray.is-active {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .btn--outline-gray.is-active {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .btn--red {
-  border: 1px solid var(--ab-primary);
+  border: 1px solid #009399;
 }
 
 #ab-market .btn--red {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .btn--red:hover:not(:disabled) {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .btn--fill {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .btn--fill.btn--white:hover:not(:disabled) {
-  background-color: var(--ab-primary);
+  background-color: #009399;
+}
+
+#ab-market .btn--link:hover:not(:disabled) {
+  color: #006569;
 }
 
 #ab-market .btn--link-arrow svg {
-  fill: var(--ab-primary);
+  fill: #009399;
+}
+
+#ab-market .btn--link-arrow:hover:not(:disabled) svg {
+  fill: #006569;
 }
 
 #ab-market .btn--cart {
-  background: var(--ab-primary) url(../img/btn_cart2.svg) no-repeat center;
+  background: #009399 url(../img/btn_cart2.svg) no-repeat center;
+  color: white;
+}
+
+#ab-market .btn--cart:hover:not(:disabled) {
+  background: #006569 url(../img/btn_cart2.svg) no-repeat center;
   color: white;
 }
 
 #ab-market .arrow-link svg {
-  fill: var(--ab-primary);
+  fill: #009399;
+}
+
+#ab-market .arrow-link:hover:not(:disabled) svg {
+  fill: #006569;
 }
 
 #ab-market .form-field-container.has-error .form-field {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .form-field-container.has-error .form-field {
-  box-shadow: inset 0 0 0 1px var(--ab-primary);
+  box-shadow: inset 0 0 0 1px #009399;
 }
 
 #ab-market .form-field-wrap.has-error .form-field {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .form-field-wrap.has-error .form-field {
-  box-shadow: inset 0 0 0 1px var(--ab-primary);
+  box-shadow: inset 0 0 0 1px #009399;
 }
 
 #ab-market .file__label span {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
 }
 
 #ab-market .file__label span {
-  color: var(--ab-primary);
+  color: #009399;
+}
+
+#ab-market .file__label:hover span {
+  color: #006569;
+}
+
+#ab-market .file__label:hover span {
+  border-bottom-color: #006569;
 }
 
 #ab-market .file__delete {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .file__delete {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
+}
+
+#ab-market .file__delete:hover {
+  color: #006569;
+}
+
+#ab-market .file__delete:hover {
+  border-bottom-color: #006569;
 }
 
 #ab-market .form__forgot-pass a {
-  border-bottom-color: var(--ab-primary);
+  border-bottom-color: #009399;
 }
 
 #ab-market .checkbox label input:checked~span:before {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .checkbox label span:before {
-  border: 1px solid var(--ab-primary);
+  border: 1px solid #009399;
+}
+
+#ab-market .select2-container--default .select2-results__option--highlighted[aria-selected]:hover {
+  color: #006569;
+}
+
+#ab-market .select2-container--default .select2-results__option[aria-selected=true] {
+  color: #006569;
 }
 
 #ab-market .irs--flat .irs-bar {
-  background-color: var(--ab-primary);
+  background-color: #009399;
 }
 
 #ab-market .irs--flat .irs-handle:before {
-  border: 1px solid var(--ab-primary);
+  border: 1px solid #009399;
 }
 
 #ab-market .marked-red {
-  background-color: var(--ab-primary);
+  background-color: #009399;
 }
 
 #ab-market .how-get-size__togglers a {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .how-get-size__togglers a span {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
+}
+
+#ab-market .how-get-size__togglers a:not(.is-active):hover {
+  color: #006569;
+}
+
+#ab-market .how-get-size__togglers a:not(.is-active):hover span {
+  border-color: #006569;
 }
 
 #ab-market .modal-product-more {
-  color: var(--ab-primary);
+  color: #009399;
+}
+
+#ab-market .modal-product-more:hover {
+  color: #006569;
 }
 
 #ab-market .header__cart-open span {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .product-preview__name {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .product-preview__color:hover,
 #ab-market .product-preview__color.is-active {
-  box-shadow: 0 0 0 1px var(--ab-primary);
+  box-shadow: 0 0 0 1px #009399;
 }
 
 #ab-market .product-preview__color-more>div {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .product-preview__color-more>div div {
-  border-bottom: solid .5px var(--ab-primary);
+  border-bottom: solid .5px #009399;
 }
 
 #ab-market .product-preview__color-more:hover {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .breadcrumbs li a:hover {
-  color: var(--ab-primary);
+  color: #009399;
+}
+
+#ab-market .breadcrumbs li a:hover {
+  border-bottom-color: #00939980;
 }
 
 #ab-market .breadcrumbs li a:hover span {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .article-preview {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .pagination li.is-active a {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .mobile-products-control {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .mobile-products-control span {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
 }
 
 #ab-market .filter-tags__item:hover {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .filter-tags__item:hover {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .filter-tags-toggle__link {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .filter-tags-toggle__link span {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
 }
 
 #ab-market .sorting__button {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .sorting__button span {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
+}
+
+#ab-market .sorting__button:not(.is-active):hover {
+  color: #006569;
+}
+
+#ab-market .sorting__button:not(.is-active):hover span {
+  border-color: #006569;
+}
+
+#ab-market .sorting__button:not(.is-active):hover:before {
+  border-bottom-color: #006569;
+}
+
+#ab-market .sorting__button:not(.is-active):hover:after {
+  border-top-color: #006569;
 }
 
 #ab-market .sorting__button--price:before {
-  border-bottom: 5px solid var(--ab-primary);
+  border-bottom: 5px solid #009399;
 }
 
 #ab-market .sorting__button--price:after {
-  border-top: 5px solid var(--ab-primary);
+  border-top: 5px solid #009399;
 }
 
 #ab-market .sorting__button--single.is-active.is-descending:after {
-  border-top-color: var(--ab-primary);
+  border-top-color: #009399;
 }
 
 #ab-market .sorting__button--single.is-active.is-ascending:before {
-  border-bottom-color: var(--ab-primary);
+  border-bottom-color: #009399;
 }
 
 #ab-market .news_pink_block {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .login_change_type span.active {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .login_change_type span.active {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
+}
+
+#ab-market .login_change_type span.active:hover {
+  color: #006569;
 }
 
 #ab-market .our-works-thumb.is-active img {
-  box-shadow: 0 0 0 3px var(--ab-primary);
+  box-shadow: 0 0 0 3px #009399;
 }
 
 #ab-market .hockey-mats .b-text-slider .form_wrapper p span.red {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .b-delivery-and-payment .title-red {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .load-more-products__button.is-loading {
-  background-color: var(--ab-primary);
+  background-color: #009399;
 }
 
 #ab-market .have-questions-block__arrow-link {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .have-questions-block__arrow-link svg {
-  fill: var(--ab-primary);
+  fill: #009399;
 }
 
 #ab-market .calc-block__button.calc-block__button--big>span::before {
-  background: var(--ab-primary) url(../img/calc_check.svg) center no-repeat;
+  background: #009399 url(../img/calc_check.svg) center no-repeat;
   color: white;
 }
 
 #ab-market .calc-block__button.calc-block__button--material input:checked~span .calc-block__wrapper {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .calc-block__button.calc-block__button--material:hover .calc-block__wrapper {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .calc-block__button.calc-block__button--input.is-active input {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .calc-block__button.calc-block__button--input input {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .calc-block__button.calc-block__button--input input:focus-visible {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .offer__label {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .b-products-slider__tabs a span {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
+}
+
+#ab-market .b-products-slider__tabs a:not(.is-active):hover {
+  color: #006569;
+}
+
+#ab-market .b-products-slider__tabs a:not(.is-active):hover span {
+  border-bottom-color: #006569;
 }
 
 #ab-market .cards-slider .swiper-button-next,
 #ab-market .cards-slider .swiper-button-prev {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .features-section__title span {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .features-button a {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .features-button a svg {
-  fill: var(--ab-primary);
+  fill: #009399;
 }
 
 #ab-market .hero-section-top__callback-link {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .hero-section-top__callback-link svg {
-  fill: var(--ab-primary);
+  fill: #009399;
 }
 
 #ab-market .our-works-section-photos .swiper-button-next,
 #ab-market .our-works-section-photos .swiper-button-prev {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .our-works-section-all__label {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .inst-block__link:hover svg {
-  fill: var(--ab-primary);
+  fill: #009399;
 }
 
 #ab-market .photos-filter__item:hover,
 #ab-market .photos-filter__item.is-active {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .photos-filter__item:hover,
 #ab-market .photos-filter__item.is-active {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .s-showroom__content .contacts__phone:hover {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .all-around__cities-list a:hover {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .product-images-thumb.is-active img {
-  box-shadow: 0 0 0 3px var(--ab-primary);
+  box-shadow: 0 0 0 3px #009399;
 }
 
 #ab-market .product-options__tab.is-active {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .product-options-colors-expand a {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
 }
 
 #ab-market .product-options__choose-item input:checked~span {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .product-options__choose-item input:checked~span {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .product-options__how-get-size {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
 }
 
 #ab-market .product-options__how-get-size svg {
-  fill: var(--ab-primary);
+  fill: #009399;
+}
+
+#ab-market .product-options__how-get-size:hover svg {
+  fill: #006569;
 }
 
 #ab-market .product-tabs-button.is-active {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .product-tabs-pane h3 {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .product-tabs-pane__heading {
-  color: var(--ab-primary);
+  color: #009399;
+}
+
+#ab-market .product-tabs-pane__heading:hover {
+  color: #006569;
 }
 
 #ab-market .product-review__show-full span {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
 }
 
 #ab-market .product-review__show-full svg {
-  fill: var(--ab-primary);
+  fill: #009399;
+}
+
+#ab-market .product-review__show-full:hover svg {
+  fill: #006569;
+}
+
+#ab-market .product-review__show-full:hover span {
+  border-color: #006569;
 }
 
 #ab-market .show-more-reviews {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
 }
 
 #ab-market .external-link:hover {
-  color: var(--ab-primary);
+  color: #009399;
+}
+
+#ab-market .qa-item__question:hover {
+  color: #006569;
 }
 
 #ab-market .product-tabs-pane.is-open:before {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .detail-page-btn.add_to_btn {
-  border: 1px solid var(--ab-primary);
+  border: 1px solid #009399;
 }
 
 #ab-market .detail-page-btn.add_to_btn {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .left-nav__link.is-active {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .contacts__email {
-  color: var(--ab-primary);
+  color: #009399;
+}
+
+#ab-market .contacts__print:hover svg {
+  fill: #006569;
 }
 
 #ab-market .delivery__block h3 {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .about-wrapper__email a {
-  color: var(--ab-primary);
+  color: #009399;
+}
+
+#ab-market .about-wrapper__email a:hover {
+  color: #006569;
 }
 
 #ab-market .requirements__show-all-colors a {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
+}
+
+#ab-market .cart-item__delete:hover:before {
+  color: #006569;
 }
 
 #ab-market .order__change {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
 }
 
 #ab-market .order-step__change {
-  border-bottom: 1px dotted var(--ab-primary);
+  border-bottom: 1px dotted #009399;
 }
 
 #ab-market .order__checkbox input:checked~span {
-  box-shadow: inset 0 0 0 1px var(--ab-primary);
+  box-shadow: inset 0 0 0 1px #009399;
 }
 
 #ab-market .order__checkbox input:checked~span {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .order__checkbox span:after {
-  background: var(--ab-primary) url(../img/order_check.svg) no-repeat center;
+  background: #009399 url(../img/order_check.svg) no-repeat center;
   color: white;
 }
 
 #ab-market .order-step__tip--delivery-service,
 #ab-market .order-step__tip--payment {
-  border-top-color: var(--ab-primary);
+  border-top-color: #009399;
 }
 
 #ab-market .order-created-payment__type {
-  border-top: 2px solid var(--ab-primary);
+  border-top: 2px solid #009399;
 }
 
 #ab-market .form-group.oxem-field-yn input[type=checkbox]:checked:after {
-  background: var(--ab-primary) url(../img/order_check.svg) no-repeat center;
+  background: #009399 url(../img/order_check.svg) no-repeat center;
   color: white;
 }
 
 #ab-market .hero-fireproof {
-  border: solid 3px var(--ab-primary);
+  border: solid 3px #009399;
 }
 
 #ab-market .s-best__fireproof:before {
-  background: var(--ab-primary) url("../img/fireproof_icon.svg") no-repeat center;
+  background: #009399 url("../img/fireproof_icon.svg") no-repeat center;
   color: white;
 }
 
 #ab-market .s-best__fireproof-icon {
-  background: var(--ab-primary) url("../img/fireproof_icon.svg") no-repeat center;
+  background: #009399 url("../img/fireproof_icon.svg") no-repeat center;
   color: white;
 }
 
 #ab-market .s-best__icon {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .s-num-one__title span {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .step-item__num {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .hero-free-examples {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .mount-type__label {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .hero-free-examples {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .s-feature__subtitle {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .hidden-text__link {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .hidden-text__link span {
-  border-bottom: 1px dashed var(--ab-primary);
+  border-bottom: 1px dashed #009399;
 }
 
 #ab-market .one-day-tooltip__link {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .one-day-tooltip__link {
-  border-bottom: 2px dashed var(--ab-primary);
+  border-bottom: 2px dashed #009399;
 }
 
 #ab-market .hero-fireproof-fill {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .calc-block__button input:checked+span {
-  border: 1px solid var(--ab-primary);
+  border: 1px solid #009399;
 }
 
 #ab-market .calc-block__button input:checked+span {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .calc-block__button:hover span {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .works-slider-tab.is-active {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .works-slider-tab.is-active {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .work-slide__other li a.is-active {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .work-slide__other li a.is-active {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .work-slide__button:hover:not(:disabled) {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .textile-base__image-text:before {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .absorbing-section__image-text:before {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .vors-info-item__label {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .help-find__link {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .help-find__link svg {
-  fill: var(--ab-primary);
+  fill: #009399;
 }
 
 #ab-market :root {
-  --color-red: var(--ab-primary);
+  --color-red: #009399;
 }
 
 #ab-market .button {
-  background: var(--ab-primary);
+  background: #009399;
+  color: white;
+}
+
+#ab-market .button:hover {
+  background: #44aaae;
   color: white;
 }
 
 #ab-market .button.alternative {
-  color: var(--ab-primary);
+  color: #009399;
+}
+
+#ab-market .button.alternative {
+  background-color: #00939933;
 }
 
 #ab-market .velvet-checkbox .fake-checkbox {
-  border: 1px solid var(--ab-primary);
+  border: 1px solid #009399;
 }
 
 #ab-market .velvet-checkbox :checked + .fake-checkbox {
-  background-color: var(--ab-primary);
+  background-color: #009399;
 }
 
 #ab-market .header__favotites span {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .header-nav-link:hover,
 #ab-market .header-nav-link.is-active {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .footer-2025 .top-block .column .request .button {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .about-2025 h2:first-line {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .velvet-form-input.has-error [type="text"],
 #ab-market .velvet-form-input.has-error textarea {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .fancybox-portfolio .fancybox-button.fancybox-button--arrow_right:active:not(:disabled),
 #ab-market .fancybox-portfolio .fancybox-button.fancybox-button--arrow_left:active:not(:disabled) {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .ContactsSection_tab__90AdA.active {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .ContactsSection_tab__90AdA.active:before {
-  background: var(--ab-primary);
+  background: #009399;
   color: white;
 }
 
 #ab-market .swiper-slide-thumb-active .KovrolinDetailImagesSlider_thumbSlide__sekZV {
-  box-shadow: 0 0 0 3px var(--ab-primary);
+  box-shadow: 0 0 0 3px #009399;
 }
 
 #ab-market .KovrolinDetailAccordionGroup_root__nOsDf>div.Accordion_active__1BP_5>button:after {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .KovrolinDetailAccordionGroup_root__nOsDf>div.Accordion_active__1BP_5>button:after {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .bx_smart_searche .bx_item_block.all_result .all_result_button {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .bx_smart_searche .bx_item_block_href_category_title {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .header__search.focus form [type="submit"] {
-  background-color: var(--ab-primary);
+  background-color: #009399;
 }
 
 #ab-market .header__search form [type="submit"] {
-  background-color: var(--ab-primary);
+  background-color: #009399;
 }
 
 #ab-market .modal-brief-v26__heading .title .red {
-  color: var(--ab-primary);
+  color: #009399;
 }
 
 #ab-market .brief-v26-userdata .input-block-inputs .input.has-error {
-  border-color: var(--ab-primary);
+  border-color: #009399;
 }
 
 #ab-market .brief-v26-userdata .input-block-inputs .input-radio-button:has(:checked) {
-  border: 1px solid var(--ab-primary);
+  border: 1px solid #009399;
 }
 
 #ab-market .brief-v26 .input-file [data-input-file-button] {
-  color: var(--ab-primary);
+  color: #009399;
 }

@@ -1,19 +1,22 @@
 import postcss from "postcss";
 import valueParser from "postcss-value-parser";
 import safeParser from "postcss-safe-parser";
-import { RED_PRIMARY } from "./custom-css.constants";
+import { CSS_REPLACEMENTS } from "./custom-css.constants";
 
 function normalize(value: string) {
   return value.trim().toLowerCase();
 }
 
-function containsTargetColor(cssValue: string, targetColor: string) {
+function containsTargetColor(cssValue: string) {
   const parsed = valueParser(cssValue);
   let found = false;
 
   parsed.walk((node) => {
-    if (node.type === "word" && normalize(node.value) === targetColor) {
-      found = true;
+    if (node.type === "word") {
+      const value = normalize(node.value);
+      if (CSS_REPLACEMENTS.some((r) => value.includes(r.value))) {
+        found = true;
+      }
     }
   });
 
@@ -38,7 +41,7 @@ export async function findRulesByCssUrl(cssUrl: string) {
 
   root.walkRules((rule) => {
     rule.walkDecls((decl) => {
-      if (containsTargetColor(decl.value, RED_PRIMARY)) {
+      if (containsTargetColor(decl.value)) {
         matches.push({
           selectors: rule.selectors ?? [],
           property: decl.prop,
@@ -47,10 +50,6 @@ export async function findRulesByCssUrl(cssUrl: string) {
       }
     });
   });
-
-  console.log("--------");
-  console.log("--", cssUrl);
-  console.log(matches);
 
   return matches;
 }
