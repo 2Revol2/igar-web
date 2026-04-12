@@ -11,7 +11,7 @@ type CssReplacement = {
   replacement: string;
 };
 
-const OUR = {
+export const OUR = {
   Primary: "#009399",
   Dark: "#006569",
   Light: "#44aaae",

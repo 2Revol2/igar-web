@@ -1,6 +1,11 @@
 /* 
-    Generated at: 2026-04-12T09:36:55.408Z
-  */
+	Generated at: 2026-04-12T17:20:37.480Z
+*/
+
+:root {
+	--color-red: #009399;
+	--color-red-hover: #44aaae;
+}
 
 #ab-market .advantages-2025_item .action a {
   color: #009399;

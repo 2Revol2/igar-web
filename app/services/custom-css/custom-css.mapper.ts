@@ -1,6 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { CSS_REPLACEMENTS, ROOT_SELECTOR } from "./custom-css.constants";
+import { CSS_REPLACEMENTS, ROOT_SELECTOR, OUR } from "./custom-css.constants";
 import type { CssMatch } from "./custom-css.constants";
 
 function replaceColor(value: string) {
@@ -19,8 +19,12 @@ function prefixSelector(selector: string, rootSelector: string) {
 function buildCss(matches: CssMatch[]) {
   const now = new Date();
   const header = `/* 
-    Generated at: ${now.toISOString()}
-  */\n\n`;
+\tGenerated at: ${now.toISOString()}
+*/\n
+:root {
+\t--color-red: ${OUR.Primary};
+\t--color-red-hover: ${OUR.Light};
+}\n\n`;
 
   const body = matches
     .map((item) => {

@@ -1,5 +1,6 @@
 import "./globals.css";
 import { PriceObserver } from "@/app/components/PriceObserver";
+import { NuxtCssCollector } from "@/app/components/NuxtCssCollector";
 import { getRubToBynRate } from "@/app/lib/rub-to-byn-rate";
 
 const RootLayout = async ({
@@ -8,7 +9,6 @@ const RootLayout = async ({
   children: React.ReactNode;
 }>) => {
   const rubToBynRate = await getRubToBynRate();
-  console.log(`rubToBynRate  = ${rubToBynRate}`);
 
   return (
     <html lang="ru">
@@ -17,6 +17,7 @@ const RootLayout = async ({
       </head>
       <body id="ab-market">{children}</body>
       <PriceObserver rubToBynRate={rubToBynRate} />
+      <NuxtCssCollector />
     </html>
   );
 };
