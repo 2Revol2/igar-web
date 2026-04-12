@@ -12,8 +12,10 @@ const RootLayout = async ({
 
   return (
     <html lang="ru">
-      <head></head>
-      <body>{children}</body>
+      <head>
+        <link rel="stylesheet" href="ab-market.css" />
+      </head>
+      <body id="ab-market">{children}</body>
       <PriceObserver rubToBynRate={rubToBynRate} />
     </html>
   );

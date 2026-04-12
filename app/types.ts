@@ -1,6 +1,6 @@
 export type PageMetadata = { title: string; description: string; keywords: string };
 
-type HeadLink = {
+export type HeadLink = {
   rel: string;
   href: string;
   type: string;
