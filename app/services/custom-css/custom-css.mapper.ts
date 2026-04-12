@@ -41,8 +41,6 @@ function buildCss(matches: CssMatch[], isCssCollect?: boolean) {
 }
 
 export async function applyCssAndSaveOurCssFile(matches: CssMatch[], isCssCollect?: boolean) {
-  console.log("----- ", isCssCollect);
-  console.log(matches);
   const cssText = buildCss(matches, isCssCollect);
 
   const outputPath = path.join(process.cwd(), "public", "ab-market.css");

@@ -1,22 +1,17 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { config } from "@/config";
 
 function hasAbMarketCookie() {
   return document.cookie.split("; ").some((item) => item === "ab-market=1");
-}
-
-function collectStylesheetLinks() {
-  const links = Array.from(document.querySelectorAll('link[rel="stylesheet"]')) as HTMLLinkElement[];
-
-  return [...new Set(links.map((link) => link.href).filter(Boolean))];
 }
 
 /**
  * Component to collect all nuxt css styles
  * NOTE: You must set "ab-market" cookie as 1
  */
-export const NuxtCssCollector = () => {
+export const NextCssCollector = () => {
   const sentRef = useRef(false);
 
   useEffect(() => {
@@ -25,24 +20,26 @@ export const NuxtCssCollector = () => {
 
     const timer = window.setTimeout(async () => {
       try {
-        const hrefs = collectStylesheetLinks();
-
-        const nuxtCss = hrefs.filter((href) => {
-          return href.includes("/_nuxt/") || href.includes("nuxt") || href.includes("/local/templates/");
+        const baseUrl = config.SOURCE_WEBSITE;
+        const scripts = Array.from(document.querySelectorAll("script"));
+        const nextCssSet = new Set<string>();
+        scripts.forEach((script) => {
+          const content = script.textContent || "";
+          const normalized = content.replace(/\\\//g, "/");
+          const matches = normalized.match(/\/_next\/static\/css\/[^"'\\\s)]+\.css/g) || [];
+          matches.forEach((m) => nextCssSet.add(baseUrl + m.split("?")[0]));
         });
-
-        window.alert(`NuxtCssCollector collected, links: ${nuxtCss.length}`);
-        if (!nuxtCss.length) return;
-
+        const nextCss = [...nextCssSet];
+        window.alert(`NuxtCssCollector collected, links: ${nextCss.length}`);
+        if (!nextCss.length) return;
         sentRef.current = true;
-
         await fetch("/api/css-collect", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            hrefs: nuxtCss,
+            hrefs: nextCss,
             pageUrl: window.location.href,
           }),
         });

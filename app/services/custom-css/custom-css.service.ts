@@ -3,10 +3,10 @@ import { applyCssAndSaveOurCssFile } from "./custom-css.mapper";
 import type { CssMatch } from "./custom-css.constants";
 import type { HeadLink } from "../../types";
 
-const readCssAndReplaceColors = async (headLinks: HeadLink[], isCssCollect?: boolean) => {
+const readCssAndReplaceColors = async (headLinks: Array<Pick<HeadLink, "href">>, isCssCollect?: boolean) => {
   const requests: Array<Promise<CssMatch[]>> = [];
   headLinks.forEach(({ href }) => {
-    if (/templates/.test(href)) {
+    if (/templates|next/.test(href)) {
       const request = findRulesByCssUrl(href);
       requests.push(request);
     }

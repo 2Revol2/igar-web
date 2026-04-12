@@ -13,7 +13,11 @@ const CACHE_DIR = join(process.cwd(), "cache");
 const locks = new Map<string, Promise<ContentResponse>>();
 const updating = new Set<string>();
 
-const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promise<ContentResponse> => {
+const _fetchContent = async (
+  pathToFetch: string,
+  cacheFilePath: string,
+  isCssCollection?: boolean,
+): Promise<ContentResponse> => {
   const p = pathToFetch || "";
   const pageAddress = config.SOURCE_WEBSITE + p;
   const res = await fetch(pageAddress, {
@@ -82,7 +86,9 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
     linksArray.push(mappedLink);
   }
 
-  await customCssService.readCssAndReplaceColors(linksArray);
+  if (isCssCollection) {
+    await customCssService.readCssAndReplaceColors(linksArray);
+  }
 
   // scripts
   const scripts = Array.from(document.querySelectorAll("script"));
@@ -184,6 +190,9 @@ export async function PUT(request: NextRequest) {
   const fileName = !pathToFetch || pathToFetch === "/" ? "___" : pathToFetch;
   const cacheFilePath = join(CACHE_DIR, encodeURIComponent(fileName));
 
+  const abMarket = request.cookies.get("ab-market")?.value;
+  const isCssCollection = abMarket === "1";
+
   try {
     const htmlFile = cacheFilePath + ".html";
     const metaFile = cacheFilePath + ".json";
@@ -214,7 +223,7 @@ export async function PUT(request: NextRequest) {
 
       if (!updating.has(lockKey)) {
         updating.add(lockKey);
-        _fetchContent(pathToFetch, cacheFilePath)
+        _fetchContent(pathToFetch, cacheFilePath, isCssCollection)
           .catch(console.error)
           .finally(() => updating.delete(lockKey));
       }
@@ -227,7 +236,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json(data, { status: 200 });
     }
 
-    const fetchPromise = _fetchContent(pathToFetch, cacheFilePath);
+    const fetchPromise = _fetchContent(pathToFetch, cacheFilePath, isCssCollection);
     locks.set(lockKey, fetchPromise);
 
     try {
