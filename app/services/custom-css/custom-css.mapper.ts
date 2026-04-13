@@ -19,11 +19,11 @@ function prefixSelector(selector: string, rootSelector: string) {
 function buildCss(matches: CssMatch[], isCssCollect?: boolean) {
   const now = new Date();
   const header = isCssCollect
-    ? `\n\n/* --- Nuxt --- */\n\n`
+    ? `\n\n/* --- Next --- */\n\n`
     : `/* 
 \tGenerated at: ${now.toISOString()}
 */\n
-:root {
+${ROOT_SELECTOR}:root {
 \t--color-red: ${OUR.Primary};
 \t--color-red-hover: ${OUR.Light};
 }\n\n`;

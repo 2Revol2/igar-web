@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     }
     const headLinks: Array<Pick<HeadLink, "href">> = hrefs.map((href) => ({ href }));
     await customCssService.readCssAndReplaceColors(headLinks, true);
-    console.log(" --- Nuxt css fetch: ");
+    console.log(" --- Next css fetch: ");
     console.log("CSS URLs:", hrefs);
     console.log("Page:", pageUrl);
     return NextResponse.json({ success: true });

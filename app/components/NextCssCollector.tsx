@@ -1,23 +1,32 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { config } from "@/config";
-
-function hasAbMarketCookie() {
-  return document.cookie.split("; ").some((item) => item === "ab-market=1");
-}
 
 /**
  * Component to collect all nuxt css styles
- * NOTE: You must set "ab-market" cookie as 1
+ * NOTE: You must set "?ab=15" in page address
  */
 export const NextCssCollector = () => {
   const sentRef = useRef(false);
 
-  useEffect(() => {
-    if (!hasAbMarketCookie()) return;
-    if (sentRef.current) return;
+  const redirectDelaySec = useMemo(() => {
+    if (typeof window === "undefined") return null;
+    const url = new URL(window.location.href);
+    const rawDelay = url.searchParams.get("ab");
+    const parsed = Number(rawDelay);
+    if (!Number.isFinite(parsed) || parsed <= 0) {
+      return null;
+    }
+    return parsed;
+  }, []);
 
+  const [secondsLeft, setSecondsLeft] = useState<number | null>(redirectDelaySec);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || sentRef.current || !redirectDelaySec) {
+      return;
+    }
     const timer = window.setTimeout(async () => {
       try {
         const baseUrl = config.SOURCE_WEBSITE;
@@ -30,9 +39,10 @@ export const NextCssCollector = () => {
           matches.forEach((m) => nextCssSet.add(baseUrl + m.split("?")[0]));
         });
         const nextCss = [...nextCssSet];
-        window.alert(`NuxtCssCollector collected, links: ${nextCss.length}`);
-        if (!nextCss.length) return;
-        sentRef.current = true;
+        if (!nextCss.length) {
+          window.alert(`NextCssCollector: CSS не найдены`);
+          return;
+        }
         await fetch("/api/css-collect", {
           method: "POST",
           headers: {
@@ -44,16 +54,44 @@ export const NextCssCollector = () => {
           }),
         });
 
-        document.cookie = "ab-market=; path=/; max-age=0";
+        const url = new URL(window.location.href);
+        const params = url.searchParams;
+        params.delete("ab");
+        const newUrl = url.pathname + (params.toString() ? `?${params.toString()}` : "");
+        window.location.replace(newUrl);
       } catch (error) {
         console.error("Failed to collect partner css", error);
       }
-    }, 5000);
+    }, redirectDelaySec * 1000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [redirectDelaySec]);
 
-  return null;
+  useEffect(() => {
+    if (redirectDelaySec == null) return;
+    const interval = window.setInterval(() => {
+      setSecondsLeft((prev) => {
+        if (prev == null) return null;
+        return prev > 0 ? prev - 1 : 0;
+      });
+    }, 1000);
+    return () => window.clearInterval(interval);
+  }, [redirectDelaySec]);
+
+  return secondsLeft ? <div style={bannerStyle}>Сборка Next CSS. Перезагрузка через {secondsLeft} сек.</div> : null;
+};
+
+const bannerStyle: React.CSSProperties = {
+  position: "fixed",
+  right: 16,
+  bottom: 16,
+  zIndex: 9999,
+  padding: "12px 16px",
+  borderRadius: 12,
+  background: "#111",
+  color: "#fff",
+  boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
+  fontSize: 14,
 };

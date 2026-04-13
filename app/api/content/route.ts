@@ -190,8 +190,7 @@ export async function PUT(request: NextRequest) {
   const fileName = !pathToFetch || pathToFetch === "/" ? "___" : pathToFetch;
   const cacheFilePath = join(CACHE_DIR, encodeURIComponent(fileName));
 
-  const abMarket = request.cookies.get("ab-market")?.value;
-  const isCssCollection = abMarket === "1";
+  const isCssCollection = Boolean(body.isAb);
 
   try {
     const htmlFile = cacheFilePath + ".html";

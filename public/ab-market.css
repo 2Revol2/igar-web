@@ -1,8 +1,8 @@
 /* 
-	Generated at: 2026-04-12T19:00:13.099Z
+	Generated at: 2026-04-13T05:29:35.223Z
 */
 
-:root {
+#ab-market:root {
 	--color-red: #009399;
 	--color-red-hover: #44aaae;
 }
@@ -860,7 +860,7 @@
   color: #009399;
 }
 
-/* --- Nuxt --- */
+/* --- Next --- */
 
 #ab-market a {
   color: #009399;
@@ -1624,107 +1624,96 @@
   --red: #009399;
 }
 
-#ab-market .GetConsultationFormPopup_isError__2_qoz {
+#ab-market .KovrolinHero_buttonIcon__R6zC3 {
   background: #009399;
   color: white;
 }
 
-#ab-market .GetConsultationFormPopup_isError__2_qoz {
-  border-color: #009399;
-}
-
-#ab-market .LargeCardPreview_itemCountTitle__vq_0Q span {
-  color: #009399;
-}
-
-#ab-market .LargeCardPreview_getConsultationButton__NEwBM {
-  color: #009399;
-}
-
-#ab-market .CostCalculationFormPopup_isError__I_4_j {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .CostCalculationFormPopup_isError__I_4_j {
-  border-color: #009399;
-}
-
-#ab-market .Hero_buttonIcon__l9Vi0 {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .Hero_buttonDescr__HhGMD {
-  color: #009399;
-}
-
-#ab-market .Hero_bottomItem__SOqJd:first-child svg path,
-#ab-market .Hero_bottomItem__SOqJd:nth-child(2) svg path,
-#ab-market .Hero_bottomItem__SOqJd:nth-child(4) svg path {
-  stroke: #009399;
-}
-
-#ab-market .Hero_bottomItem__SOqJd:nth-child(3) svg path {
+#ab-market .KovrolinHero_bottomItem__I7T10:first-child svg path,
+#ab-market .KovrolinHero_bottomItem__I7T10:first-child svg rect,
+#ab-market .KovrolinHero_bottomItem__I7T10:nth-child(2) svg path,
+#ab-market .KovrolinHero_bottomItem__I7T10:nth-child(2) svg rect {
   fill: #009399;
 }
 
-#ab-market .OfferFormPopup_isError__RBB90 {
+#ab-market .KovrolinHero_bottomItem__I7T10:first-child svg g>path,
+#ab-market .KovrolinHero_bottomItem__I7T10:nth-child(2) svg g>path {
+  stroke: #009399;
+}
+
+#ab-market .KovrolinHero_bottomItem__I7T10:nth-child(3) svg path {
+  fill: #009399;
+}
+
+#ab-market .KovrolinSaleFormPopup_isError___8aII {
   background: #009399;
   color: white;
 }
 
-#ab-market .OfferFormPopup_isError__RBB90 {
+#ab-market .KovrolinSaleFormPopup_isError___8aII {
   border-color: #009399;
 }
 
-#ab-market .Experience_link__AnTMd.Experience_red__t_rly {
-  color: #009399;
-}
-
-#ab-market .Experience_link__AnTMd.Experience_red__t_rly svg path {
-  stroke: #009399;
-}
-
-#ab-market .HowCalcButton_root__X42hk>div {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .ProductsList_emptyList__Yjts0>div:nth-child(2) span {
-  color: #009399;
-}
-
-#ab-market .ProductsList_emptyList__Yjts0>div:nth-child(2) span:hover {
-  color: #006569;
-}
-
-#ab-market .Product_itemTitle__ioLPl span {
-  color: #009399;
-}
-
-#ab-market .Product_itemTitle__ioLPl:hover span {
-  color: #006569;
-}
-
-#ab-market .DifficultChoose_root__tTfGs {
+#ab-market .KovrolinDescriptions_imagesContainerLeftButton__Kse1v {
   background: #009399;
   color: white;
 }
 
-#ab-market .DifficultChoose_button__B22EY {
+#ab-market .KovrolinQualitiesSlider_navigation__fZXqv {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .KovrolinQualitiesSlider_markingCol__xAw_Q:nth-child(2) .KovrolinQualitiesSlider_markingColDescr__rCfbo {
   color: #009399;
 }
 
-#ab-market .Services_itemButton__DIvia {
+#ab-market .KovrolinWhProgramSlider_descr__BgXCu {
   color: #009399;
 }
 
-#ab-market .Services_itemButton__DIvia svg path {
-  stroke: #009399;
+#ab-market .KovrolinWhProgramSlider_navigation__Hx169 {
+  background: #009399;
+  color: white;
 }
 
-#ab-market .Examples_category__LDBLm.Examples_active__4uACz {
+#ab-market .KovrolinDesignBase_buttonDescr__hZHOP {
   color: #009399;
+}
+
+#ab-market .KovrolinDesignBase_button__Ysqut {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .KovrolinCoatingsSlider_descr__LhJw_ {
+  color: #009399;
+}
+
+#ab-market .KovrolinCoatingsSlider_navigation__wICR_ {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .KovrolinWhProgramSlide_imagesListItem__9bBT_.KovrolinWhProgramSlide_active__Ax63Q {
+  outline-color: #009399;
+}
+
+#ab-market .KovrolinWhProgramSlide_button__y0P9b {
+  color: #009399;
+}
+
+#ab-market .FreeSamplesPopup_isError__5wG4c {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .FreeSamplesPopup_isError__5wG4c {
+  border-color: #009399;
+}
+
+#ab-market .Tag_root__Ru9iL:hover span {
+  color: #006569;
 }
 
 #ab-market .ContactsSection_tab__90AdA.ContactsSection_active__gIOxH {
@@ -1736,11 +1725,15 @@
   color: white;
 }
 
-#ab-market .GetConsultationPopup_isError__3xQz_ {
+#ab-market .CostCalculationFormPopup_isError__I_4_j {
   background: #009399;
   color: white;
 }
 
-#ab-market .GetConsultationPopup_isError__3xQz_ {
+#ab-market .CostCalculationFormPopup_isError__I_4_j {
   border-color: #009399;
+}
+
+#ab-market .KovrolinCoatingsSlide_button__sHdNX {
+  color: #009399;
 }
