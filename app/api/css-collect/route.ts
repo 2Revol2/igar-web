@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       throw new Error("Missing required parameters");
     }
     const headLinks: Array<Pick<HeadLink, "href">> = hrefs.map((href) => ({ href }));
-    await customCssService.readCssAndReplaceColors(headLinks, true);
+    await customCssService.readCssAndReplaceColors(headLinks);
     console.log(" --- Next css fetch: ");
     console.log("CSS URLs:", hrefs);
     console.log("Page:", pageUrl);

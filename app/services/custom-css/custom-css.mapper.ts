@@ -16,44 +16,58 @@ function prefixSelector(selector: string, rootSelector: string) {
   return `${rootSelector} ${selector}`;
 }
 
-function buildCss(matches: CssMatch[], isCssCollect?: boolean) {
+function getDate() {
   const now = new Date();
-  const header = isCssCollect
-    ? `\n\n/* --- Next --- */\n\n`
-    : `/* 
-\tGenerated at: ${now.toISOString()}
+  return now.toISOString().replace("T", " ").split(".")[0];
+}
+
+function getHeader() {
+  const now = getDate();
+  return `/* 
+\tGenerated at: ${now}
 */\n
 ${ROOT_SELECTOR}:root {
 \t--color-red: ${OUR.Primary};
 \t--color-red-hover: ${OUR.Light};
 }\n\n`;
+}
 
-  const blocks = matches.map((item) => {
+function getUpdateTitle() {
+  const now = getDate();
+  return `\n\n/* --- Update ${now} --- */\n\n`;
+}
+
+async function readExistingCss(outputPath: string) {
+  try {
+    return await fs.readFile(outputPath, "utf-8");
+  } catch (error: unknown) {
+    const err = error as NodeJS.ErrnoException;
+    if (err.code === "ENOENT") {
+      return "";
+    }
+    throw error;
+  }
+}
+
+function buildBlocks(matches: CssMatch[]) {
+  return matches.map((item) => {
     const selectors = item.selectors.map((selector) => prefixSelector(selector, ROOT_SELECTOR)).join(",\n");
     const value = replaceColor(item.value);
     const declarations = [`${item.property}: ${value};`, ...(item.property === "background" ? ["color: white;"] : [])];
     return `${selectors} {\n  ${declarations.join("\n  ")}\n}`;
   });
-
-  const body = [...new Set(blocks)].join("\n\n");
-
-  return header + body;
 }
 
-export async function applyCssAndSaveOurCssFile(matches: CssMatch[], isCssCollect?: boolean) {
-  const cssText = buildCss(matches, isCssCollect);
-
+export async function applyCssAndSaveOurCssFile(matches: CssMatch[]) {
   const outputPath = path.join(process.cwd(), "public", "ab-market.css");
-
-  if (isCssCollect) {
-    await fs.appendFile(outputPath, cssText, "utf-8");
-  } else {
-    await fs.mkdir(path.dirname(outputPath), { recursive: true });
-    await fs.writeFile(outputPath, cssText, "utf-8");
+  const existingCss = await readExistingCss(outputPath);
+  const blocks = buildBlocks(matches);
+  const newBlocks = blocks.filter((block) => !existingCss.includes(block));
+  if (!newBlocks.length) {
+    return { cssText: "NO UPDATES" };
   }
-
-  return {
-    outputPath,
-    cssText,
-  };
+  const baseText = existingCss ? existingCss + getUpdateTitle() : getHeader();
+  const cssText = baseText + newBlocks.join("\n\n");
+  await fs.writeFile(outputPath, cssText, "utf-8");
+  return { cssText: "Updated" };
 }

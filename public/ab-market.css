@@ -1,5 +1,5 @@
 /* 
-	Generated at: 2026-04-13T07:27:12.516Z
+	Generated at: 2026-04-13T08:48:07.076Z
 */
 
 #ab-market:root {
@@ -666,6 +666,11 @@
   color: white;
 }
 
+#ab-market .hero-free-examples {
+  background: #009399;
+  color: white;
+}
+
 #ab-market .s-feature__subtitle {
   color: #009399;
 }
@@ -860,83 +865,7 @@
   color: #009399;
 }
 
-/* --- Next --- */
-
-#ab-market a {
-  color: #009399;
-}
-
-#ab-market a:hover {
-  color: #006569;
-}
-
-#ab-market ul li:before {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .btn {
-  border: 1px solid #009399;
-}
-
-#ab-market .btn {
-  color: #009399;
-}
-
-#ab-market .btn:hover:not(:disabled) {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .btn--outline-gray:hover:not(:disabled) {
-  color: #009399;
-}
-
-#ab-market .btn--outline-gray:hover:not(:disabled) {
-  border-color: #009399;
-}
-
-#ab-market .btn--outline-gray.is-active {
-  color: #009399;
-}
-
-#ab-market .btn--outline-gray.is-active {
-  border-color: #009399;
-}
-
-#ab-market .btn--red {
-  border: 1px solid #009399;
-}
-
-#ab-market .btn--red {
-  color: #009399;
-}
-
-#ab-market .btn--red:hover:not(:disabled) {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .btn--fill {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .btn--fill.btn--white:hover:not(:disabled) {
-  background-color: #009399;
-}
-
-#ab-market .btn--link:hover:not(:disabled) {
-  color: #006569;
-}
-
-#ab-market .btn--link-arrow svg {
-  fill: #009399;
-}
-
-#ab-market .btn--link-arrow:hover:not(:disabled) svg {
-  fill: #006569;
-}
+/* --- Update Mon Apr 13 2026 08:48:52 GMT+0000 (Coordinated Universal Time) --- */
 
 #ab-market .btn--cart {
   background: #009399 url(/img/btn_cart2.svg) no-repeat 50%;
@@ -948,14 +877,6 @@
   color: white;
 }
 
-#ab-market .arrow-link svg {
-  fill: #009399;
-}
-
-#ab-market .arrow-link:hover:not(:disabled) svg {
-  fill: #006569;
-}
-
 #ab-market .arrow-link--lg {
   color: #009399;
 }
@@ -964,121 +885,11 @@
   fill: #009399;
 }
 
-#ab-market .form-field-container.has-error .form-field {
-  border-color: #009399;
-}
-
-#ab-market .form-field-container.has-error .form-field {
-  box-shadow: inset 0 0 0 1px #009399;
-}
-
-#ab-market .form-field-wrap.has-error .form-field {
-  border-color: #009399;
-}
-
-#ab-market .form-field-wrap.has-error .form-field {
-  box-shadow: inset 0 0 0 1px #009399;
-}
-
-#ab-market .file__label span {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .file__label span {
-  color: #009399;
-}
-
-#ab-market .file__label:hover span {
-  color: #006569;
-}
-
-#ab-market .file__label:hover span {
-  border-bottom-color: #006569;
-}
-
-#ab-market .file__delete {
-  color: #009399;
-}
-
-#ab-market .file__delete {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .file__delete:hover {
-  color: #006569;
-}
-
-#ab-market .file__delete:hover {
-  border-bottom-color: #006569;
-}
-
-#ab-market .form__forgot-pass a {
-  border-bottom-color: #009399;
-}
-
-#ab-market .checkbox label input:checked~span:before {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .checkbox label span:before {
-  border: 1px solid #009399;
-}
-
-#ab-market .select2-container--default .select2-results__option--highlighted[aria-selected]:hover {
-  color: #006569;
-}
-
-#ab-market .select2-container--default .select2-results__option[aria-selected=true] {
-  color: #006569;
-}
-
-#ab-market .irs--flat .irs-bar {
-  background-color: #009399;
-}
-
-#ab-market .irs--flat .irs-handle:before {
-  border: 1px solid #009399;
-}
-
-#ab-market .marked-red {
-  background-color: #009399;
-}
-
 #ab-market .c-red {
   color: #009399;
 }
 
-#ab-market .how-get-size__togglers a {
-  color: #009399;
-}
-
-#ab-market .how-get-size__togglers a span {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .how-get-size__togglers a:not(.is-active):hover {
-  color: #006569;
-}
-
-#ab-market .how-get-size__togglers a:not(.is-active):hover span {
-  border-color: #006569;
-}
-
-#ab-market .modal-product-more {
-  color: #009399;
-}
-
-#ab-market .modal-product-more:hover {
-  color: #006569;
-}
-
 #ab-market .partner-form-popup__right {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .header__cart-open span {
   background: #009399;
   color: white;
 }
@@ -1088,139 +899,13 @@
   background-color: #009399;
 }
 
-#ab-market .product-preview__name {
-  color: #009399;
-}
-
 #ab-market .product-preview__color.is-active,
 #ab-market .product-preview__color:hover {
   box-shadow: 0 0 0 1px #009399;
 }
 
-#ab-market .product-preview__color-more>div {
-  color: #009399;
-}
-
 #ab-market .product-preview__color-more>div div {
   border-bottom: .5px solid #009399;
-}
-
-#ab-market .product-preview__color-more:hover {
-  border-color: #009399;
-}
-
-#ab-market .article-preview {
-  color: #009399;
-}
-
-#ab-market .pagination li.is-active a {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .mobile-products-control {
-  color: #009399;
-}
-
-#ab-market .mobile-products-control span {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .filter-tags__item:hover {
-  color: #009399;
-}
-
-#ab-market .filter-tags__item:hover {
-  border-color: #009399;
-}
-
-#ab-market .filter-tags-toggle__link {
-  color: #009399;
-}
-
-#ab-market .filter-tags-toggle__link span {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .sorting__button {
-  color: #009399;
-}
-
-#ab-market .sorting__button span {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .sorting__button:not(.is-active):hover {
-  color: #006569;
-}
-
-#ab-market .sorting__button:not(.is-active):hover span {
-  border-color: #006569;
-}
-
-#ab-market .sorting__button:not(.is-active):hover:before {
-  border-bottom-color: #006569;
-}
-
-#ab-market .sorting__button:not(.is-active):hover:after {
-  border-top-color: #006569;
-}
-
-#ab-market .sorting__button--price:before {
-  border-bottom: 5px solid #009399;
-}
-
-#ab-market .sorting__button--price:after {
-  border-top: 5px solid #009399;
-}
-
-#ab-market .sorting__button--single.is-active.is-descending:after {
-  border-top-color: #009399;
-}
-
-#ab-market .sorting__button--single.is-active.is-ascending:before {
-  border-bottom-color: #009399;
-}
-
-#ab-market .news_pink_block {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .login_change_type span.active {
-  color: #009399;
-}
-
-#ab-market .login_change_type span.active {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .login_change_type span.active:hover {
-  color: #006569;
-}
-
-#ab-market .our-works-thumb.is-active img {
-  box-shadow: 0 0 0 3px #009399;
-}
-
-#ab-market .hockey-mats .b-text-slider .form_wrapper p span.red {
-  color: #009399;
-}
-
-#ab-market .b-delivery-and-payment .title-red {
-  color: #009399;
-}
-
-#ab-market .load-more-products__button.is-loading {
-  background-color: #009399;
-}
-
-#ab-market .have-questions-block__arrow-link {
-  color: #009399;
-}
-
-#ab-market .have-questions-block__arrow-link svg {
-  fill: #009399;
 }
 
 #ab-market .calc-block__button.calc-block__button--big>span:before {
@@ -1233,19 +918,7 @@
   border-color: #009399;
 }
 
-#ab-market .calc-block__button.calc-block__button--input.is-active input {
-  border-color: #009399;
-}
-
-#ab-market .calc-block__button.calc-block__button--input input {
-  color: #009399;
-}
-
 #ab-market .calc-block__button.calc-block__button--input input.focus-visible {
-  border-color: #009399;
-}
-
-#ab-market .calc-block__button.calc-block__button--input input:focus-visible {
   border-color: #009399;
 }
 
@@ -1273,63 +946,6 @@
   color: #009399;
 }
 
-#ab-market .offer__label {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .b-products-slider__tabs a span {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .b-products-slider__tabs a:not(.is-active):hover {
-  color: #006569;
-}
-
-#ab-market .b-products-slider__tabs a:not(.is-active):hover span {
-  border-bottom-color: #006569;
-}
-
-#ab-market .cards-slider .swiper-button-next,
-#ab-market .cards-slider .swiper-button-prev {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .features-section__title span {
-  color: #009399;
-}
-
-#ab-market .features-button a {
-  color: #009399;
-}
-
-#ab-market .features-button a svg {
-  fill: #009399;
-}
-
-#ab-market .hero-section-top__callback-link {
-  color: #009399;
-}
-
-#ab-market .hero-section-top__callback-link svg {
-  fill: #009399;
-}
-
-#ab-market .our-works-section-photos .swiper-button-next,
-#ab-market .our-works-section-photos .swiper-button-prev {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .our-works-section-all__label {
-  color: #009399;
-}
-
-#ab-market .inst-block__link:hover svg {
-  fill: #009399;
-}
-
 #ab-market .photos-filter__item.is-active,
 #ab-market .photos-filter__item:hover {
   color: #009399;
@@ -1338,109 +954,6 @@
 #ab-market .photos-filter__item.is-active,
 #ab-market .photos-filter__item:hover {
   border-color: #009399;
-}
-
-#ab-market .s-showroom__content .contacts__phone:hover {
-  color: #009399;
-}
-
-#ab-market .all-around__cities-list a:hover {
-  color: #009399;
-}
-
-#ab-market .product-images-thumb.is-active img {
-  box-shadow: 0 0 0 3px #009399;
-}
-
-#ab-market .product-options__tab.is-active {
-  color: #009399;
-}
-
-#ab-market .product-options-colors-expand a {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .product-options__choose-item input:checked~span {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .product-options__choose-item input:checked~span {
-  border-color: #009399;
-}
-
-#ab-market .product-options__how-get-size {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .product-options__how-get-size svg {
-  fill: #009399;
-}
-
-#ab-market .product-options__how-get-size:hover svg {
-  fill: #006569;
-}
-
-#ab-market .product-tabs-button.is-active {
-  color: #009399;
-}
-
-#ab-market .product-tabs-pane h3 {
-  color: #009399;
-}
-
-#ab-market .product-tabs-pane__heading {
-  color: #009399;
-}
-
-#ab-market .product-tabs-pane__heading:hover {
-  color: #006569;
-}
-
-#ab-market .product-review__show-full span {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .product-review__show-full svg {
-  fill: #009399;
-}
-
-#ab-market .product-review__show-full:hover svg {
-  fill: #006569;
-}
-
-#ab-market .product-review__show-full:hover span {
-  border-color: #006569;
-}
-
-#ab-market .show-more-reviews {
-  border-bottom: 1px dotted #009399;
-}
-
-#ab-market .external-link:hover {
-  color: #009399;
-}
-
-#ab-market .qa-item__question:hover {
-  color: #006569;
-}
-
-#ab-market .product-tabs-pane.is-open:before {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .detail-page-btn.add_to_btn {
-  border: 1px solid #009399;
-}
-
-#ab-market .detail-page-btn.add_to_btn {
-  color: #009399;
-}
-
-#ab-market .left-nav__link.is-active {
-  background: #009399;
-  color: white;
 }
 
 #ab-market .hero-fireproof {
@@ -1454,93 +967,6 @@
 
 #ab-market .s-best__fireproof-icon {
   background: #009399 url(/img/fireproof_icon.svg) no-repeat 50%;
-  color: white;
-}
-
-#ab-market .s-best__icon {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .s-num-one__title span {
-  color: #009399;
-}
-
-#ab-market .step-item__num {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .hero-free-examples {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .s-feature__subtitle {
-  color: #009399;
-}
-
-#ab-market .hidden-text__link {
-  color: #009399;
-}
-
-#ab-market .hidden-text__link span {
-  border-bottom: 1px dashed #009399;
-}
-
-#ab-market .one-day-tooltip__link {
-  color: #009399;
-}
-
-#ab-market .one-day-tooltip__link {
-  border-bottom: 2px dashed #009399;
-}
-
-#ab-market .calc-block__button input:checked+span {
-  border: 1px solid #009399;
-}
-
-#ab-market .calc-block__button input:checked+span {
-  color: #009399;
-}
-
-#ab-market .calc-block__button:hover span {
-  color: #009399;
-}
-
-#ab-market .works-slider-tab.is-active {
-  border-color: #009399;
-}
-
-#ab-market .works-slider-tab.is-active {
-  color: #009399;
-}
-
-#ab-market .work-slide__other li a.is-active {
-  border-color: #009399;
-}
-
-#ab-market .work-slide__other li a.is-active {
-  color: #009399;
-}
-
-#ab-market .work-slide__button:hover:not(:disabled) {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .textile-base__image-text:before {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .absorbing-section__image-text:before {
-  background: #009399;
-  color: white;
-}
-
-#ab-market .vors-info-item__label {
-  background: #009399;
   color: white;
 }
 
@@ -1586,38 +1012,6 @@
 
 #ab-market .dk-showroom-block__email {
   color: #009399;
-}
-
-#ab-market .help-find__link {
-  color: #009399;
-}
-
-#ab-market .help-find__link svg {
-  fill: #009399;
-}
-
-#ab-market .delivery__block h3 {
-  color: #009399;
-}
-
-#ab-market .contacts__email {
-  color: #009399;
-}
-
-#ab-market .contacts__print:hover svg {
-  fill: #006569;
-}
-
-#ab-market .about-wrapper__email a {
-  color: #009399;
-}
-
-#ab-market .about-wrapper__email a:hover {
-  color: #006569;
-}
-
-#ab-market .requirements__show-all-colors a {
-  border-bottom: 1px dotted #009399;
 }
 
 #ab-market :root {
@@ -1736,4 +1130,204 @@
 
 #ab-market .KovrolinCoatingsSlide_button__sHdNX {
   color: #009399;
+}
+
+/* --- Update Mon Apr 13 2026 08:50:41 GMT+0000 (Coordinated Universal Time) --- */
+
+#ab-market .filter-calc-sizes-preset-item.current {
+  border-color: #009399;
+}
+
+#ab-market .filter-calc-help {
+  color: #009399;
+}
+
+#ab-market .shtory-catalog-list-item .color-info {
+  color: #009399;
+}
+
+#ab-market .shtory-catalog-list-item .item-title a:hover {
+  color: #009399;
+}
+
+#ab-market .shtory-catalog-list-item .item-title a:hover {
+  border-bottom-color: #00939980;
+}
+
+#ab-market .shtory-catalog-list-item .action-block .actions .button[data-basket-amount="0"] {
+  background-color: #009399;
+}
+
+#ab-market .shtory-catalog-list-item .action-block .actions .button[data-basket-amount="0"]:not(:disabled):hover {
+  background-color: #44aaae;
+}
+
+#ab-market .color-side-variants label:has([type="radio"]:checked) {
+  color: #009399;
+}
+
+#ab-market .color-side-variants label:has([type="radio"]:checked) {
+  border-bottom: 1px solid #009399;
+}
+
+#ab-market .section-faq-accordion-item.open {
+  border: 1px solid #009399;
+}
+
+#ab-market .bottom-banner-follower.fireproof .bottom-banner-follower-info .banner__stickers .sticker {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .bottom-banner-mobile-actions .switcher {
+  color: #009399;
+}
+
+#ab-market .shtory-100-blackout {
+  color: #009399;
+}
+
+#ab-market span.red {
+  color: #009399;
+}
+
+/* --- Update Mon Apr 13 2026 08:54:45 GMT+0000 (Coordinated Universal Time) --- */
+
+#ab-market .GetConsultationFormPopup_isError__2_qoz {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .GetConsultationFormPopup_isError__2_qoz {
+  border-color: #009399;
+}
+
+#ab-market .LargeCardPreview_itemCountTitle__vq_0Q span {
+  color: #009399;
+}
+
+#ab-market .LargeCardPreview_getConsultationButton__NEwBM {
+  color: #009399;
+}
+
+#ab-market .SaleFormPopup_isError__GxzNr {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .SaleFormPopup_isError__GxzNr {
+  border-color: #009399;
+}
+
+#ab-market .DkCalc_emptyList__rqsBs > div:nth-child(2) span {
+  color: #009399;
+}
+
+#ab-market .DkCalc_emptyList__rqsBs > div:nth-child(2) span:hover {
+  color: #006569;
+}
+
+#ab-market .SaleFormPopup_isError__GxzNr {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .SaleFormPopup_isError__GxzNr {
+  border-color: #009399;
+}
+
+#ab-market .DkCalc_emptyList__rqsBs>div:nth-child(2) span {
+  color: #009399;
+}
+
+#ab-market .DkCalc_emptyList__rqsBs>div:nth-child(2) span:hover {
+  color: #006569;
+}
+
+/* --- Update 2026-04-13 09:01:16 --- */
+
+#ab-market .Hero_buttonIcon__l9Vi0 {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .Hero_buttonDescr__HhGMD {
+  color: #009399;
+}
+
+#ab-market .Hero_bottomItem__SOqJd:first-child svg path,
+#ab-market .Hero_bottomItem__SOqJd:nth-child(2) svg path,
+#ab-market .Hero_bottomItem__SOqJd:nth-child(4) svg path {
+  stroke: #009399;
+}
+
+#ab-market .Hero_bottomItem__SOqJd:nth-child(3) svg path {
+  fill: #009399;
+}
+
+#ab-market .OfferFormPopup_isError__RBB90 {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .OfferFormPopup_isError__RBB90 {
+  border-color: #009399;
+}
+
+#ab-market .Experience_link__AnTMd.Experience_red__t_rly {
+  color: #009399;
+}
+
+#ab-market .Experience_link__AnTMd.Experience_red__t_rly svg path {
+  stroke: #009399;
+}
+
+#ab-market .HowCalcButton_root__X42hk>div {
+  border-bottom: 1px dotted #009399;
+}
+
+#ab-market .ProductsList_emptyList__Yjts0>div:nth-child(2) span {
+  color: #009399;
+}
+
+#ab-market .ProductsList_emptyList__Yjts0>div:nth-child(2) span:hover {
+  color: #006569;
+}
+
+#ab-market .Product_itemTitle__ioLPl span {
+  color: #009399;
+}
+
+#ab-market .Product_itemTitle__ioLPl:hover span {
+  color: #006569;
+}
+
+#ab-market .DifficultChoose_root__tTfGs {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .DifficultChoose_button__B22EY {
+  color: #009399;
+}
+
+#ab-market .Services_itemButton__DIvia {
+  color: #009399;
+}
+
+#ab-market .Services_itemButton__DIvia svg path {
+  stroke: #009399;
+}
+
+#ab-market .Examples_category__LDBLm.Examples_active__4uACz {
+  color: #009399;
+}
+
+#ab-market .GetConsultationPopup_isError__3xQz_ {
+  background: #009399;
+  color: white;
+}
+
+#ab-market .GetConsultationPopup_isError__3xQz_ {
+  border-color: #009399;
 }

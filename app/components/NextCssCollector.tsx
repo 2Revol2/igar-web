@@ -38,6 +38,11 @@ export const NextCssCollector = () => {
           const matches = normalized.match(/\/_next\/static\/css\/[^"'\\\s)]+\.css/g) || [];
           matches.forEach((m) => nextCssSet.add(baseUrl + m.split("?")[0]));
         });
+        const links = Array.from(document.querySelectorAll('link[rel="stylesheet"]')) as HTMLLinkElement[];
+        links
+          .map((link) => link.href)
+          .filter((href) => href.includes("/_next/static/css") || href.includes("local/templates"))
+          .forEach((link) => nextCssSet.add(link.split("?")[0]));
         const nextCss = [...nextCssSet];
         if (!nextCss.length) {
           window.alert(`NextCssCollector: CSS не найдены`);
