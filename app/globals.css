@@ -10,7 +10,6 @@ body {
   color: var(--foreground);
 }
 
-
 @media (max-width: 600px) {
     /*Не убирать, сломается верстка на телефоне*/
     .header__inner {
@@ -23,4 +22,3 @@ body {
         display: none !important;
     }
 }
-

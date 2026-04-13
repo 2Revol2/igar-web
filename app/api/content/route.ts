@@ -4,9 +4,9 @@ import { existsSync } from "node:fs";
 import { JSDOM } from "jsdom";
 import { NextResponse } from "next/server";
 import { config } from "@/config";
-import { applyGoogleFonts } from "@/app/api/helpers/content.helpers";
+import { applyGoogleFonts } from "../helpers/content.helpers";
 import type { NextRequest } from "next/server";
-import type { ContentResponse } from "@/app/types";
+import type { ContentResponse, HeadLink } from "../../types";
 
 const CACHE_DIR = join(process.cwd(), "cache");
 const locks = new Map<string, Promise<ContentResponse>>();
@@ -62,9 +62,12 @@ const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promis
 
   // links
   const links = Array.from(document.querySelectorAll("link"));
-  const linksArray = [];
+  const linksArray: HeadLink[] = [];
   for (const link of links) {
     if (!link.rel || !link.href) {
+      continue;
+    }
+    if (/icon/.test(link.rel) || link.rel === "preconnect" || link.rel === "manifest") {
       continue;
     }
     const mappedLink = {
