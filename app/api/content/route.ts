@@ -5,7 +5,6 @@ import { JSDOM } from "jsdom";
 import { NextResponse } from "next/server";
 import { config } from "@/config";
 import { applyGoogleFonts } from "../helpers/content.helpers";
-import { customCssService } from "../../services/custom-css/custom-css.service";
 import type { NextRequest } from "next/server";
 import type { ContentResponse, HeadLink } from "../../types";
 
@@ -13,11 +12,7 @@ const CACHE_DIR = join(process.cwd(), "cache");
 const locks = new Map<string, Promise<ContentResponse>>();
 const updating = new Set<string>();
 
-const _fetchContent = async (
-  pathToFetch: string,
-  cacheFilePath: string,
-  isCssCollection?: boolean,
-): Promise<ContentResponse> => {
+const _fetchContent = async (pathToFetch: string, cacheFilePath: string): Promise<ContentResponse> => {
   const p = pathToFetch || "";
   const pageAddress = config.SOURCE_WEBSITE + p;
   const res = await fetch(pageAddress, {
@@ -84,11 +79,6 @@ const _fetchContent = async (
       mappedLink.href = `${config.SOURCE_WEBSITE}${mappedLink.href}`;
     }
     linksArray.push(mappedLink);
-  }
-
-  const isHomePage = !p || p === "/";
-  if (isHomePage && isCssCollection) {
-    await customCssService.readCssAndReplaceColors(linksArray);
   }
 
   // scripts
@@ -191,8 +181,6 @@ export async function PUT(request: NextRequest) {
   const fileName = !pathToFetch || pathToFetch === "/" ? "___" : pathToFetch;
   const cacheFilePath = join(CACHE_DIR, encodeURIComponent(fileName));
 
-  const isCssCollection = Boolean(body.isAb);
-
   try {
     const htmlFile = cacheFilePath + ".html";
     const metaFile = cacheFilePath + ".json";
@@ -223,7 +211,7 @@ export async function PUT(request: NextRequest) {
 
       if (!updating.has(lockKey)) {
         updating.add(lockKey);
-        _fetchContent(pathToFetch, cacheFilePath, isCssCollection)
+        _fetchContent(pathToFetch, cacheFilePath)
           .catch(console.error)
           .finally(() => updating.delete(lockKey));
       }
@@ -236,7 +224,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json(data, { status: 200 });
     }
 
-    const fetchPromise = _fetchContent(pathToFetch, cacheFilePath, isCssCollection);
+    const fetchPromise = _fetchContent(pathToFetch, cacheFilePath);
     locks.set(lockKey, fetchPromise);
 
     try {

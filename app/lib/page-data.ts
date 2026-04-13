@@ -8,11 +8,10 @@ const revalidationFrequency = isDev ? 30 : 3600;
 
 export const fetchPageData = async (pathToFetch: string): Promise<ContentResponse> => {
   let path = pathToFetch;
-  const isAb = pathToFetch.includes("?ab=");
-  if (isAb) {
+  if (pathToFetch.includes("?ab=")) {
     path = pathToFetch.replace(/\?ab=\d+/, "");
   }
-  const body = JSON.stringify({ path, isAb });
+  const body = JSON.stringify({ path });
   const baseUrl = await getSsrBaseUrl();
   const ending = buildId ? `?build-id=${buildId}` : "";
   const response = await fetch(`${baseUrl}/api/content${ending}`, {
