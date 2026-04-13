@@ -190,7 +190,6 @@ export async function PUT(request: NextRequest) {
       existsSync(linksFile) &&
       existsSync(scriptsFile) &&
       existsSync(headerFile);
-    const lockKey = cacheFilePath;
 
     if (isCached) {
       const [content, metaString, linksString, scriptsString, header] = await Promise.all([
@@ -205,12 +204,12 @@ export async function PUT(request: NextRequest) {
       const links = JSON.parse(linksString);
       const scripts = JSON.parse(scriptsString);
 
-      fetchAtMostOncePerHour(key, () => _fetchContent(pathToFetch, cacheFilePath)).catch(console.error);
+      fetchAtMostOncePerHour(cacheFilePath, () => _fetchContent(pathToFetch, cacheFilePath)).catch(console.error);
 
       return NextResponse.json({ content, meta, links, scripts, headerNavbar: header }, { status: 200 });
     }
 
-    const result = await fetchAtMostOncePerHour(key, () => _fetchContent(pathToFetch, cacheFilePath));
+    const result = await fetchAtMostOncePerHour(cacheFilePath, () => _fetchContent(pathToFetch, cacheFilePath));
 
     if (!result.ok) {
       throw new Error("Fetch failed");
