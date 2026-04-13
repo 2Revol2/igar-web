@@ -26,10 +26,16 @@ function getHeader() {
   return `/* 
 \tGenerated at: ${now}
 */\n
-${ROOT_SELECTOR}:root {
+${ROOT_SELECTOR} {
+\t--red: ${OUR.Primary};
+\t--red-hover: ${OUR.Light};
 \t--color-red: ${OUR.Primary};
 \t--color-red-hover: ${OUR.Light};
-}\n\n`;
+}\n\n
+${ROOT_SELECTOR} ::selection {
+  background-color: rgba(${OUR.Rgb.join(", ")}, .25) !important;
+}
+`;
 }
 
 function getUpdateTitle() {

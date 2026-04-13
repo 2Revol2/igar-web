@@ -2,9 +2,14 @@
 	Generated at: 2026-04-13T08:48:07.076Z
 */
 
-#ab-market:root {
-	--color-red: #009399;
+#ab-market {
+	--red: #009399;
+    --red-hover: #44aaae;
+    --color-red: #009399;
 	--color-red-hover: #44aaae;
+}
+#ab-market ::selection {
+    background-color: rgba(0, 147, 153, .25) !important;
 }
 
 #ab-market .advantages-2025_item .action a {

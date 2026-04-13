@@ -2,12 +2,40 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { config } from "@/config";
+import { CSS_REPLACEMENTS } from "@/app/services/custom-css/custom-css.constants";
 
 /**
  * Component to collect all nuxt css styles
  * NOTE: You must set "?ab=15" in page address
  */
 export const ColorFixer = () => {
+  // --- Svg Fixer ---
+
+  function replaceColorsInSvg(root: ParentNode = document) {
+    const ATTRS = ["fill", "stroke", "style", "stop-color", "color"];
+    const elements = root.querySelectorAll<HTMLElement>("svg, svg *");
+    elements.forEach((el) => {
+      for (const { value, replacement } of CSS_REPLACEMENTS) {
+        for (const attr of ATTRS) {
+          const current = el.getAttribute(attr);
+          if (!current) continue;
+
+          const normalized = current.toLowerCase();
+          if (normalized.includes(value)) {
+            const updated = normalized.split(value).join(replacement);
+            el.setAttribute(attr, updated);
+          }
+        }
+      }
+    });
+  }
+
+  useEffect(() => {
+    replaceColorsInSvg();
+  }, []);
+
+  // --- Css styles ---
+
   const sentRef = useRef(false);
 
   const redirectDelaySec = useMemo(() => {
