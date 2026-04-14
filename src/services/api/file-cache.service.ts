@@ -33,13 +33,16 @@ export class FileCacheService {
     if (!isCached) {
       return null;
     }
-    cacheFilesArray.push(this.headerFile);
+    if (existsSync(this.headerFile)) {
+      cacheFilesArray.push(this.headerFile);
+    }
     try {
       const readFileContent = cacheFilesArray.map((cacheFile) => readFile(cacheFile, "utf-8"));
-      const [content, metaString, linksString, scriptsString, headerNavbar] = await Promise.all(readFileContent);
+      const [content, metaString, linksString, scriptsString, header] = await Promise.all(readFileContent);
       const meta = JSON.parse(metaString) as PageMetadata;
       const links = JSON.parse(linksString) as HeadLink[];
       const scripts = JSON.parse(scriptsString) as CachedScript[];
+      const headerNavbar = header || "";
       return { content, meta, links, scripts, headerNavbar };
     } catch (e) {
       console.error(e);
