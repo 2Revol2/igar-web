@@ -4,10 +4,10 @@ import { existsSync } from "node:fs";
 import { JSDOM } from "jsdom";
 import { NextResponse } from "next/server";
 import { config } from "@/config";
-import { applyGoogleFonts } from "@/app/api/helpers/content.helpers";
-import { fetchAtMostOncePerHour } from "@/app/lib/request-memory";
+import { applyGoogleFonts } from "@/src/helpers/api/content.helpers";
+import { fetchAtMostOncePerHour } from "@/src/lib/client/request-memory";
 import type { NextRequest } from "next/server";
-import type { ContentResponse } from "@/app/types";
+import type { ContentResponse } from "@/src/types";
 
 const CACHE_DIR = join(process.cwd(), "cache");
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { removeDomain } from "@/app/helpers/proxy.heplers";
+import { removeDomain } from "@/src/helpers/proxy/proxy.heplers";
 
 export function proxy(request: Request) {
   const requestHeaders = new Headers(request.headers);

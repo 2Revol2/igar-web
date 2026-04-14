@@ -1,5 +1,5 @@
-import { getSsrBaseUrl } from "@/app/helpers/request.helpers";
-import type { ContentResponse } from "@/app/types";
+import { getSsrBaseUrl } from "@/src/helpers/client/request.helpers";
+import type { ContentResponse } from "@/src/types";
 
 const buildId = process.env.BUILD_ID;
 

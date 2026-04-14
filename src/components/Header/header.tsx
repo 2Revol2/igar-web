@@ -1,6 +1,6 @@
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
-import { HeaderLogo } from "@/app/components/Header/HeaderLogo";
+import { HeaderLogo } from "@/src/components/Header/HeaderLogo";
 
 interface AppHeaderProps {
   headerNavbar: string;

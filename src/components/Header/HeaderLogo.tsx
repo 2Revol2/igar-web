@@ -1,7 +1,8 @@
 "use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { useIsMobile } from "@/app/hooks/useIsMobile";
+import { useIsMobile } from "@/src/hooks/useIsMobile";
 
 export const HeaderLogo = () => {
   const { isMobile } = useIsMobile();
