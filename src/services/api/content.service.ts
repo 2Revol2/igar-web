@@ -75,6 +75,7 @@ export class ContentService {
   /* ======================
      Extractors
   ====================== */
+
   private extractLinks(document: Document): HeadLink[] {
     const result: HeadLink[] = [];
     const links = Array.from(document.querySelectorAll("link"));
@@ -150,6 +151,10 @@ export class ContentService {
     }
     return innerHeader + headerMobile + headerMobileOverlay;
   }
+
+  /* ======================
+     Main method
+  ====================== */
 
   public parseHtml(html: string, cachedHeader?: string): ContentResponse {
     const dom = new JSDOM(html);

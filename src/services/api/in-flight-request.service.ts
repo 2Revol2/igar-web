@@ -51,7 +51,7 @@ export class InFlightRequestService {
     }
     const composition = async () => {
       const html = await this.fetchContent(pathFromBody);
-      const content = this.contentService.parseHtml(html);
+      const content = this.contentService.parseHtml(html, cachedValue?.headerNavbar);
       await this.fileCache.store(pathFromBody, content);
       return content;
     };

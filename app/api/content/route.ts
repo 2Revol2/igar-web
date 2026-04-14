@@ -5,6 +5,9 @@ import type { NextRequest } from "next/server";
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
+    if (partnersPageService.isNotPageCheck(body.path)) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
     const content = await partnersPageService.fetch(body.path);
     return NextResponse.json(content, { status: 200 });
   } catch (reason) {
