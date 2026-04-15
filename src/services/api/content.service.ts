@@ -150,11 +150,30 @@ export class ContentService {
 
   private compilePageHeader(document: Document, cachedHeader?: string): string {
     const header = document.querySelector("header");
+
     if (!header) {
       return "";
     }
     const headerTop = header.querySelector(".header__top");
     headerTop?.remove();
+
+    const mobileContacts = header.querySelectorAll(".header-mobile__inner-contact");
+    const mobileCopyrights = header.querySelector(".header-mobile__inner-copyright");
+
+    if (mobileContacts[1]) {
+      mobileContacts[1].remove();
+    }
+    const firstContact = mobileContacts[0];
+    const info = firstContact?.querySelector(".info");
+
+    if (info) {
+      info.textContent = "Беларусь";
+    }
+
+    // когда будет понятно какой текст править, вынести в отдельный метод как replaceLinkValues
+    if (mobileCopyrights) {
+      mobileCopyrights.textContent = '© ООО "АБ Маркет" 2026';
+    }
 
     const innerHeader = header.querySelector(".header__inner")?.outerHTML ?? "";
     const headerMobile = header.querySelector(".header-mobile")?.outerHTML ?? "";
