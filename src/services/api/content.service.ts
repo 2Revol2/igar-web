@@ -3,37 +3,29 @@ import { config } from "@/config";
 import type { CachedScript, ContentResponse, HeadLink, PageMetadata } from "@/src/types";
 
 export class ContentService {
+  public parseHtml(html: string, cachedHeader?: string): ContentResponse {
+    const dom = new JSDOM(html);
+    const { window } = dom;
+    const { document } = window;
+
+    this.replaceLinkValues(document);
+
+    const links = this.extractLinks(document);
+    const scripts = this.extractScripts(document);
+    const meta = this.compilePageMetadata(document);
+
+    const headerNavbar = this.compilePageHeader(document, cachedHeader);
+
+    this.fixPageContent(document);
+
+    const body = document.querySelector("body");
+    const content = body?.innerHTML ?? "<h1>Body is empty</h1>";
+    return { content, links, meta, scripts, headerNavbar };
+  }
+
   /* ======================
      Replacements
   ====================== */
-  private applyGoogleFonts(document: Document) {
-    document.querySelectorAll('link[href*="/fonts/"]').forEach((el) => el.remove());
-
-    // Bitrix
-    document.querySelectorAll("style").forEach((style) => {
-      if (style.textContent.includes("/fonts/")) {
-        style.remove();
-      }
-    });
-
-    const link1 = document.createElement("link");
-    link1.rel = "preconnect";
-    link1.href = "https://fonts.googleapis.com";
-    document.head.appendChild(link1);
-
-    const link2 = document.createElement("link");
-    link2.rel = "preconnect";
-    link2.href = "https://fonts.gstatic.com";
-    link2.crossOrigin = "anonymous";
-    document.head.appendChild(link2);
-
-    const link3 = document.createElement("link");
-    link3.rel = "stylesheet";
-    link3.href =
-      "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;700&display=swap";
-    document.head.appendChild(link3);
-  }
-
   private replaceLinkValues(document: Document) {
     document.querySelectorAll<HTMLAnchorElement>('a[href^="mailto:"]').forEach((a) => {
       a.href = "mailto:abmarketbel@gmail.com";
@@ -56,6 +48,10 @@ export class ContentService {
     });
   }
 
+  /* ======================
+     Extractors
+  ====================== */
+
   private fixPageContent(document: Document) {
     const featuresBlock = document.querySelector(".features-section-2025");
     if (featuresBlock) {
@@ -72,10 +68,6 @@ export class ContentService {
     }
   }
 
-  /* ======================
-     Extractors
-  ====================== */
-
   private extractLinks(document: Document): HeadLink[] {
     const result: HeadLink[] = [];
     const links = Array.from(document.querySelectorAll("link"));
@@ -84,6 +76,12 @@ export class ContentService {
         continue;
       }
       if (/icon/i.test(link.rel)) {
+        continue;
+      }
+      if (link.rel === "manifest") {
+        continue;
+      }
+      if (/\/fonts\//.test(link.href)) {
         continue;
       }
       const mappedLink = {
@@ -105,8 +103,17 @@ export class ContentService {
     for (const script of scripts) {
       const src = script.src || "";
       const text = script.textContent || "";
+      const type = script.type;
 
-      if (src.includes("jivosite") || src.includes("jivo") || text.includes("jivosite") || text.includes("jivo")) {
+      if (
+        // "@context": "https:\/\/schema.org",
+        type === "application/ld+json" ||
+        // корзина
+        src.includes("cart.js") ||
+        // аналитика
+        src.includes("google-analytics_analytics") ||
+        text.includes("googletagmanager")
+      ) {
         continue;
       }
 
@@ -137,13 +144,36 @@ export class ContentService {
     return { title: title ?? "", description: description ?? "", keywords: keywords ?? "" };
   }
 
+  /* ======================
+     Main method
+  ====================== */
+
   private compilePageHeader(document: Document, cachedHeader?: string): string {
     const header = document.querySelector("header");
+
     if (!header) {
       return "";
     }
     const headerTop = header.querySelector(".header__top");
     headerTop?.remove();
+
+    const mobileContacts = header.querySelectorAll(".header-mobile__inner-contact");
+    const mobileCopyrights = header.querySelector(".header-mobile__inner-copyright");
+
+    if (mobileContacts[1]) {
+      mobileContacts[1].remove();
+    }
+    const firstContact = mobileContacts[0];
+    const info = firstContact?.querySelector(".info");
+
+    if (info) {
+      info.textContent = "Беларусь";
+    }
+
+    // когда будет понятно какой текст править, вынести в отдельный метод как replaceLinkValues
+    if (mobileCopyrights) {
+      mobileCopyrights.textContent = '© ООО "АБ Маркет" 2026';
+    }
 
     const innerHeader = header.querySelector(".header__inner")?.outerHTML ?? "";
     const headerMobile = header.querySelector(".header-mobile")?.outerHTML ?? "";
@@ -153,30 +183,5 @@ export class ContentService {
 
     header.remove();
     return cachedHeader || fixedHeader;
-  }
-
-  /* ======================
-     Main method
-  ====================== */
-
-  public parseHtml(html: string, cachedHeader?: string): ContentResponse {
-    const dom = new JSDOM(html);
-    const { window } = dom;
-    const { document } = window;
-
-    this.applyGoogleFonts(document);
-    this.replaceLinkValues(document);
-
-    const links = this.extractLinks(document);
-    const scripts = this.extractScripts(document);
-    const meta = this.compilePageMetadata(document);
-
-    const headerNavbar = this.compilePageHeader(document, cachedHeader);
-
-    this.fixPageContent(document);
-
-    const body = document.querySelector("body");
-    const content = body?.innerHTML ?? "<h1>Body is empty</h1>";
-    return { content, links, meta, scripts, headerNavbar };
   }
 }
