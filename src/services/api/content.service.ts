@@ -6,34 +6,6 @@ export class ContentService {
   /* ======================
      Replacements
   ====================== */
-  private applyGoogleFonts(document: Document) {
-    document.querySelectorAll('link[href*="/fonts/"]').forEach((el) => el.remove());
-
-    // Bitrix
-    document.querySelectorAll("style").forEach((style) => {
-      if (style.textContent.includes("/fonts/")) {
-        style.remove();
-      }
-    });
-
-    const link1 = document.createElement("link");
-    link1.rel = "preconnect";
-    link1.href = "https://fonts.googleapis.com";
-    document.head.appendChild(link1);
-
-    const link2 = document.createElement("link");
-    link2.rel = "preconnect";
-    link2.href = "https://fonts.gstatic.com";
-    link2.crossOrigin = "anonymous";
-    document.head.appendChild(link2);
-
-    const link3 = document.createElement("link");
-    link3.rel = "stylesheet";
-    link3.href =
-      "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;700&display=swap";
-    document.head.appendChild(link3);
-  }
-
   private replaceLinkValues(document: Document) {
     document.querySelectorAll<HTMLAnchorElement>('a[href^="mailto:"]').forEach((a) => {
       a.href = "mailto:abmarketbel@gmail.com";
@@ -87,6 +59,9 @@ export class ContentService {
         continue;
       }
       if (link.rel === "manifest") {
+        continue;
+      }
+      if (/\/fonts\//.test(link.href)) {
         continue;
       }
       const mappedLink = {
@@ -168,7 +143,6 @@ export class ContentService {
     const { window } = dom;
     const { document } = window;
 
-    this.applyGoogleFonts(document);
     this.replaceLinkValues(document);
 
     const links = this.extractLinks(document);
