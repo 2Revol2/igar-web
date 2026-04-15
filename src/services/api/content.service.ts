@@ -106,6 +106,7 @@ export class ContentService {
       const src = script.src || "";
       const text = script.textContent || "";
 
+      console.log(script.src);
       if (src.includes("jivosite") || src.includes("jivo") || text.includes("jivosite") || text.includes("jivo")) {
         continue;
       }

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { fetchPageData } from "@/src/lib/client/page-data";
+import { AppPageScripts } from "@/src/PageScripts";
 import { AppHeader } from "./Header/header";
 import { AppSafeContent } from "./content";
 
@@ -22,19 +23,7 @@ export const PageRenderer = async ({ path }: PageRendererProps) => {
 
       <AppHeader headerNavbar={headerNavbar} />
       <AppSafeContent html={content} />
-
-      {scripts?.map((script, index) =>
-        script.src ? (
-          <script key={index} src={script.src} async={script.async} defer={script.defer} />
-        ) : (
-          <script
-            key={index}
-            async={script.async}
-            defer={script.defer}
-            dangerouslySetInnerHTML={{ __html: script.innerHTML }}
-          />
-        ),
-      )}
+      <AppPageScripts scripts={scripts} />
     </>
   );
 };
