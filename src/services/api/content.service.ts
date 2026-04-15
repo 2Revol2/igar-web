@@ -86,6 +86,9 @@ export class ContentService {
       if (/icon/i.test(link.rel)) {
         continue;
       }
+      if (link.rel === "manifest") {
+        continue;
+      }
       const mappedLink = {
         rel: link.rel,
         href: link.href,
