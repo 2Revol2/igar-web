@@ -70,6 +70,20 @@ body {
     opacity: 0.9;
 }
 
+#ab-market .container-2025 .KovrolinWhProgramSlider_root__wYpkC,
+#ab-market .swiper {
+    background: #f0f3f4;
+    border-radius: 12px;
+    padding: 0 20px;
+}
+
+#ab-market .breadcrumbs {
+    opacity: 0.9;
+    background: #f0f3f4;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
 #ab-market footer {
     position: relative;
 }
@@ -81,5 +95,11 @@ body {
     #ab-market .container-2025,
     #ab-market .have-questions-section-2025 {
         opacity: 1;
+    }
+    #ab-market .breadcrumbs {
+        opacity: 1;
+        background: none;
+        padding-left: 0;
+        padding-bottom: 0;
     }
 }
