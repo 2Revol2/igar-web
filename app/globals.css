@@ -37,13 +37,6 @@ body {
     --logo-color: #009399;
 }
 
-/*@media (max-width: 768px) {*/
-/*    :root {*/
-/*        --logo-width: 80px;*/
-/*    }*/
-/*}*/
-
-
 #ab-market .app-green-line-wrapper {
     position: absolute;
     top: 0;
@@ -52,6 +45,12 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+@media (max-width: 756px) {
+    #ab-market .app-green-line-wrapper {
+        display: none;
+    }
 }
 
 #ab-market .container-2025.app-green-line {
