@@ -54,12 +54,13 @@ export class InFlightStylesService {
       };
       const promise = composition();
       this.inFlight = promise;
+      this.nextFetchIn = now + 24 * 60 * 1000;
 
       await promise.finally(() => {
         this.inFlight = null;
-        this.nextFetchIn = now + 24 * 60 * 1000;
       });
     } catch (error: unknown) {
+      console.log("CSS fetch failed.");
       console.error(error);
     }
   }
