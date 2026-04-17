@@ -60,6 +60,7 @@ export class InFlightRequestService {
       this.inFlight.set(key, promise);
       return await promise.finally(() => this.inFlight.delete(key));
     } catch (error: unknown) {
+      console.log(`Endpoint: ${pathFromBody}, Cache: [${cachedValue ? "YES" : "NO"}]`);
       console.error(error);
       if (cachedValue) {
         return cachedValue;
