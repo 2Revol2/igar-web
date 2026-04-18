@@ -1,4 +1,5 @@
 import { config } from "@/config";
+import { logger } from "@/src/lib/api/logger";
 import type { ContentResponse } from "@/src/types";
 import type { FileCacheService as FileCacheServiceImpl } from "./file-cache.service";
 import type { ContentService as ContentServiceImpl } from "./content.service";
@@ -25,12 +26,10 @@ export class InFlightRequestService {
       },
     });
     if (result.status === 404) {
-      console.log(`[Error] ${pageAddress} - ${result.status}`);
-      throw new Error("Page not found");
+      throw new Error("Page not found (404 response)");
     }
     if (!result.ok) {
-      console.log(`[Error] ${pageAddress} - ${result.statusText}`);
-      throw new Error(`Failed to fetch: ${result.statusText}`);
+      throw new Error(`Failed to fetch (result !== ok): ${result.statusText}`);
     }
     return await result.text();
   }
@@ -46,11 +45,15 @@ export class InFlightRequestService {
     if (existing && cachedValue) {
       return cachedValue;
     }
+    const logEndpoint = !pathFromBody || pathFromBody === "/" ? "Главная страница" : pathFromBody;
+    const logIsCached = cachedValue ? "Cached" : "New_Endpoint";
+    const logInfo = `[Fetch][Content][${logIsCached}] Endpoint: "${logEndpoint}".`;
     try {
       if (existing) {
         return await existing;
       }
       const composition = async () => {
+        logger.info(`${logInfo} Request started`, { endpoint: logEndpoint, cache: logIsCached });
         const html = await this.fetchContent(pathFromBody);
         const content = this.contentService.parseHtml(html, cachedValue?.headerNavbar);
         await this.fileCache.store(pathFromBody, content);
@@ -60,8 +63,7 @@ export class InFlightRequestService {
       this.inFlight.set(key, promise);
       return await promise.finally(() => this.inFlight.delete(key));
     } catch (error: unknown) {
-      console.log(`Endpoint: ${pathFromBody}, Cache: [${cachedValue ? "YES" : "NO"}]`);
-      console.error(error);
+      logger.error(`${logInfo} Fetch error`, error);
       if (cachedValue) {
         return cachedValue;
       }
