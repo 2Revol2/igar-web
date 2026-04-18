@@ -1,8 +1,10 @@
 import { Logtail as BetterStackLogger } from "@logtail/node";
 
+type LogLevel = "info" | "error";
+
 class Logger {
   private static instance: Logger;
-  private logtail?: BetterStackLogger;
+  private readonly logtail?: BetterStackLogger;
 
   private constructor() {
     const token = process.env.BETTER_STACK_SOURCE_TOKEN;
@@ -19,26 +21,20 @@ class Logger {
     return Logger.instance;
   }
 
-  info(message: string, meta?: any) {
+  private log<T extends Record<string, unknown>>(level: LogLevel, message: string, meta?: T) {
     if (this.logtail) {
-      this.logtail.info(message, meta);
+      this.logtail[level](message, meta);
     } else {
-      console.log(message, meta);
+      console[level === "error" ? "error" : "log"](message, meta);
     }
   }
 
-  error(message: string, meta?: any) {
-    if (this.logtail) {
-      this.logtail.error(message, meta);
-    } else {
-      console.error(message, meta);
-    }
+  error<T extends Record<string, unknown>>(message: string, meta?: T) {
+    this.log("error", message, meta);
   }
 
-  async flush() {
-    if (this.logtail) {
-      await this.logtail.flush();
-    }
+  info<T extends Record<string, unknown>>(message: string, meta?: T) {
+    this.log("info", message, meta);
   }
 }
 

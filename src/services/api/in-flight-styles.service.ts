@@ -1,3 +1,4 @@
+import { logger } from "@/src/lib/api/logger";
 import type { FileCacheService as FileCacheServiceImpl } from "./file-cache.service";
 
 export class InFlightStylesService {
@@ -43,11 +44,13 @@ export class InFlightStylesService {
     if (now < this.nextFetchIn) {
       return;
     }
+    const logInfo = `[Fetch][Partners_Css]`;
     try {
       if (this.inFlight) {
         return await this.inFlight;
       }
       const composition = async () => {
+        logger.info(`${logInfo} Request has started`);
         const styles = await this.fetchContent(pathFromBody);
         const sanitized = this.sanitizeCss(styles);
         await this.fileCache.savePartnersStyles(sanitized);
@@ -60,8 +63,7 @@ export class InFlightStylesService {
         this.inFlight = null;
       });
     } catch (error: unknown) {
-      console.log("CSS fetch failed.");
-      console.error(error);
+      logger.info(`${logInfo} Failed`, { error });
     }
   }
 }
