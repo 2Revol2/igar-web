@@ -1,3 +1,4 @@
+import { logger } from "@/src/lib/api/logger";
 import type { FileCacheService as FileCacheServiceImpl } from "./file-cache.service";
 
 export class InFlightStylesService {
@@ -17,12 +18,10 @@ export class InFlightStylesService {
     });
 
     if (result.status === 404) {
-      console.log(`[Error] ${pathToFetch} - ${result.status}`);
-      throw new Error("Page not found");
+      throw new Error("Page not found (404 response)");
     }
     if (!result.ok) {
-      console.log(`[Error] ${pathToFetch} - ${result.statusText}`);
-      throw new Error(`Failed to fetch: ${result.statusText}`);
+      throw new Error(`Failed to fetch (result !== ok): ${result.statusText}`);
     }
     return await result.text();
   }
@@ -43,11 +42,13 @@ export class InFlightStylesService {
     if (now < this.nextFetchIn) {
       return;
     }
+    const logInfo = `[Fetch][Partners_Css]`;
     try {
       if (this.inFlight) {
         return await this.inFlight;
       }
       const composition = async () => {
+        logger.info(`${logInfo} Request has started`);
         const styles = await this.fetchContent(pathFromBody);
         const sanitized = this.sanitizeCss(styles);
         await this.fileCache.savePartnersStyles(sanitized);
@@ -60,8 +61,7 @@ export class InFlightStylesService {
         this.inFlight = null;
       });
     } catch (error: unknown) {
-      console.log("CSS fetch failed.");
-      console.error(error);
+      logger.error(`${logInfo} Failed`, error);
     }
   }
 }
