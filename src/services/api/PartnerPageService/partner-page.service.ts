@@ -1,11 +1,11 @@
-import { FileCacheService } from "./FileCacheService/file-cache.service";
-import { InFlightRequestService } from "./InFlightRequestService/in-flight-request.service";
-import { ContentService } from "./ContentService/content.service";
-import type { InFlightRequestService as InFlightRequestServiceImpl } from "./InFlightRequestService/in-flight-request.service";
-import type { FileCacheService as FileCacheServiceImpl } from "./FileCacheService/file-cache.service";
+import { FileCacheService } from "../FileCacheService/file-cache.service";
+import { InFlightRequestService } from "../InFlightRequestService/in-flight-request.service";
+import { ContentService } from "../ContentService/content.service";
+import type { InFlightRequestService as InFlightRequestServiceImpl } from "../InFlightRequestService/in-flight-request.service";
+import type { FileCacheService as FileCacheServiceImpl } from "../FileCacheService/file-cache.service";
 import type { ContentResponse } from "@/src/types";
 
-class PartnersPageService {
+export class PartnersPageService {
   constructor(
     private readonly fileCache: FileCacheServiceImpl,
     private readonly inFlightRequest: InFlightRequestServiceImpl,

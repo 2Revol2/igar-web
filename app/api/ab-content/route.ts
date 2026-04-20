@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { partnersPageService } from "@/src/services/api/partner-page.service";
+import { partnersPageService } from "@/src/services/api/PartnerPageService/partner-page.service";
 import type { NextRequest } from "next/server";
 
 export async function PUT(request: NextRequest) {
