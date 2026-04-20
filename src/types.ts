@@ -1,3 +1,5 @@
+import type { AbQuery } from "@/src/constants";
+
 export type PageMetadata = { title: string; description: string; keywords: string };
 
 export type HeadLink = {
@@ -20,4 +22,19 @@ export type ContentResponse = {
   links: HeadLink[];
   scripts: CachedScript[];
   headerNavbar: string;
+};
+
+export type AbMarketPageParams = {
+  searchParams: { [AbQuery]?: string };
+};
+
+export type PublicCmsData = {
+  headerGreyText: string;
+};
+
+export type CmsData = {
+  client: PublicCmsData;
+  api: {
+    routesMap: string[];
+  };
 };
