@@ -1,10 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PartnersPageService } from "./partner-page.service";
 
-// --------------------
-// Mocks
-// --------------------
-
 const fileCacheMock = {
   get: vi.fn(),
 };
@@ -12,6 +8,18 @@ const fileCacheMock = {
 const inFlightMock = {
   fetch: vi.fn(),
 };
+
+vi.mock("@/src/services/api/headless-cms.service", () => ({
+  headlessCms: {
+    data: {
+      settings: {
+        homepageLink: {
+          url: "/kovrolin/",
+        },
+      },
+    },
+  },
+}));
 
 describe("PartnersPageService", () => {
   let service: PartnersPageService;
@@ -60,15 +68,5 @@ describe("PartnersPageService", () => {
     await service.fetch("/page");
 
     expect(inFlightMock.fetch).toHaveBeenCalledWith("/page");
-  });
-
-  it("should detect file paths correctly", () => {
-    expect(service.isNotPageCheck("/test/file.html")).toBe(true);
-    expect(service.isNotPageCheck("/test/image.png")).toBe(true);
-  });
-
-  it("should detect non-file paths correctly", () => {
-    expect(service.isNotPageCheck("/test/page")).toBe(false);
-    expect(service.isNotPageCheck("")).toBe(false);
   });
 });

@@ -1,3 +1,4 @@
+import { headlessCms } from "@/src/services/api/headless-cms.service";
 import { FileCacheService } from "../FileCacheService/file-cache.service";
 import { InFlightRequestService } from "../InFlightRequestService/in-flight-request.service";
 import { ContentService } from "../ContentService/content.service";
@@ -11,17 +12,6 @@ export class PartnersPageService {
     private readonly inFlightRequest: InFlightRequestServiceImpl,
   ) {}
 
-  private pathTransformer(path: string) {
-    const isHomepage = !path || path === "/";
-    if (headlessCms.data.settings.homepageLink && isHomepage) {
-      return headlessCms.data.settings.homepageLink.url;
-    }
-    if (isHomepage) {
-      return "/";
-    }
-    return path.split("?")[0];
-  }
-
   async fetch(pathFromBody: string): Promise<ContentResponse> {
     const transformedPath = this.pathTransformer(pathFromBody);
     const cachedResult = await this.fileCache.get(transformedPath);
@@ -33,7 +23,14 @@ export class PartnersPageService {
   }
 
   private pathTransformer(path: string) {
-    return !path || path === "/" ? "/kovrolin/" : path;
+    const isHomepage = !path || path === "/";
+    if (headlessCms.data.settings.homepageLink && isHomepage) {
+      return headlessCms.data.settings.homepageLink.url;
+    }
+    if (isHomepage) {
+      return "/";
+    }
+    return path.split("?")[0];
   }
 }
 

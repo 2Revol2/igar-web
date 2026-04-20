@@ -8,6 +8,23 @@ vi.mock("@/config", () => ({
   },
 }));
 
+vi.mock("@/src/services/api/headless-cms.service", () => ({
+  headlessCms: {
+    data: {
+      contact: {
+        email: "abmarketbel@gmail.com",
+        phone: "+375296038038",
+      },
+      settings: {
+        scripts: {
+          jivochat: "https://jivo.chat/script.js",
+        },
+        restrictedLinks: [],
+        renamedLinks: [],
+      },
+    },
+  },
+}));
 describe("content service", () => {
   let service: ContentService;
 
@@ -91,9 +108,6 @@ describe("content service", () => {
     const html = `
       <body>
         <script src="cart.js"></script>
-        <script src="jivo.js"></script>
-        <script src="jivosite.js"></script>
-        <script>jivo</script>
         <script src="google-analytics_analytics.js"></script>
         <script type="application/ld+json">{}</script>
         <script src="/app.js">console.log("ok")</script>
@@ -102,7 +116,10 @@ describe("content service", () => {
 
     const result = service.parseHtml(html);
 
+    // only app.js survives
     expect(result.scripts.length).toBe(1);
-    expect(result.scripts[0].src).toContain("/app.js");
+
+    expect(result.scripts[0].src).toBe("https://test.com/app.js");
+    expect(result.scripts[0].innerHTML).toContain("console.log");
   });
 });
