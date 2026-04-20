@@ -14,7 +14,7 @@ const PageComponent = async ({ searchParams, params }: AbMarketPageParams) => {
   const sp = await searchParams;
   const { path } = await params;
   if (!path || !path[0] || path[0] === "api") {
-    return notFound();
+    notFound();
   }
   let currentUrl = path.join("/");
   if (Object.keys(sp).length > 0) {
