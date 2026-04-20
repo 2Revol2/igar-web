@@ -11,12 +11,15 @@ export class PartnersPageService {
     private readonly inFlightRequest: InFlightRequestServiceImpl,
   ) {}
 
-  isNotPageCheck(pathFromBody: string) {
-    if (!pathFromBody) {
-      return false;
+  private pathTransformer(path: string) {
+    const isHomepage = !path || path === "/";
+    if (headlessCms.data.settings.homepageLink && isHomepage) {
+      return headlessCms.data.settings.homepageLink.url;
     }
-    const parts = pathFromBody.split("/");
-    return /\./.test(parts[parts.length - 1]);
+    if (isHomepage) {
+      return "/";
+    }
+    return path.split("?")[0];
   }
 
   async fetch(pathFromBody: string): Promise<ContentResponse> {
