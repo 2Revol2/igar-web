@@ -28,7 +28,7 @@ class HeadlessCmsService {
 
   private async load(): Promise<CmsData> {
     try {
-      return fetchDato<CmsData>(`
+      const fetchResult = await fetchDato<{ config: CmsData }>(`
         query {
           config {
             client {
@@ -37,6 +37,10 @@ class HeadlessCmsService {
           }
         }
       `);
+      if (!fetchResult.config) {
+        throw new Error("No config provided");
+      }
+      return fetchResult.config;
     } catch (error) {
       logger.error("Dato CMS fetch error", error);
       return this.data || this.defaultValue;

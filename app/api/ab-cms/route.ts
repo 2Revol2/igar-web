@@ -6,7 +6,6 @@ import type { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const queryValue = searchParams.get(AbQuery);
-  const cmsDataMethod = queryValue ? headlessCms.refresh : headlessCms.get;
-  const cmsData = await cmsDataMethod();
+  const cmsData = queryValue ? await headlessCms.refresh() : await headlessCms.get();
   return NextResponse.json(cmsData.client);
 }

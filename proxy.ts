@@ -3,17 +3,9 @@ import { config } from "@/config";
 import { removeDomain } from "@/src/helpers/proxy/proxy.heplers";
 import type { NextRequest } from "next/server";
 
-const APP_PATHS = [
-  "/api/ab-content",
-  "/api/ab-styles",
-  "/api/ab-cms",
-  "/favicon.ico",
-  "/icon.png",
-  "/apple-icon.png",
-  "/.well-known/appspecific/com.chrome.devtools.json",
-];
+const APP_PATHS = ["/api/ab-content", "/api/ab-styles", "/api/ab-cms", "/favicon.ico", "/icon.png", "/apple-icon.png"];
 
-const BLOCKED_PATHS = new Set(["/sitemap.xml", "/robots.txt"]);
+const BLOCKED_PATHS = new Set(["/sitemap.xml", "/robots.txt", "/.well-known/appspecific/com.chrome.devtools.json"]);
 
 const ASSET_PREFIXES = ["/upload/", "/local/templates/", "/public", "/static", "/img", "/api", "/ajax"];
 
