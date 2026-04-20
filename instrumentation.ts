@@ -3,7 +3,7 @@ import { logger } from "@/src/lib/api/logger";
 
 export async function register() {
   try {
-    await headlessCms.get();
+    await headlessCms.init();
     logger.info("🔥 instrumentation");
   } catch (error) {
     logger.error("instrumentation error", error);

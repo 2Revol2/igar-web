@@ -1,5 +1,3 @@
-import type { AbQuery } from "@/src/constants";
-
 export type PageMetadata = { title: string; description: string; keywords: string };
 
 export type HeadLink = {
@@ -25,16 +23,41 @@ export type ContentResponse = {
 };
 
 export type AbMarketPageParams = {
-  searchParams: { [AbQuery]?: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+  params: {
+    path: string[];
+  };
+};
+
+type CmsContent = {
+  headerGreyText: string;
+  partnersSiteDeadTitle: string;
+};
+
+type ContactInfo = {
+  address: string;
+  unp: string;
+  bank: string;
+  bankBic: string;
+  email: string;
+  phone: string;
+  person: string;
 };
 
 export type PublicCmsData = {
-  headerGreyText: string;
+  contact: ContactInfo;
+  content: CmsContent;
 };
 
 export type CmsData = {
-  client: PublicCmsData;
-  api: {
+  contact: ContactInfo;
+  content: CmsContent;
+  settings: {
     routesMap: string[];
+    pingEndpoint: string;
   };
+};
+
+export type Heartbeat = {
+  ok: boolean;
 };

@@ -1,6 +1,6 @@
 import { getSsrBaseUrl } from "@/src/helpers/client/request.helpers";
 import { AbQuery } from "@/src/constants";
-import type { ContentResponse, PublicCmsData } from "@/src/types";
+import type { ContentResponse, Heartbeat, PublicCmsData } from "@/src/types";
 
 const buildId = process.env.BUILD_ID;
 
@@ -27,4 +27,10 @@ export const fetchCmsData = async (isInstrumentation: boolean): Promise<PublicCm
   } catch (error) {
     console.error(error);
   }
+};
+
+export const fetchHeartbeat = async (): Promise<Heartbeat> => {
+  const baseUrl = await getSsrBaseUrl();
+  const response = await fetch(`${baseUrl}/api/ab-heartbeat`, { method: "GET", cache: "no-cache" });
+  return response.json();
 };

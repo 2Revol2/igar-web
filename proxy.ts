@@ -3,7 +3,15 @@ import { config } from "@/config";
 import { removeDomain } from "@/src/helpers/proxy/proxy.heplers";
 import type { NextRequest } from "next/server";
 
-const APP_PATHS = ["/api/ab-content", "/api/ab-styles", "/api/ab-cms", "/favicon.ico", "/icon.png", "/apple-icon.png"];
+const APP_PATHS = [
+  "/api/ab-content",
+  "/api/ab-styles",
+  "/api/ab-cms",
+  "/api/ab-heartbeat",
+  "/favicon.ico",
+  "/icon.png",
+  "/apple-icon.png",
+];
 
 const BLOCKED_PATHS = new Set(["/sitemap.xml", "/robots.txt", "/.well-known/appspecific/com.chrome.devtools.json"]);
 

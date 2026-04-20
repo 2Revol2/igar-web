@@ -1,10 +1,19 @@
 import { fetchDato } from "@/src/lib/api/dato-cms";
 import { logger } from "@/src/lib/api/logger";
-import type { CmsData } from "@/src/types";
+import type { CmsData, PublicCmsData } from "@/src/types";
 
 class HeadlessCmsService {
   private readonly defaultValue: CmsData = {
-    client: {
+    contact: {
+      person: "Директор Працкевич Игорь Вячеславович",
+      address: "Республика Беларусь, Центральный район, г. Минск, ул. Тимирязева, дом 97, каб. 22-148",
+      phone: "+375296038038",
+      email: "abmarketbel@gmail.com",
+      unp: "193659113",
+      bank: '"Приорбанк" ОАО г. Минск, ул. .Хоружей, 31 А',
+      bankBic: "PJCBBY2X",
+    },
+    content: {
       headerGreyText: `
         ООО &#34;АБ Маркет&#34;{" "}
         <strong>является официальным дистрибьютором по коммерческим ковровым покрытиям фабрики </strong>{" "}
@@ -13,26 +22,40 @@ class HeadlessCmsService {
         </Link>{" "}
         - крупнейшего производителя ковровых покрытий в ЕАЭС
       `,
+      partnersSiteDeadTitle: "Чтобы заказать ковролин вам не нужен сайт!",
     },
-    api: {
+    settings: {
       routesMap: [],
+      pingEndpoint: "/local/templates/new/static/dist/img/close.svg",
     },
   };
 
-  private data: CmsData;
-  private isInitialized = false;
+  public data: CmsData;
 
   constructor() {
     this.data = { ...this.defaultValue };
   }
 
-  private async load(): Promise<CmsData> {
+  private async fetch(): Promise<CmsData> {
     try {
       const fetchResult = await fetchDato<{ config: CmsData }>(`
         query {
           config {
-            client {
+            contact {
+              address
+              unp
+              bank
+              bankBic
+              email
+              phone
+              person
+            }
+            content {
               headerGreyText
+              partnersSiteDeadTitle
+            }
+            settings {
+              pingEndpoint
             }
           }
         }
@@ -47,11 +70,9 @@ class HeadlessCmsService {
     }
   }
 
-  async get(): Promise<CmsData> {
-    if (this.isInitialized) return this.data;
-    return this.load()
+  async init(): Promise<CmsData> {
+    return this.fetch()
       .then((data) => {
-        this.isInitialized = true;
         this.data = data;
         return data;
       })
@@ -61,10 +82,13 @@ class HeadlessCmsService {
       });
   }
 
-  async refresh(): Promise<CmsData> {
-    const fresh = await this.load();
+  async refresh(): Promise<PublicCmsData> {
+    const fresh = await this.fetch();
     this.data = fresh;
-    return fresh;
+    return {
+      content: fresh.content,
+      contact: fresh.contact,
+    };
   }
 }
 
