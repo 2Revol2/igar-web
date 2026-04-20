@@ -49,12 +49,19 @@ export type PublicCmsData = {
   content: CmsContent;
 };
 
+export type CmsLink = {
+  url: string;
+  text?: string;
+};
+
 export type CmsData = {
   contact: ContactInfo;
   content: CmsContent;
   settings: {
-    routesMap: string[];
     pingEndpoint: string;
+    homepageLink?: CmsLink;
+    renamedLinks: CmsLink[];
+    restrictedLinks: CmsLink[];
   };
 };
 

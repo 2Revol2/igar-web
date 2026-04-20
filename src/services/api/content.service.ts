@@ -182,15 +182,15 @@ export class ContentService {
       mobileCopyrights.textContent = '© ООО "АБ Маркет" 2026';
     }
 
-    const linksToHide = header.querySelectorAll(
-      '[href="/shtory/"], [href="/kovry/"], [href="/blog/"], [href="/about/"], [href="/pridvernie-kovriki/"]',
-    );
+    const selectorsToHide = headlessCms.data.settings.restrictedLinks.map(({ url }) => `[href="${url}"]`).join(", ");
+    const linksToHide = header.querySelectorAll(selectorsToHide);
     linksToHide.forEach((link) => link.parentElement?.remove());
 
-    const reshetkiLinks = header.querySelectorAll('[href="/reshetki/"]');
-
-    reshetkiLinks.forEach((link) => {
-      link.textContent = "Грязезащитные решётки";
+    headlessCms.data.settings.renamedLinks.forEach((link) => {
+      const linkEl = header.querySelector(`[href="${link.url}"]`);
+      if (linkEl) {
+        linkEl.textContent = link.text || "";
+      }
     });
 
     const innerHeader = header.querySelector(".header__inner")?.outerHTML ?? "";

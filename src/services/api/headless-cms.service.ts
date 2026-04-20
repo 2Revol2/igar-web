@@ -25,8 +25,9 @@ class HeadlessCmsService {
       partnersSiteDeadTitle: "Чтобы заказать ковролин вам не нужен сайт!",
     },
     settings: {
-      routesMap: [],
       pingEndpoint: "/local/templates/new/static/dist/img/close.svg",
+      renamedLinks: [],
+      restrictedLinks: [],
     },
   };
 
@@ -56,6 +57,16 @@ class HeadlessCmsService {
             }
             settings {
               pingEndpoint
+              homepageLink {
+                url
+              }
+              renamedLinks {
+                url
+                text
+              }
+              restrictedLinks {
+                url
+              }
             }
           }
         }
