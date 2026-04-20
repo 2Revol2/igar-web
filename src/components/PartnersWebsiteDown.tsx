@@ -1,3 +1,4 @@
+import { formatPhoneBY } from "@/src/helpers/shared/contacts";
 import type { PublicCmsData } from "@/src/types";
 
 interface PartnersWebsiteDownProps {
@@ -17,7 +18,7 @@ export const PartnersWebsiteDown = ({ cms }: PartnersWebsiteDownProps) => (
         <p className="text-gray-700 text-lg">
           Позвоните по номеру{" "}
           <a href={"tel:" + cms.contact.phone} className="text-blue-600 font-semibold underline hover:text-blue-700">
-            {cms.contact.phone}
+            {formatPhoneBY(cms.contact.phone)}
           </a>{" "}
           — мы вам поможем!
         </p>

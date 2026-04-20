@@ -1,5 +1,7 @@
 import { JSDOM } from "jsdom";
 import { config } from "@/config";
+import { headlessCms } from "@/src/services/api/headless-cms.service";
+import { formatPhoneBY } from "@/src/helpers/shared/contacts";
 import type { CachedScript, ContentResponse, HeadLink, PageMetadata } from "@/src/types";
 
 export class ContentService {
@@ -28,21 +30,21 @@ export class ContentService {
   ====================== */
   private replaceLinkValues(document: Document) {
     document.querySelectorAll<HTMLAnchorElement>('a[href^="mailto:"]').forEach((a) => {
-      a.href = "mailto:abmarketbel@gmail.com";
-      a.textContent = "abmarketbel@gmail.com";
+      a.href = `mailto:${headlessCms.data.contact.email}`;
+      a.textContent = headlessCms.data.contact.email;
     });
 
     document.querySelectorAll<HTMLAnchorElement>('a[href^="tel:"]').forEach((a) => {
-      a.href = "tel:+375296038038";
-      a.textContent = "+375 29 603-80-38";
+      a.href = `tel:${headlessCms.data.contact.phone}`;
+      a.textContent = formatPhoneBY(headlessCms.data.contact.phone);
     });
 
     document.querySelectorAll<HTMLAnchorElement>('a[href^="https://t.me/"]').forEach((a) => {
-      a.href = "https://t.me/+375296038038";
+      a.href = `https://t.me/${headlessCms.data.contact.phone}`;
     });
 
     document.querySelectorAll<HTMLAnchorElement>('a[href^="https://max.ru/"]').forEach((a) => {
-      a.href = "https://wa.me/375296038038";
+      a.href = `https://wa.me/${headlessCms.data.contact.phone.replace("+", "")}`;
       a.classList.remove("max");
       a.innerHTML = '<img src="/ab-market/whatsapp.svg" alt="WhatsApp">';
     });
