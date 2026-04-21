@@ -15,6 +15,7 @@ class HeadlessCmsService {
     },
     content: {
       headerGreyText: `
+        
         ООО &#34;АБ Маркет&#34;{" "}
         <strong>является официальным дистрибьютором по коммерческим ковровым покрытиям фабрики </strong>{" "}
         <Link href="https://nevatuft.ru/" className={"text-inherit! border-b-0! !underline"} target={"_blank"}>
@@ -80,6 +81,7 @@ class HeadlessCmsService {
       if (!fetchResult.config) {
         throw new Error("No config provided");
       }
+      logger.info("CMS successfully fetched", fetchResult.config);
       return fetchResult.config;
     } catch (error) {
       logger.error("Dato CMS fetch error", error);
