@@ -34,7 +34,7 @@ type CmsContent = {
   partnersSiteDeadTitle: string;
 };
 
-type Cords = {
+type Coords = {
   lat: number;
   lng: number;
 };
@@ -48,8 +48,8 @@ type ContactInfo = {
   phone: string;
   person: string;
   map: {
-    centerCoords: Cords;
-    markerCoords: Cords[];
+    centerCoords: Coords;
+    markerCoords: Coords[];
   };
 };
 
