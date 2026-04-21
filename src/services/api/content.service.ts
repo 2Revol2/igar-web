@@ -180,6 +180,13 @@ export class ContentService {
       }
     });
 
+    if (headlessCms.data.settings.homepageLink) {
+      const linkEl = header.querySelector(`[href="${headlessCms.data.settings.homepageLink}"]`) as HTMLAnchorElement;
+      if (linkEl) {
+        linkEl.href = "/";
+      }
+    }
+
     const innerHeader = header.querySelector(".header__inner")?.outerHTML ?? "";
     const headerMobile = header.querySelector(".header-mobile")?.outerHTML ?? "";
     const headerMobileOverlay = header.querySelector(".header-mobile-overlay")?.outerHTML ?? "";
