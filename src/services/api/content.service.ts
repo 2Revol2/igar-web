@@ -6,30 +6,6 @@ import type { CachedScript, ContentResponse, HeadLink, PageMetadata } from "@/sr
 
 export class ContentService {
   /* ======================
-     Main method
-  ====================== */
-  public parseHtml(html: string, cachedHeader?: string): ContentResponse {
-    const dom = new JSDOM(html);
-    const { window } = dom;
-    const { document } = window;
-
-    this.replaceLinkValues(document);
-
-    const links = this.extractLinks(document);
-    const scripts = this.extractScripts(document);
-    const meta = this.compilePageMetadata(document);
-
-    const headerNavbar = cachedHeader || this.compilePageHeader(document);
-
-    this.removeHeader(document);
-    this.fixPageContent(document);
-
-    const body = document.querySelector("body");
-    const content = body?.innerHTML ?? "<h1>Body is empty</h1>";
-    return { content, links, meta, scripts, headerNavbar };
-  }
-
-  /* ======================
      Replacements
   ====================== */
   private replaceLinkValues(document: Document) {
@@ -53,10 +29,6 @@ export class ContentService {
       a.innerHTML = '<img src="/ab-market/whatsapp.svg" alt="WhatsApp">';
     });
   }
-
-  /* ======================
-     Extractors
-  ====================== */
 
   private removeHeader(document: Document) {
     const header = document.querySelector("header");
@@ -117,6 +89,10 @@ export class ContentService {
       paragraphs[2].textContent = `${headlessCms.data.contact.address}`;
     }
   }
+
+  /* ======================
+   Extractors
+  ====================== */
 
   private extractLinks(document: Document): HeadLink[] {
     const result: HeadLink[] = [];
@@ -252,5 +228,29 @@ export class ContentService {
     const headerMobile = header.querySelector(".header-mobile")?.outerHTML ?? "";
     const headerMobileOverlay = header.querySelector(".header-mobile-overlay")?.outerHTML ?? "";
     return innerHeader + headerMobile + headerMobileOverlay;
+  }
+
+  /* ======================
+    Main method
+ ====================== */
+  public parseHtml(html: string, cachedHeader?: string): ContentResponse {
+    const dom = new JSDOM(html);
+    const { window } = dom;
+    const { document } = window;
+
+    this.replaceLinkValues(document);
+
+    const links = this.extractLinks(document);
+    const scripts = this.extractScripts(document);
+    const meta = this.compilePageMetadata(document);
+
+    const headerNavbar = cachedHeader || this.compilePageHeader(document);
+
+    this.removeHeader(document);
+    this.fixPageContent(document);
+
+    const body = document.querySelector("body");
+    const content = body?.innerHTML ?? "<h1>Body is empty</h1>";
+    return { content, links, meta, scripts, headerNavbar };
   }
 }

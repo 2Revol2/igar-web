@@ -3,7 +3,6 @@ import { logger } from "@/src/lib/api/logger";
 import type { CmsData, CmsDataResponse, PublicCmsData } from "@/src/types";
 
 class HeadlessCmsService {
-  public data: CmsData;
   private readonly defaultValue: CmsData = {
     contact: {
       person: "Директор Працкевич Игорь Вячеславович",
@@ -42,29 +41,10 @@ class HeadlessCmsService {
     },
   };
 
+  public data: CmsData;
+
   constructor() {
     this.data = { ...this.defaultValue };
-  }
-
-  async init(): Promise<CmsData> {
-    return this.fetch()
-      .then((data) => {
-        this.data = data;
-        return data;
-      })
-      .catch((error) => {
-        logger.error("Dato CMS fetch error", error);
-        throw error;
-      });
-  }
-
-  async refresh(): Promise<PublicCmsData> {
-    const fresh = await this.fetch();
-    this.data = fresh;
-    return {
-      content: fresh.content,
-      contact: fresh.contact,
-    };
   }
 
   private deepTrim = <T>(obj: T): T => {
@@ -148,6 +128,27 @@ class HeadlessCmsService {
       logger.error("Dato CMS fetch error", error);
       return this.data || this.defaultValue;
     }
+  }
+
+  async init(): Promise<CmsData> {
+    return this.fetch()
+      .then((data) => {
+        this.data = data;
+        return data;
+      })
+      .catch((error) => {
+        logger.error("Dato CMS fetch error", error);
+        throw error;
+      });
+  }
+
+  async refresh(): Promise<PublicCmsData> {
+    const fresh = await this.fetch();
+    this.data = fresh;
+    return {
+      content: fresh.content,
+      contact: fresh.contact,
+    };
   }
 }
 
