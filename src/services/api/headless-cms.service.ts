@@ -15,13 +15,9 @@ class HeadlessCmsService {
     },
     content: {
       headerGreyText: `
-        
-        ООО &#34;АБ Маркет&#34;{" "}
-        <strong>является официальным дистрибьютором по коммерческим ковровым покрытиям фабрики </strong>{" "}
-        <Link href="https://nevatuft.ru/" className={"text-inherit! border-b-0! !underline"} target={"_blank"}>
-          &#34;Нева Тафт&#34;
-        </Link>{" "}
-        - крупнейшего производителя ковровых покрытий в ЕАЭС
+        <p><span>ООО "АБ Маркет"&nbsp;<strong>является официальным дистрибьютором по коммерческим ковровым покрытиям </strong></span></p>
+        <p><span><strong>фабрики </strong><a class="text-inherit! border-b-0! !underline" target="_blank" href="https://nevatuft.ru/" rel="noopener">"Нева Тафт"</a>&nbsp;- крупнейшего производителя ковровых покрытий в ЕАЭС,</span></p>
+        <p><span>а также <strong>партнером</strong>&nbsp;<a class="text-inherit!  border-b-0! !underline" target="_blank" href="https://velvet-pro.ru/" rel="noopener">ООО "Вельвет Про"</a>&nbsp;- ведущего производителя ковров и штор под заказ в Российской Федерации.</span></p>
       `,
       partnersSiteDeadTitle: "Чтобы заказать ковролин вам не нужен сайт!",
     },
@@ -111,4 +107,15 @@ class HeadlessCmsService {
   }
 }
 
-export const headlessCms = new HeadlessCmsService();
+const globalForServices = globalThis as typeof globalThis & {
+  headlessCms?: HeadlessCmsService;
+};
+
+// singleton
+export const headlessCms =
+  globalForServices.headlessCms ??
+  (() => {
+    const service = new HeadlessCmsService();
+    globalForServices.headlessCms = service;
+    return service;
+  })();
