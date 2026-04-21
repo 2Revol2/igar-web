@@ -3,6 +3,7 @@ import { logger } from "@/src/lib/api/logger";
 import type { CmsData, CmsDataResponse, PublicCmsData } from "@/src/types";
 
 class HeadlessCmsService {
+  public data: CmsData;
   private readonly defaultValue: CmsData = {
     contact: {
       person: "Директор Працкевич Игорь Вячеславович",
@@ -12,6 +13,16 @@ class HeadlessCmsService {
       unp: "193659113",
       bank: '"Приорбанк" ОАО г. Минск, ул. .Хоружей, 31 А',
       bankBic: "PJCBBY2X",
+      map: {
+        centerCoords: {
+          lat: 53.929594999996425,
+          lng: 27.490854999999996,
+        },
+        markerCoords: [
+          { lat: 53.929594999996425, lng: 27.490854999999996 },
+          { lat: 59.994863, lng: 30.247871 },
+        ],
+      },
     },
     content: {
       headerGreyText: `
@@ -31,13 +42,32 @@ class HeadlessCmsService {
     },
   };
 
-  public data: CmsData;
-
   constructor() {
     this.data = { ...this.defaultValue };
   }
 
-  private deepTrim<T>(obj: T): T {
+  async init(): Promise<CmsData> {
+    return this.fetch()
+      .then((data) => {
+        this.data = data;
+        return data;
+      })
+      .catch((error) => {
+        logger.error("Dato CMS fetch error", error);
+        throw error;
+      });
+  }
+
+  async refresh(): Promise<PublicCmsData> {
+    const fresh = await this.fetch();
+    this.data = fresh;
+    return {
+      content: fresh.content,
+      contact: fresh.contact,
+    };
+  }
+
+  private deepTrim = <T>(obj: T): T => {
     if (typeof obj === "string") {
       return obj.trim() as T;
     }
@@ -52,7 +82,7 @@ class HeadlessCmsService {
       return result;
     }
     return obj;
-  }
+  };
 
   private normalize(response: CmsDataResponse): CmsData {
     if (!response.config) {
@@ -87,6 +117,7 @@ class HeadlessCmsService {
               email
               phone
               person
+              map
             }
             content {
               headerGreyText
@@ -117,27 +148,6 @@ class HeadlessCmsService {
       logger.error("Dato CMS fetch error", error);
       return this.data || this.defaultValue;
     }
-  }
-
-  async init(): Promise<CmsData> {
-    return this.fetch()
-      .then((data) => {
-        this.data = data;
-        return data;
-      })
-      .catch((error) => {
-        logger.error("Dato CMS fetch error", error);
-        throw error;
-      });
-  }
-
-  async refresh(): Promise<PublicCmsData> {
-    const fresh = await this.fetch();
-    this.data = fresh;
-    return {
-      content: fresh.content,
-      contact: fresh.contact,
-    };
   }
 }
 
