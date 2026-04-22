@@ -147,12 +147,19 @@ export class ContentService {
   }
 
   private get restrictedScriptSrcRegexp() {
-    const patterns = ["google-analytics_analytics", "recaptcha", "cart.js", "jivo"];
+    const patterns = ["google-analytics_analytics", "recaptcha", "cart.js", "jivo", "jivosite"];
     return regexpByStringPatterns(patterns);
   }
 
   private get restrictedScriptTextRegexp() {
-    const patterns = ["googletagmanager", "grSiteKey", "jivo", 'var cl = "bx-core"', "nca-cookiesacceptpro-line-wrp"];
+    const patterns = [
+      "googletagmanager",
+      "grSiteKey",
+      "jivo",
+      "jivosite",
+      'var cl = "bx-core"',
+      "nca-cookiesacceptpro-line-wrp",
+    ];
     return regexpByStringPatterns(patterns);
   }
 
