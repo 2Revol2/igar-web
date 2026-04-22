@@ -123,11 +123,26 @@ export class ContentService {
     return result;
   }
 
+  private normalizeScriptSrc(scriptSrc: string): string {
+    if (!scriptSrc) {
+      return "";
+    }
+    if (scriptSrc.startsWith("http")) {
+      return scriptSrc;
+    }
+    // case //url
+    if (!/^\p{L}/u.test(scriptSrc)) {
+      const s = scriptSrc.trim().replace(/^[^\p{L}]+/u, "");
+      return `${config.SOURCE_WEBSITE}/${s}`;
+    }
+    return config.SOURCE_WEBSITE + scriptSrc;
+  }
+
   private extractScripts(document: Document): CachedScript[] {
     const result: CachedScript[] = [];
     const scripts = Array.from(document.querySelectorAll("script"));
     for (const script of scripts) {
-      const src = script.src || "";
+      const src = this.normalizeScriptSrc(script.src);
       const text = script.textContent || "";
       const type = script.type;
 
@@ -152,7 +167,7 @@ export class ContentService {
       }
 
       result.push({
-        src: src ? (src.startsWith("http") ? src : config.SOURCE_WEBSITE + src) : "",
+        src,
         innerHTML: text,
         type: script.type ?? "text/javascript",
         defer: script.defer ?? false,
