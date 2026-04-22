@@ -38,15 +38,18 @@ export class ContentService {
     }
   }
 
+  private removeFooter(document: Document) {
+    const footer = document.querySelector("footer");
+    if (footer) {
+      footer.remove();
+    }
+  }
+
   /* ======================
      Extractors
   ====================== */
 
   private fixPageContent(document: Document) {
-    const footer = document.querySelector("footer");
-    if (footer) {
-      footer.remove();
-    }
     const featuresBlock = document.querySelector(".features-section-2025");
     if (featuresBlock) {
       featuresBlock.remove();
@@ -284,6 +287,7 @@ export class ContentService {
     const headerNavbar = cachedHeader || this.compilePageHeader(document);
 
     this.removeHeader(document);
+    this.removeFooter(document);
     this.fixPageContent(document);
 
     const body = document.querySelector("body");
