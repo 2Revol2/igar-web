@@ -1,8 +1,6 @@
 import * as nodeFs from "node:fs";
 import * as fsPromises from "fs/promises";
-import { before } from "node:test";
-import { join } from "path";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi, beforeAll } from "vitest";
 import { FileCacheService } from "./file-cache.service";
 import type { Mock } from "vitest";
 import type { CachedScript, ContentResponse, HeadLink, PageMetadata } from "@/src/types";
@@ -61,43 +59,6 @@ describe("FileCacheService", () => {
     expect(result).toBeNull();
   });
 
-  describe("helpers", () => {
-    const CACHE_DIR = join(process.cwd(), "cache") + "/";
-    let helpers: ReturnType<FileCacheService["_unitTests"]>;
-
-    beforeEach(() => {
-      helpers = service._unitTests();
-    });
-
-    it("getCacheFilePath - should correctly return file path", async () => {
-      const result = helpers.getCacheFilePath("/my-path/page");
-      expect(result.replace(CACHE_DIR, "")).toEqual("my-path___page");
-    });
-
-    it("getCacheFilePath - should not depends on ending slash", async () => {
-      const result = helpers.getCacheFilePath("/my-path/page/");
-      expect(result.replace(CACHE_DIR, "")).toEqual("my-path___page");
-    });
-
-    it("getCacheFilePath - should correctly work with pagination query", async () => {
-      const page = "/my-path/page?unit=test&p=1";
-      const result = helpers.getCacheFilePath(page);
-      expect(result.replace(CACHE_DIR, "")).toEqual("my-path___page_-_-_query-page---1");
-    });
-
-    it("getCacheFilePath - should correctly work for homepage", async () => {
-      const result1 = helpers.getCacheFilePath("");
-      expect(result1.replace(CACHE_DIR, "")).toEqual("HOMEPAGE");
-      const result2 = helpers.getCacheFilePath("/");
-      expect(result2.replace(CACHE_DIR, "")).toEqual("HOMEPAGE");
-    });
-
-    it("getCacheFilePath - should ignore hashes", async () => {
-      const result = helpers.getCacheFilePath("/my-path/page/#123");
-      expect(result.replace(CACHE_DIR, "")).toEqual("my-path___page");
-    });
-  });
-
   describe("store", () => {
     let pathFromBody: string;
     let data: ContentResponse;
@@ -108,7 +69,7 @@ describe("FileCacheService", () => {
     let fakePageHeader: string;
     let fsFileExists: Mock;
 
-    before(() => {
+    beforeAll(() => {
       pathFromBody = "/unit-test/file-cache-service/store-method-test";
       fakeContent = "<html>unit test page content</html>";
       fakeMeta = { "unit-test": "fake-page-metadata" } as unknown as PageMetadata;

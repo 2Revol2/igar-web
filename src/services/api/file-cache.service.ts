@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { join } from "path";
 import { readFile, writeFile } from "fs/promises";
 import { logger } from "@/src/lib/api/logger";
+import { pathToCacheKey } from "@/src/helpers/api/path-to-cache-key";
 import type { CachedScript, ContentResponse, HeadLink, PageMetadata } from "@/src/types";
 
 type FileCacheStorePayload = {
@@ -18,30 +19,8 @@ export class FileCacheService {
     return join(this.CACHE_DIR, "header.html");
   }
 
-  private getCacheFilePath(path: string): string {
-    const [pagePath, pageQuery] = path.split("?");
-    const [pagePathNoHast] = pagePath.split("#");
-    const pagePathNoSlashes = pagePathNoHast.replace(/^\/|\/$/g, "");
-    if (!pagePathNoSlashes) {
-      return join(this.CACHE_DIR, "HOMEPAGE");
-    }
-    const p = pagePathNoSlashes.replaceAll("/", "___");
-    if (!pageQuery) {
-      return join(this.CACHE_DIR, encodeURIComponent(p));
-    }
-    const pagination = pageQuery.split("&").find((p) => p.startsWith("p="));
-    if (!pagination) {
-      return join(this.CACHE_DIR, encodeURIComponent(p));
-    }
-    const paginationValue = pagination.replace("p=", "");
-    if (!/^\d+$/.test(paginationValue)) {
-      return join(this.CACHE_DIR, encodeURIComponent(p));
-    }
-    return join(this.CACHE_DIR, encodeURIComponent(`${p}_-_-_query-page---${paginationValue}`));
-  }
-
   private generateFileMap(pathFromBody: string) {
-    const cacheFilePath = this.getCacheFilePath(pathFromBody);
+    const cacheFilePath = join(this.CACHE_DIR, pathToCacheKey(pathFromBody));
     return {
       html: cacheFilePath + ".html",
       meta: cacheFilePath + ".json",
@@ -103,18 +82,5 @@ export class FileCacheService {
 
   public async savePartnersStyles(css: string): Promise<void> {
     await writeFile(this.partnersStylesFile, css, "utf-8");
-  }
-
-  /* ======================
-     Unit tests
-  ====================== */
-
-  public _unitTests() {
-    if (process.env.NODE_ENV !== "test") {
-      throw new Error("Unit tests only = available in test environment");
-    }
-    return {
-      getCacheFilePath: this.getCacheFilePath.bind(this),
-    };
   }
 }
