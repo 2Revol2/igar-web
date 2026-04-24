@@ -6,6 +6,10 @@ import type { ContentService as ContentServiceImpl } from "./content.service";
 
 export class InFlightRequestService {
   private readonly inFlight = new Map<string, Promise<ContentResponse>>();
+  private readonly nextFetchTsMap: Map<string, number> = new Map();
+  private readonly nextFetchInterval = process.env.NODE_ENV === "production" ? 5 * 60 * 1000 : 0;
+  private readonly headerUpdateInterval = process.env.NODE_ENV === "production" ? 24 * 60 * 60 * 1000 : 0;
+
   private nextHeaderUpdateTs = 0;
 
   constructor(
@@ -19,7 +23,7 @@ export class InFlightRequestService {
     }
     const now = Date.now();
     if (this.nextHeaderUpdateTs < now) {
-      this.nextHeaderUpdateTs = 24 * 60 * 60 * 1000 + now;
+      this.nextHeaderUpdateTs = this.headerUpdateInterval + now;
       return;
     }
     return cachedHeader;
@@ -48,6 +52,11 @@ export class InFlightRequestService {
    * @param cachedValue - is analogue of "can skip"
    */
   public async fetch(pathWithKey: PagePathWithKey, cachedValue?: ContentResponse): Promise<ContentResponse> {
+    const now = Date.now();
+    const nextFetchTs = this.nextFetchTsMap.get(pathWithKey.cacheKey);
+    if (cachedValue && nextFetchTs && nextFetchTs > now) {
+      return cachedValue;
+    }
     const existing = this.inFlight.get(pathWithKey.cacheKey);
     if (existing && cachedValue) {
       return cachedValue;
@@ -60,7 +69,9 @@ export class InFlightRequestService {
       }
       const composition = async () => {
         const html = await this.fetchContent(pathWithKey.realPath);
+        // next logic only for successful fetches
         logger.info(`${logInfo} Successful response > ${pathWithKey.realPath}`, { pathWithKey });
+        this.nextFetchTsMap.set(pathWithKey.cacheKey, this.nextFetchInterval + now);
         const cachedHeader = this.getCachedHeader(cachedValue?.headerNavbar);
         const data = this.contentService.parseHtml(html, cachedHeader);
         await this.fileCache.store({
