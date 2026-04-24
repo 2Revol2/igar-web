@@ -3,7 +3,7 @@ import * as fsPromises from "fs/promises";
 import { afterEach, beforeEach, describe, expect, it, vi, beforeAll } from "vitest";
 import { FileCacheService } from "./file-cache.service";
 import type { Mock } from "vitest";
-import type { CachedScript, ContentResponse, HeadLink, PageMetadata } from "@/src/types";
+import type { CachedScript, ContentResponse, HeadLink, PageMetadata, PagePathWithKey } from "@/src/types";
 
 vi.mock("node:fs", () => ({
   existsSync: vi.fn(),
@@ -17,6 +17,12 @@ vi.mock("fs/promises", () => ({
 describe("FileCacheService", () => {
   let service: FileCacheService;
 
+  const pagePath: PagePathWithKey = {
+    initialPath: "/unit-test",
+    realPath: "/unit-test",
+    cacheKey: "unit-test",
+  };
+
   beforeEach(() => {
     service = new FileCacheService();
   });
@@ -24,7 +30,7 @@ describe("FileCacheService", () => {
   it("returns null when cache files do not exist", async () => {
     vi.mocked(nodeFs.existsSync).mockReturnValue(false);
 
-    const result = await service.get("/test");
+    const result = await service.get(pagePath);
 
     expect(result).toBeNull();
   });
@@ -39,7 +45,7 @@ describe("FileCacheService", () => {
       .mockResolvedValueOnce(JSON.stringify([{ src: "script" }]))
       .mockResolvedValueOnce("<header>");
 
-    const result = await service.get("/test");
+    const result = await service.get(pagePath);
 
     expect(result).toEqual({
       content: "html content",
@@ -54,7 +60,7 @@ describe("FileCacheService", () => {
     vi.mocked(nodeFs.existsSync).mockReturnValue(true);
     vi.mocked(fsPromises.readFile).mockRejectedValue(new Error("read fail"));
 
-    const result = await service.get("/test");
+    const result = await service.get(pagePath);
 
     expect(result).toBeNull();
   });
@@ -96,7 +102,7 @@ describe("FileCacheService", () => {
     });
 
     it("should writes cache files correctly", async () => {
-      await service.store({ data, pathFromBody });
+      await service.store({ data, pathWithKey: pagePath });
       expect(vi.mocked(fsPromises.writeFile)).toHaveBeenCalledTimes(5);
       const calls = vi.mocked(fsPromises.writeFile).mock.calls;
       expect(calls.map(([, data]) => data)).toEqual([
@@ -110,13 +116,13 @@ describe("FileCacheService", () => {
 
     it("should skip header update if cache file exists", async () => {
       fsFileExists.mockReturnValue(true);
-      await service.store({ data, pathFromBody });
+      await service.store({ data, pathWithKey: pagePath });
       expect(vi.mocked(fsPromises.writeFile)).toHaveBeenCalledTimes(4);
     });
 
     it("should update header if header exists flag is set", async () => {
       fsFileExists.mockReturnValue(true);
-      await service.store({ data, pathFromBody, isHeaderUpdate: true });
+      await service.store({ data, pathWithKey: pagePath, isHeaderUpdate: true });
       expect(vi.mocked(fsPromises.writeFile)).toHaveBeenCalledTimes(5);
     });
   });

@@ -1,7 +1,6 @@
 export function pathToCacheKey(requestPath: string): string {
   const [pagePath, pageQuery] = requestPath.split("?");
-  const [pagePathNoHast] = pagePath.split("#");
-  const pagePathNoSlashes = pagePathNoHast.replace(/^\/|\/$/g, "");
+  const pagePathNoSlashes = pagePath.replace(/^\/|\/$/g, "");
   if (!pagePathNoSlashes) {
     return "HOMEPAGE";
   }

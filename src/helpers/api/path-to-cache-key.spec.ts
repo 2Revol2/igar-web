@@ -23,9 +23,4 @@ describe("helpers.api.pathToCacheKey", () => {
     const result2 = pathToCacheKey("/");
     expect(result2).toEqual("HOMEPAGE");
   });
-
-  it("getCacheFilePath - should ignore hashes", async () => {
-    const result = pathToCacheKey("/my-path/page/#123");
-    expect(result).toEqual("my-path___page");
-  });
 });

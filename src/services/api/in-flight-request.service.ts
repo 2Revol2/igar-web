@@ -1,6 +1,6 @@
 import { config } from "@/config";
 import { logger } from "@/src/lib/api/logger";
-import type { ContentResponse } from "@/src/types";
+import type { ContentResponse, PagePathWithKey } from "@/src/types";
 import type { FileCacheService as FileCacheServiceImpl } from "./file-cache.service";
 import type { ContentService as ContentServiceImpl } from "./content.service";
 
@@ -12,11 +12,6 @@ export class InFlightRequestService {
     private readonly fileCache: FileCacheServiceImpl,
     private readonly contentService: ContentServiceImpl,
   ) {}
-
-  private getCacheKey(path: string): string {
-    const pathToFetch = path ?? "/";
-    return !pathToFetch || pathToFetch === "/" ? "___" : pathToFetch;
-  }
 
   private getCachedHeader(cachedHeader?: string) {
     if (!cachedHeader) {
@@ -49,29 +44,27 @@ export class InFlightRequestService {
 
   /**
    * Function to fetch and store data
-   * @param pathFromBody
+   * @param pathWithKey
    * @param cachedValue - is analogue of "can skip"
    */
-  public async fetch(pathFromBody: string, cachedValue?: ContentResponse): Promise<ContentResponse> {
-    const key = this.getCacheKey(pathFromBody);
-    const existing = this.inFlight.get(key);
+  public async fetch(pathWithKey: PagePathWithKey, cachedValue?: ContentResponse): Promise<ContentResponse> {
+    const existing = this.inFlight.get(pathWithKey.cacheKey);
     if (existing && cachedValue) {
       return cachedValue;
     }
-    const logEndpoint = !pathFromBody || pathFromBody === "/" ? "Главная страница" : pathFromBody;
     const logIsCached = cachedValue ? "Cached" : "New_Endpoint";
-    const logInfo = `[Fetch][Content][${logIsCached}] Endpoint: "${logEndpoint}".`;
+    const logInfo = `[Fetch][Content][${logIsCached}] Endpoint: "${pathWithKey.realPath}".`;
     try {
       if (existing) {
         return await existing;
       }
       const composition = async () => {
-        logger.info(`${logInfo} Request started`, { endpoint: logEndpoint, cache: logIsCached });
-        const html = await this.fetchContent(pathFromBody);
+        const html = await this.fetchContent(pathWithKey.realPath);
+        logger.info(`${logInfo} Successful response > ${pathWithKey.realPath}`, { pathWithKey });
         const cachedHeader = this.getCachedHeader(cachedValue?.headerNavbar);
         const data = this.contentService.parseHtml(html, cachedHeader);
         await this.fileCache.store({
-          pathFromBody,
+          pathWithKey,
           data,
           isNewCache: !cachedValue,
           isHeaderUpdate: !cachedHeader,
@@ -79,8 +72,8 @@ export class InFlightRequestService {
         return data;
       };
       const promise = composition();
-      this.inFlight.set(key, promise);
-      return await promise.finally(() => this.inFlight.delete(key));
+      this.inFlight.set(pathWithKey.cacheKey, promise);
+      return await promise.finally(() => this.inFlight.delete(pathWithKey.cacheKey));
     } catch (error: unknown) {
       logger.error(`${logInfo} Fetch error`, error);
       if (cachedValue) {

@@ -2,11 +2,10 @@ import { existsSync } from "node:fs";
 import { join } from "path";
 import { readFile, writeFile } from "fs/promises";
 import { logger } from "@/src/lib/api/logger";
-import { pathToCacheKey } from "@/src/helpers/api/path-to-cache-key";
-import type { CachedScript, ContentResponse, HeadLink, PageMetadata } from "@/src/types";
+import type { CachedScript, ContentResponse, HeadLink, PageMetadata, PagePathWithKey } from "@/src/types";
 
 type FileCacheStorePayload = {
-  pathFromBody: string;
+  pathWithKey: PagePathWithKey;
   data: ContentResponse;
   isNewCache?: boolean;
   isHeaderUpdate?: boolean;
@@ -16,11 +15,11 @@ export class FileCacheService {
   private CACHE_DIR = join(process.cwd(), "cache");
 
   get headerFile(): string {
-    return join(this.CACHE_DIR, "header.html");
+    return join(this.CACHE_DIR, "__header.html");
   }
 
-  private generateFileMap(pathFromBody: string) {
-    const cacheFilePath = join(this.CACHE_DIR, pathToCacheKey(pathFromBody));
+  private generateFileMap(pathWithKey: PagePathWithKey) {
+    const cacheFilePath = join(this.CACHE_DIR, pathWithKey.cacheKey);
     return {
       html: cacheFilePath + ".html",
       meta: cacheFilePath + ".json",
@@ -29,7 +28,7 @@ export class FileCacheService {
     };
   }
 
-  public async get(pathFromBody: string): Promise<ContentResponse | null> {
+  public async get(pathFromBody: PagePathWithKey): Promise<ContentResponse | null> {
     const cacheFiles = this.generateFileMap(pathFromBody);
     const cacheFilesArray = Object.values(cacheFiles);
     const isCached = cacheFilesArray.every((cacheFile) => existsSync(cacheFile));
@@ -53,8 +52,8 @@ export class FileCacheService {
     }
   }
 
-  public async store({ data, pathFromBody, isNewCache, isHeaderUpdate }: FileCacheStorePayload): Promise<void> {
-    const cacheFiles = this.generateFileMap(pathFromBody);
+  public async store({ data, pathWithKey, isNewCache, isHeaderUpdate }: FileCacheStorePayload): Promise<void> {
+    const cacheFiles = this.generateFileMap(pathWithKey);
     await Promise.all([
       writeFile(cacheFiles.html, data.content, "utf-8"),
       writeFile(cacheFiles.meta, JSON.stringify(data.meta), "utf-8"),
@@ -66,7 +65,7 @@ export class FileCacheService {
       logger.info("🚧 New header has been saved.");
     }
     if (isNewCache) {
-      logger.info(`💾 Files for: "${pathFromBody}"`);
+      logger.info(`💾 Files for: "${pathWithKey.initialPath}"`, { pathWithKey });
     }
   }
 
