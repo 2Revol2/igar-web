@@ -4,7 +4,7 @@ import { headlessCms } from "@/src/services/api/headless-cms.service";
 import { formatPhoneBY } from "@/src/helpers/shared/contacts";
 import { regexpByStringPatterns } from "@/src/helpers/shared/regexp";
 import type { PageTransformerService as PageTransformerServiceImpl } from "./page-transformer.service";
-import type { CachedScript, ContentResponse, HeadLink, PageMetadata } from "@/src/types";
+import type { CachedScript, ContentResponse, HeadLink, PageMetadata, PagePathWithKey } from "@/src/types";
 
 export class ContentService {
   constructor(private readonly pageTransformerService: PageTransformerServiceImpl) {}
@@ -229,7 +229,15 @@ export class ContentService {
   /* ======================
      Main method
   ====================== */
-  public parseHtml(html: string, path: string, cachedHeader?: string): ContentResponse {
+  public parseHtml({
+    html,
+    pathWithKey,
+    cachedHeader,
+  }: {
+    html: string;
+    pathWithKey: PagePathWithKey;
+    cachedHeader?: string;
+  }): ContentResponse {
     const dom = new JSDOM(html);
     const { window } = dom;
     const { document } = window;
@@ -244,7 +252,7 @@ export class ContentService {
 
     this.removeHeader(document);
     this.removeFooter(document);
-    this.pageTransformerService.transform(path, document);
+    this.pageTransformerService.transform(pathWithKey.realPath, document);
 
     const body = document.querySelector("body");
     const content = body?.innerHTML ?? "<h1>Body is empty</h1>";

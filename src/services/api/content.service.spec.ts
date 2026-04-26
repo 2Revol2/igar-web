@@ -45,7 +45,14 @@ describe("content service", () => {
       </body>
     `;
 
-    const result = service.parseHtml(html, "/");
+    const result = service.parseHtml({
+      html,
+      pathWithKey: {
+        initialPath: "/",
+        realPath: "/",
+        cacheKey: "test",
+      },
+    });
 
     const dom = new JSDOM(result.content);
     const mail = dom.window.document.querySelector("#mail") as HTMLAnchorElement;
@@ -69,7 +76,14 @@ describe("content service", () => {
       </body>
     `;
 
-    const result = service.parseHtml(html, "/");
+    const result = service.parseHtml({
+      html,
+      pathWithKey: {
+        initialPath: "/",
+        realPath: "/",
+        cacheKey: "test",
+      },
+    });
 
     const dom = new JSDOM(result.content);
     const a = dom.window.document.querySelector("a")!;
@@ -90,7 +104,14 @@ describe("content service", () => {
       <body></body>
     `;
 
-    const result = service.parseHtml(html, "/");
+    const result = service.parseHtml({
+      html,
+      pathWithKey: {
+        initialPath: "/",
+        realPath: "/",
+        cacheKey: "test",
+      },
+    });
 
     expect(result.links.length).toBe(1);
     expect(result.links[0].href).toBe("https://test.com/style.css");
@@ -107,7 +128,14 @@ describe("content service", () => {
       </body>
     `;
 
-    const result = service.parseHtml(html, "/");
+    const result = service.parseHtml({
+      html,
+      pathWithKey: {
+        initialPath: "/",
+        realPath: "/",
+        cacheKey: "test",
+      },
+    });
 
     // only app.js survives
     expect(result.scripts.length).toBe(2);
