@@ -9,6 +9,14 @@ type Props = {
 
 const PRICE_MARK_CLASS = "ab-price";
 const PROCESSED_ATTR = "data-ab-processed";
+const PRICES_CLASSES = [
+  '[class^="KovrolinWhProgramSlide_price"]',
+  '[class^="KovrolinCoatingsSlide_price"]',
+  '[class^="Product_itemPrice"]:not([class^="Product_itemPriceSize"])',
+  ".quantity-discount__price",
+  ".product-options__total",
+  ".product-options__price",
+];
 
 function formatByn(value: number): string {
   return `${value.toFixed(2)} BYN`;
@@ -141,11 +149,7 @@ function removeRubSignGlobally(root: ParentNode) {
 }
 
 function addLoadedClass(root: ParentNode) {
-  const elements = root.querySelectorAll(
-    '[class^="KovrolinWhProgramSlide_price"], [class^="KovrolinCoatingsSlide_price"], ' +
-      '[class^="Product_itemPrice"]:not([class^="Product_itemPriceSize"]), .quantity-discount__price, ' +
-      ".product-options__total, .product-options__price",
-  );
+  const elements = root.querySelectorAll(PRICES_CLASSES.join(","));
 
   elements.forEach((el) => el.classList.add("ab-loaded"));
 }
