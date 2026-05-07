@@ -3,6 +3,7 @@ import { fetchPageData } from "@/src/lib/client/page-data";
 import { PartnersCssLoader } from "@/src/components/PartnersCssLoader";
 import { AppPageScripts } from "@/src/components/PageScripts";
 import { AppFooter } from "@/src/components/Footer";
+import { ContactSection } from "@/src/components/ContactSection/ContactSection";
 import { AppHeader } from "./Header/header";
 import { AppSafeContent } from "./content";
 import type { PublicCmsData } from "@/src/types";
@@ -14,6 +15,7 @@ interface PageRendererProps {
 
 export const PageContent = async ({ path, cms }: PageRendererProps) => {
   const { content, links, scripts, headerNavbar } = await fetchPageData(path);
+  console.log("[PATH]", path);
 
   if (!content) {
     return notFound();
@@ -31,6 +33,7 @@ export const PageContent = async ({ path, cms }: PageRendererProps) => {
 
       <AppHeader headerNavbar={headerNavbar} cms={cms} />
       <AppSafeContent html={content} />
+      {path !== "/contacts/" && <ContactSection cms={cms} />}
       <AppFooter cms={cms} />
       <AppPageScripts scripts={scripts} />
     </>
