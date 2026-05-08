@@ -104,6 +104,14 @@ export class PageTransformerService {
     if (deliveryPaymentDetails) {
       deliveryPaymentDetails.remove();
     }
+
+    const haveQuestionsSection = document.querySelector(
+      '[class^="have-questions-section"], [class^="kovrolin-detail_haveQuestions"]',
+    );
+
+    if (haveQuestionsSection) {
+      haveQuestionsSection.remove();
+    }
   }
 
   public transform(path: string, document: Document) {
