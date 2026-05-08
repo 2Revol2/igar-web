@@ -48,6 +48,20 @@ export class ContentService {
     }
   }
 
+  private removeKovrolinLink(document: Document) {
+    const kovrolinLinks = document.querySelectorAll('a[href="/kovrolin/"]');
+
+    kovrolinLinks.forEach((link) => {
+      const parent = link.parentElement;
+
+      if (parent?.classList.contains("bx-breadcrumb-item")) {
+        parent.remove();
+      } else {
+        link.remove();
+      }
+    });
+  }
+
   /* ======================
      Extractors
   ====================== */
@@ -252,6 +266,7 @@ export class ContentService {
 
     this.removeHeader(document);
     this.removeFooter(document);
+    this.removeKovrolinLink(document);
     this.pageTransformerService.transform(pathWithKey.realPath, document);
 
     const body = document.querySelector("body");
