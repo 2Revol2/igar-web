@@ -15,7 +15,6 @@ interface PageRendererProps {
 
 export const PageContent = async ({ path, cms }: PageRendererProps) => {
   const { content, links, scripts, headerNavbar } = await fetchPageData(path);
-  console.log("[PATH]", path);
 
   if (!content) {
     return notFound();
