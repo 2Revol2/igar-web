@@ -35,7 +35,7 @@ export const ContactSection = ({ cms }: ContactSectionProps) => {
         value: "WhatsApp",
       },
     ],
-    [cms?.contact.email],
+    [cms?.contact.email, cms?.contact.phone],
   );
 
   return (
