@@ -69,6 +69,23 @@ export class PageTransformerService {
     }
   }
 
+  private transformH1(path: string, document: Document) {
+    if (path === PAGES.CONTACT) {
+      return;
+    }
+    const segments = path.split("/").filter(Boolean);
+
+    if (segments.length > 1) {
+      return;
+    }
+    const h1 = document.querySelector("h1");
+    if (!h1 || h1.textContent?.includes("в Минске")) {
+      return;
+    }
+
+    h1.textContent = `${h1.textContent} в Минске`;
+  }
+
   private pageHandlers: Record<string, PageHandler> = {
     [PAGES.MAIN]: this.transformMainPage,
     [PAGES.CONTACT]: this.transformContactPage,
@@ -122,5 +139,6 @@ export class PageTransformerService {
     }
 
     this.defaultHandler(document);
+    this.transformH1(path, document);
   }
 }
