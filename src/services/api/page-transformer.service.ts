@@ -1,4 +1,5 @@
 import { headlessCms } from "@/src/services/api/headless-cms.service";
+import type { PagePathWithKey } from "@/src/types";
 
 enum PAGES {
   MAIN = "/",
@@ -114,8 +115,8 @@ export class PageTransformerService {
     }
   }
 
-  public transform(path: string, document: Document) {
-    const handler = this.pageHandlers[path];
+  public transform(path: PagePathWithKey, document: Document) {
+    const handler = this.pageHandlers[path.realPath];
 
     if (handler) {
       handler(document);
