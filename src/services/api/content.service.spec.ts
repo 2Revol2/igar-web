@@ -25,6 +25,9 @@ vi.mock("@/src/services/api/headless-cms.service", () => ({
         },
         restrictedLinks: [],
         renamedLinks: [],
+        metadataTextReplacement: {
+          Россия: "Беларусь",
+        },
       },
     },
   },
@@ -142,5 +145,136 @@ describe("content service", () => {
 
     expect(result.scripts[0].src).toBe("https://test.com/app.js");
     expect(result.scripts[0].innerHTML).toContain("console.log");
+  });
+
+  it("adds geo suffix when no geo markers exist", () => {
+    const html = `
+      <head>
+        <title>Купить ковролин</title>
+      </head>
+      <body></body>
+    `;
+
+    const result = service.parseHtml({
+      html,
+      pathWithKey: {
+        initialPath: "/",
+        realPath: "/",
+        cacheKey: "test",
+      },
+    });
+
+    expect(result.meta.title).toBe("Купить ковролин в Минске и Беларуси");
+  });
+
+  it("does not add geo suffix when title already contains geo marker", () => {
+    const html = `
+      <head>
+        <title>Купить ковролин в Минске</title>
+      </head>
+      <body></body>
+    `;
+
+    const result = service.parseHtml({
+      html,
+      pathWithKey: {
+        initialPath: "/",
+        realPath: "/",
+        cacheKey: "test",
+      },
+    });
+
+    expect(result.meta.title).toBe("Купить ковролин в Минске");
+  });
+
+  it("inserts geo suffix before dash", () => {
+    const html = `
+      <head>
+        <title>Купить ковролин - цены и каталог</title>
+      </head>
+      <body></body>
+    `;
+
+    const result = service.parseHtml({
+      html,
+      pathWithKey: {
+        initialPath: "/",
+        realPath: "/",
+        cacheKey: "test",
+      },
+    });
+
+    expect(result.meta.title).toBe("Купить ковролин в Минске и Беларуси - цены и каталог");
+  });
+
+  it("adds geo suffix when description has no geo markers", () => {
+    const html = `
+      <head>
+        <meta
+          name="description"
+          content="Продажа ковролина для дома"
+        />
+      </head>
+      <body></body>
+    `;
+
+    const result = service.parseHtml({
+      html,
+      pathWithKey: {
+        initialPath: "/",
+        realPath: "/",
+        cacheKey: "test",
+      },
+    });
+
+    expect(result.meta.description).toBe("Продажа ковролина для дома в Минске и Беларуси");
+  });
+
+  it("does not add geo suffix when description already contains geo marker", () => {
+    const html = `
+      <head>
+        <meta
+          name="description"
+          content="Продажа ковролина в Минске"
+        />
+      </head>
+      <body></body>
+    `;
+
+    const result = service.parseHtml({
+      html,
+      pathWithKey: {
+        initialPath: "/",
+        realPath: "/",
+        cacheKey: "test",
+      },
+    });
+
+    expect(result.meta.description).toBe("Продажа ковролина в Минске");
+  });
+
+  it("injects geo suffix into long descriptions", () => {
+    const html = `
+      <head>
+        <meta
+          name="description"
+          content="Очень длинное описание ковролина для офиса и дома с большим количеством информации для клиентов и покупателей большим количеством информации для клиентов и покупателей большим количеством информации для клиентов и покупателей большим количеством информации для клиентов и покупателей"
+        />
+      </head>
+      <body></body>
+    `;
+
+    const result = service.parseHtml({
+      html,
+      pathWithKey: {
+        initialPath: "/",
+        realPath: "/",
+        cacheKey: "test",
+      },
+    });
+
+    expect(result.meta.description).toBe(
+      "Очень длинное описание ковролина для офиса и дома в Минске и Беларуси с большим количеством информации для клиентов и покупателей большим количеством информации для клиентов и покупателей большим количеством информации для клиентов и покупателей большим количеством информации для клиентов и покупателей",
+    );
   });
 });

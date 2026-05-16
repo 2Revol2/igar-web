@@ -39,6 +39,9 @@ class HeadlessCmsService {
       scripts: {
         jivochat: "//code.jivosite.com/widget/WPBvGc2oxZ",
       },
+      metadataTextReplacement: {
+        Россия: "Беларусь",
+      },
     },
   };
 
@@ -124,6 +127,7 @@ class HeadlessCmsService {
               scripts {
                 jivochat
               }
+              metadataTextReplacement
             }
           }
         }

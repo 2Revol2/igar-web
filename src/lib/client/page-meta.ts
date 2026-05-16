@@ -3,11 +3,13 @@ import type { Metadata } from "next";
 
 export type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ path: string | string[] | undefined }>;
 };
 
-export const setPageMeta = async ({ searchParams }: PageProps): Promise<Metadata> => {
+export const setPageMeta = async ({ searchParams, params }: PageProps): Promise<Metadata> => {
   const sp = await searchParams;
-  const pathname = "/";
+  const { path } = await params;
+  const pathname = Array.isArray(path) ? `/${path.join("/")}/` : path ? `/${path}/` : "/";
 
   const filtered: Record<string, string> = {};
   for (const [key, value] of Object.entries(sp || {})) {

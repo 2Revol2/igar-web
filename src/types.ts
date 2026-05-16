@@ -76,6 +76,7 @@ export type CmsDataResponse = {
       scripts: {
         jivochat?: string;
       };
+      metadataTextReplacement: Record<string, string>;
     };
   };
 };
@@ -91,6 +92,7 @@ export type CmsData = {
     scripts: {
       jivochat?: string;
     };
+    metadataTextReplacement: Record<string, string>;
   };
 };
 
