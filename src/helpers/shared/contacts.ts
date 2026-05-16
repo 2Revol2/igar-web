@@ -1,4 +1,8 @@
-export function formatPhoneBY(phone: string): string {
+export function formatPhoneBY(phone?: string): string {
+  if (!phone) {
+    return "";
+  }
+
   const digits = phone.replace(/\D/g, "");
 
   if (!digits.startsWith("375") || digits.length !== 12) {

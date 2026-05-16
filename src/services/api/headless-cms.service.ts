@@ -31,6 +31,26 @@ class HeadlessCmsService {
       `,
       partnersSiteDeadTitle: "Чтобы заказать ковролин вам не нужен сайт!",
       priceMultiplier: 1.0,
+      textReplacements: [
+        {
+          paths: ["/"],
+          rules: [
+            {
+              from: "Производитель №1 в России и ЕАЭ",
+              to: "Производитель №1 в Беларуси",
+            },
+          ],
+        },
+        {
+          paths: ["/reshetki/"],
+          rules: [
+            {
+              from: "Работаем по Москве и Московской области",
+              to: "Работаем по всей Беларуси",
+            },
+          ],
+        },
+      ],
     },
     settings: {
       pingEndpoint: "/local/templates/new/static/dist/img/close.svg",
@@ -38,6 +58,9 @@ class HeadlessCmsService {
       restrictedLinks: [],
       scripts: {
         jivochat: "//code.jivosite.com/widget/WPBvGc2oxZ",
+      },
+      metadataTextReplacement: {
+        Россия: "Беларусь",
       },
     },
   };
@@ -108,6 +131,7 @@ class HeadlessCmsService {
               headerGreyText
               partnersSiteDeadTitle
               priceMultiplier
+              textReplacements
             }
             settings {
               pingEndpoint
@@ -124,6 +148,7 @@ class HeadlessCmsService {
               scripts {
                 jivochat
               }
+              metadataTextReplacement
             }
           }
         }
