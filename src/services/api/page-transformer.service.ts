@@ -76,6 +76,28 @@ export class PageTransformerService {
     [PAGES.KOVROLIN]: this.transformKovrolinPage,
   };
 
+  private applyTextReplacements(path: string, document: Document) {
+    const configs = headlessCms.data.content.textReplacements;
+    const activeRules = configs.filter((config) => config.paths.includes(path)).flatMap((config) => config.rules);
+    console.log("[ACTIVE_RULES]", activeRules);
+    if (!activeRules.length) return;
+    const walkAndReplace = (node: Node) => {
+      if (node.nodeType === 3) {
+        let text = node.nodeValue || "";
+        text = text.replace(/\s+/g, " ");
+        for (const rule of activeRules) {
+          if (text.includes(rule.from)) {
+            text = text.replaceAll(rule.from, rule.to);
+          }
+        }
+        node.nodeValue = text;
+        return;
+      }
+      node.childNodes.forEach(walkAndReplace);
+    };
+    walkAndReplace(document.body);
+  }
+
   private defaultHandler(document: Document) {
     const contactSection = document.querySelector(
       '[class^="ContactsSection_root"], [class^="kovrolin-detail_contacts"]',
@@ -122,6 +144,7 @@ export class PageTransformerService {
       handler(document);
     }
 
+    this.applyTextReplacements(path.initialPath, document);
     this.defaultHandler(document);
   }
 }
