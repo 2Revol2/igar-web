@@ -79,7 +79,6 @@ export class PageTransformerService {
   private applyTextReplacements(path: string, document: Document) {
     const configs = headlessCms.data.content.textReplacements;
     const activeRules = configs.filter((config) => config.paths.includes(path)).flatMap((config) => config.rules);
-    console.log("[ACTIVE_RULES]", activeRules);
     if (!activeRules.length) return;
     const walkAndReplace = (node: Node) => {
       if (node.nodeType === 3) {
