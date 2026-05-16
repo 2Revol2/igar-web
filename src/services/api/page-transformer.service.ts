@@ -162,6 +162,6 @@ export class PageTransformerService {
 
     this.applyTextReplacements(path.initialPath, document);
     this.defaultHandler(document);
-    this.transformH1(path, document);
+    this.transformH1(path.initialPath, document);
   }
 }
