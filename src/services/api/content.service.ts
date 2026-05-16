@@ -199,7 +199,7 @@ export class ContentService {
 
     if (!hasGeo) {
       const endsWithDot = cleaned.trim().endsWith(".");
-      const tail = endsWithDot ? "В Минске и Беларуси" : " в Минске и Беларуси";
+      const tail = endsWithDot ? "В Минске и Беларуси" : "в Минске и Беларуси";
       return `${cleaned} ${tail}`;
     }
 
