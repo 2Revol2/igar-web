@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { formatPhoneBY } from "@/src/helpers/shared/contacts";
 import type { PublicCmsData } from "@/src/types";
 
 interface ContactSectionProps {
@@ -20,7 +21,7 @@ export const ContactSection = ({ cms }: ContactSectionProps) => {
         label: "Позвоните нам",
         icon: "/ab-market/phone.svg",
         href: `tel:${cms?.contact.phone}`,
-        value: cms?.contact.phone,
+        value: formatPhoneBY(cms?.contact.phone),
       },
       {
         label: "Напишите в Telegram",
