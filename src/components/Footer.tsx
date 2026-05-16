@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
+import { formatPhoneBY } from "@/src/helpers/shared/contacts";
 import type { PublicCmsData } from "@/src/types";
 
 interface AppFooterProps {
@@ -19,7 +20,7 @@ export const AppFooter = ({ cms }: AppFooterProps) => {
       { icon: "/ab-market/map-pin.svg", text: cms?.contact.address },
       {
         icon: "/ab-market/phone.svg",
-        text: cms?.contact.phone,
+        text: formatPhoneBY(cms?.contact.phone),
         href: cms?.contact.phone ? `tel:${cms.contact.phone}` : undefined,
       },
       {
