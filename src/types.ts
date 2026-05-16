@@ -29,10 +29,21 @@ export type AbMarketPageParams = {
   };
 };
 
+type TextReplacementRule = {
+  from: string;
+  to: string;
+};
+
+type TextReplacement = {
+  paths: string[];
+  rules: TextReplacementRule[];
+};
+
 type CmsContent = {
   headerGreyText: string;
   partnersSiteDeadTitle: string;
   priceMultiplier: number;
+  textReplacements: TextReplacement[];
 };
 
 type Coords = {
@@ -76,6 +87,7 @@ export type CmsDataResponse = {
       scripts: {
         jivochat?: string;
       };
+      metadataTextReplacement: Record<string, string>;
     };
   };
 };
@@ -91,6 +103,7 @@ export type CmsData = {
     scripts: {
       jivochat?: string;
     };
+    metadataTextReplacement: Record<string, string>;
   };
 };
 
