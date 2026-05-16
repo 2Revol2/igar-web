@@ -29,10 +29,21 @@ export type AbMarketPageParams = {
   };
 };
 
+type TextReplacementRule = {
+  from: string;
+  to: string;
+};
+
+type TextReplacement = {
+  paths: string[];
+  rules: TextReplacementRule[];
+};
+
 type CmsContent = {
   headerGreyText: string;
   partnersSiteDeadTitle: string;
   priceMultiplier: number;
+  textReplacements: TextReplacement[];
 };
 
 type Coords = {

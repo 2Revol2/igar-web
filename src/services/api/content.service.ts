@@ -301,7 +301,7 @@ export class ContentService {
 
     this.removeHeader(document);
     this.removeFooter(document);
-    this.pageTransformerService.transform(pathWithKey.realPath, document);
+    this.pageTransformerService.transform(pathWithKey, document);
 
     const body = document.querySelector("body");
     const content = body?.innerHTML ?? "<h1>Body is empty</h1>";
