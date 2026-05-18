@@ -1,9 +1,5 @@
-import { join } from "path";
-import { readFile, writeFile } from "fs/promises";
-import { existsSync } from "node:fs";
-
-const CACHE_DIR = join(process.cwd(), "cache");
-const RATE_CACHE_FILE = join(CACHE_DIR, "rub-byn-rate.json");
+"use client";
+import { useEffect, useState } from "react";
 
 interface RubRate {
   Cur_ID: number;
@@ -12,12 +8,19 @@ interface RubRate {
   Cur_OfficialRate: number;
 }
 
-export async function getRubToBynRate(): Promise<number> {
-  const url = "https://api.nbrb.by/exrates/rates/RUB?parammode=2";
+const STORAGE_KEY = "rub_byn_rate";
+const DEFAULT_VALUE = 0.038149999999999996;
+
+async function getRubToBynRate(): Promise<number> {
+  const primaryUrl = "https://api.nbrb.by/exrates/rates/RUB?parammode=2";
+
+  const fallbackUrl = "https://latest.currency-api.pages.dev/v1/currencies/rub.json";
+
+  const cached = typeof window !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
 
   try {
-    const res = await fetch(url, {
-      next: { revalidate: 60 * 60 }, // 1 hour
+    const res = await fetch(primaryUrl, {
+      next: { revalidate: 60 * 60 },
     });
 
     if (!res.ok) {
@@ -30,27 +33,64 @@ export async function getRubToBynRate(): Promise<number> {
       throw new Error("Invalid NBRB response");
     }
 
-    await writeFile(RATE_CACHE_FILE, JSON.stringify(data), "utf-8");
+    // Например, если 100 RUB = 3.7003 BYN,
+    // то 1 RUB = 3.7003 / 100
+    const rate = data.Cur_OfficialRate / data.Cur_Scale;
 
-    return data.Cur_OfficialRate / data.Cur_Scale;
-  } catch (error) {
-    console.error("[RUB/BYN] API failed", error);
-    try {
-      if (!existsSync(RATE_CACHE_FILE)) {
-        throw new Error("Cache does not exist");
-      }
-
-      const dataRaw = await readFile(RATE_CACHE_FILE, "utf-8");
-      const data = JSON.parse(dataRaw) as RubRate;
-
-      if (!data.Cur_OfficialRate || !data.Cur_Scale) {
-        throw new Error("Invalid cache");
-      }
-
-      return data.Cur_OfficialRate / data.Cur_Scale;
-    } catch (cacheError) {
-      console.error("[RUB/BYN] Cache fallback failed", cacheError);
-      throw new Error("Unable to get RUB/BYN rate");
+    if (typeof window !== "undefined") {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(rate));
     }
+
+    return rate;
+  } catch (error) {
+    console.log("Primary API failed, using fallback...", error);
+
+    if (cached) {
+      return JSON.parse(cached);
+    }
+
+    const fallbackRes = await fetch(fallbackUrl, {
+      next: { revalidate: 60 * 60 },
+    });
+
+    if (!fallbackRes.ok) {
+      throw new Error(`Fallback request failed: ${fallbackRes.status}`);
+    }
+
+    const fallbackData: {
+      rub: {
+        byn: number;
+      };
+    } = await fallbackRes.json();
+
+    if (!fallbackData.rub.byn) {
+      throw new Error("Invalid response");
+    }
+
+    return fallbackData.rub.byn;
   }
+}
+
+export function useRubToBynRate() {
+  const [rate, setRate] = useState<number>(DEFAULT_VALUE);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadRate = async () => {
+      const result = await getRubToBynRate();
+
+      if (mounted) {
+        setRate(result);
+      }
+    };
+
+    loadRate();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  return rate;
 }

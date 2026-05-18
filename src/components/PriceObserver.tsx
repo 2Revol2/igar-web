@@ -1,9 +1,9 @@
 "use client";
 
 import { useLayoutEffect } from "react";
+import { useRubToBynRate } from "@/src/lib/client/rub-to-byn-rate";
 
 type Props = {
-  rubToBynRate: number;
   priceMultiplier?: number;
 };
 
@@ -165,8 +165,9 @@ function scan(root: ParentNode, rate: number) {
   }
 }
 
-export const PriceObserver = ({ rubToBynRate, priceMultiplier = 1 }: Props) => {
-  const effectiveRate = rubToBynRate * priceMultiplier;
+export const PriceObserver = ({ priceMultiplier = 1 }: Props) => {
+  const rate = useRubToBynRate();
+  const effectiveRate = rate * priceMultiplier;
 
   useLayoutEffect(() => {
     let cleanup: (() => void) | null = null;
