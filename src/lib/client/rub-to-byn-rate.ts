@@ -75,21 +75,12 @@ export function useRubToBynRate() {
   const [rate, setRate] = useState<number>(DEFAULT_VALUE);
 
   useEffect(() => {
-    let mounted = true;
-
     const loadRate = async () => {
       const result = await getRubToBynRate();
-
-      if (mounted) {
-        setRate(result);
-      }
+      setRate(result);
     };
 
     loadRate();
-
-    return () => {
-      mounted = false;
-    };
   }, []);
 
   return rate;
