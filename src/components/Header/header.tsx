@@ -1,6 +1,7 @@
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
 import { HeaderLogo } from "@/src/components/Header/HeaderLogo";
+import { formatPhoneBY } from "@/src/helpers/shared/contacts";
 import type { PublicCmsData } from "@/src/types";
 
 interface AppHeaderProps {
@@ -33,12 +34,12 @@ export const AppHeader = ({ headerNavbar, cms }: AppHeaderProps) => {
               className={"hover:text-gray-800! sm:border-r sm:pr-4 border-b-0! border-gray-200 flex flex-col "}
               href="tel:+375296038038"
             >
-              <span className={"text-gray-600 font-bold sm:text-sm text-xs"}>+375 29 603-80-38</span>
+              <span className={"text-gray-600 font-bold sm:text-sm text-xs"}>{formatPhoneBY(cms?.contact.phone)}</span>
               <span className={"text-xs leading-none text-gray-600 hide-on-mobile"}>Обратный звонок</span>
             </Link>
 
             <Link className={"hover:text-gray-800! border-b-0! flex flex-col hide-on-mobile"} href="tel:+375296038038">
-              <span className={"text-gray-600 font-bold sm:text-sm text-xs"}>abmarketbel@gmail.com</span>
+              <span className={"text-gray-600 font-bold sm:text-sm text-xs"}>{cms?.contact.email}</span>
               <span className={"text-xs leading-none text-gray-600"}>Работаем в будни с 10:00 до 17:00</span>
             </Link>
           </div>

@@ -1,4 +1,5 @@
 import { headlessCms } from "@/src/services/api/headless-cms.service";
+import type { PagePathWithKey } from "@/src/types";
 
 enum PAGES {
   MAIN = "/",
@@ -69,11 +70,49 @@ export class PageTransformerService {
     }
   }
 
+  private transformH1(path: string, document: Document) {
+    if (path === PAGES.CONTACT) {
+      return;
+    }
+    const segments = path.split("/").filter(Boolean);
+
+    if (segments.length > 1) {
+      return;
+    }
+    const h1 = document.querySelector("h1");
+    if (!h1 || h1.textContent?.includes("в Минске")) {
+      return;
+    }
+
+    h1.textContent = `${h1.textContent} в Минске`;
+  }
+
   private pageHandlers: Record<string, PageHandler> = {
     [PAGES.MAIN]: this.transformMainPage,
     [PAGES.CONTACT]: this.transformContactPage,
     [PAGES.KOVROLIN]: this.transformKovrolinPage,
   };
+
+  private applyTextReplacements(path: string, document: Document) {
+    const configs = headlessCms.data.content.textReplacements;
+    const activeRules = configs.filter((config) => config.paths.includes(path)).flatMap((config) => config.rules);
+    if (!activeRules.length) return;
+    const walkAndReplace = (node: Node) => {
+      if (node.nodeType === 3) {
+        let text = node.nodeValue || "";
+        text = text.replace(/\s+/g, " ");
+        for (const rule of activeRules) {
+          if (text.includes(rule.from)) {
+            text = text.replaceAll(rule.from, rule.to);
+          }
+        }
+        node.nodeValue = text;
+        return;
+      }
+      node.childNodes.forEach(walkAndReplace);
+    };
+    walkAndReplace(document.body);
+  }
 
   private defaultHandler(document: Document) {
     const contactSection = document.querySelector(
@@ -104,15 +143,25 @@ export class PageTransformerService {
     if (deliveryPaymentDetails) {
       deliveryPaymentDetails.remove();
     }
+
+    const haveQuestionsSection = document.querySelector(
+      '[class^="have-questions-section"], [class^="kovrolin-detail_haveQuestions"]',
+    );
+
+    if (haveQuestionsSection) {
+      haveQuestionsSection.remove();
+    }
   }
 
-  public transform(path: string, document: Document) {
-    const handler = this.pageHandlers[path];
+  public transform(path: PagePathWithKey, document: Document) {
+    const handler = this.pageHandlers[path.realPath];
 
     if (handler) {
       handler(document);
     }
 
+    this.applyTextReplacements(path.initialPath, document);
     this.defaultHandler(document);
+    this.transformH1(path.initialPath, document);
   }
 }

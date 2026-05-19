@@ -200,7 +200,7 @@ body {
 
 
 #ab-market .ab-loaded {
-    color: initial;
+    color: initial !important;
 }
 
 #ab-market .ab-loaded::after {

@@ -3,6 +3,8 @@ import { config } from "@/config";
 import { headlessCms } from "@/src/services/api/headless-cms.service";
 import { formatPhoneBY } from "@/src/helpers/shared/contacts";
 import { regexpByStringPatterns } from "@/src/helpers/shared/regexp";
+import { normalizeMetadataText } from "@/src/lib/api/normalize-metadata-text";
+import { GEO_MARKERS } from "@/src/constants";
 import type { PageTransformerService as PageTransformerServiceImpl } from "./page-transformer.service";
 import type { CachedScript, ContentResponse, HeadLink, PageMetadata, PagePathWithKey } from "@/src/types";
 
@@ -172,9 +174,55 @@ export class ContentService {
     return result;
   }
 
+  private optimizeTitle(metainfo?: string): string {
+    const cleaned = normalizeMetadataText(metainfo);
+    if (!cleaned) return "";
+
+    const hasGeo = GEO_MARKERS.some((marker) => cleaned.toLowerCase().includes(marker));
+
+    if (!hasGeo) {
+      const endsWithDot = cleaned.trim().endsWith(".");
+      const tail = endsWithDot ? "В Минске и Беларуси" : " в Минске и Беларуси";
+      const dashMatch = cleaned.match(/(\s+[\u2013\u2014-]\s+)/);
+      if (dashMatch && dashMatch.index !== undefined) {
+        const index = dashMatch.index;
+        return cleaned.slice(0, index) + tail + cleaned.slice(index);
+      }
+      return cleaned + tail;
+    }
+
+    return cleaned;
+  }
+
+  private optimizeDesc(metainfo?: string): string {
+    const cleaned = normalizeMetadataText(metainfo);
+    if (!cleaned) return "";
+
+    const hasGeo = GEO_MARKERS.some((marker) => cleaned.toLowerCase().includes(marker));
+
+    if (cleaned.length > 180) {
+      const separators = [" с ", " по ", " для ", " на ", ". ", ", "];
+      for (const separator of separators) {
+        const index = cleaned.indexOf(separator);
+
+        if (index !== -1) {
+          return cleaned.slice(0, index) + " в Минске и Беларуси" + cleaned.slice(index);
+        }
+      }
+    }
+
+    if (!hasGeo) {
+      const endsWithDot = cleaned.trim().endsWith(".");
+      const tail = endsWithDot ? "В Минске и Беларуси" : "в Минске и Беларуси";
+      return `${cleaned} ${tail}`;
+    }
+
+    return cleaned;
+  }
+
   private compilePageMetadata(document: Document): PageMetadata {
     const titleNode = document.querySelector("title");
-    const title = titleNode?.textContent;
+    const title = this.optimizeTitle(titleNode?.textContent);
     const metaElements = document.querySelectorAll("meta");
     const metaData = Array.from(metaElements).map((meta) => ({
       name: meta.getAttribute("name") || "",
@@ -183,7 +231,8 @@ export class ContentService {
       httpEquiv: meta.getAttribute("http-equiv") || "",
       charset: meta.getAttribute("charset") || "",
     }));
-    const description = metaData.find((m) => m.name === "description")?.content;
+    const description = this.optimizeDesc(metaData.find((m) => m.name === "description")?.content);
+
     const keywords = metaData.find((m) => m.name === "keywords")?.content;
     return { title: title ?? "", description: description ?? "", keywords: keywords ?? "" };
   }
@@ -266,8 +315,7 @@ export class ContentService {
 
     this.removeHeader(document);
     this.removeFooter(document);
-    this.removeKovrolinLink(document);
-    this.pageTransformerService.transform(pathWithKey.realPath, document);
+    this.pageTransformerService.transform(pathWithKey, document);
 
     const body = document.querySelector("body");
     const content = body?.innerHTML ?? "<h1>Body is empty</h1>";
