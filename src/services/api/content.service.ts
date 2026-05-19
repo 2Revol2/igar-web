@@ -50,17 +50,13 @@ export class ContentService {
     }
   }
 
-  private removeKovrolinLink(document: Document) {
-    const kovrolinLinks = document.querySelectorAll('a[href="/kovrolin/"]');
+  private replaceHomepageLinks(document: Document) {
+    const homepageUrl = headlessCms.data.settings.homepageLink;
 
-    kovrolinLinks.forEach((link) => {
-      const parent = link.parentElement;
+    const homePageLinks = document.querySelectorAll<HTMLAnchorElement>(`a[href="${homepageUrl}"]`);
 
-      if (parent?.classList.contains("bx-breadcrumb-item")) {
-        parent.remove();
-      } else {
-        link.remove();
-      }
+    homePageLinks.forEach((link) => {
+      link.href = "/";
     });
   }
 
@@ -315,6 +311,7 @@ export class ContentService {
 
     this.removeHeader(document);
     this.removeFooter(document);
+    this.replaceHomepageLinks(document);
     this.pageTransformerService.transform(pathWithKey, document);
 
     const body = document.querySelector("body");
