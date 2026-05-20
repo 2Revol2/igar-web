@@ -9,7 +9,6 @@ interface RubRate {
 }
 
 const STORAGE_KEY = "rub_byn_rate";
-const DEFAULT_VALUE = 0.038149999999999996;
 
 async function getRubToBynRate(): Promise<number> {
   const primaryUrl = "https://api.nbrb.by/exrates/rates/RUB?parammode=2";
@@ -72,12 +71,17 @@ async function getRubToBynRate(): Promise<number> {
 }
 
 export function useRubToBynRate() {
-  const [rate, setRate] = useState<number>(DEFAULT_VALUE);
+  const [rate, setRate] = useState<number>(0);
 
   useEffect(() => {
     const loadRate = async () => {
-      const result = await getRubToBynRate();
-      setRate(result);
+      try {
+        const result = await getRubToBynRate();
+        setRate(result);
+      } catch (err) {
+        console.error("All rate fetches failed:", err);
+        setRate(0);
+      }
     };
 
     loadRate();

@@ -154,7 +154,30 @@ function addLoadedClass(root: ParentNode) {
   elements.forEach((el) => el.classList.add("ab-loaded"));
 }
 
+function emptyPriceNode(node: HTMLElement) {
+  node.textContent = "—";
+  node.setAttribute(PROCESSED_ATTR, "1");
+  node.classList.add(PRICE_MARK_CLASS);
+}
+
 function scan(root: ParentNode, rate: number) {
+  if (rate === 0) {
+    const priceNodes = root.querySelectorAll(PRICES_CLASSES.join(","));
+
+    priceNodes.forEach((el) => {
+      if (el instanceof HTMLElement) {
+        const rub = parsePrice(el.textContent ?? "");
+        if (rub !== null) {
+          emptyPriceNode(el);
+        }
+      }
+    });
+
+    removeRubSignGlobally(root);
+    addLoadedClass(root);
+    return;
+  }
+
   processNumberBeforeRubSpan(root, rate);
   processPriceWithDataAttribute(root, rate);
   processSpanPrices(root, rate);
