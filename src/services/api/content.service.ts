@@ -50,6 +50,16 @@ export class ContentService {
     }
   }
 
+  private replaceHomepageLinks(document: Document) {
+    const homepageUrl = headlessCms.data.settings.homepageLink;
+
+    const homePageLinks = document.querySelectorAll<HTMLAnchorElement>(`a[href="${homepageUrl}"]`);
+
+    homePageLinks.forEach((link) => {
+      link.href = "/";
+    });
+  }
+
   /* ======================
      Extractors
   ====================== */
@@ -301,6 +311,7 @@ export class ContentService {
 
     this.removeHeader(document);
     this.removeFooter(document);
+    this.replaceHomepageLinks(document);
     this.pageTransformerService.transform(pathWithKey, document);
 
     const body = document.querySelector("body");
