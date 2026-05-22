@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@logtail/node": "^0.5.8",
+    "@next/third-parties": "^16.2.6",
     "isomorphic-dompurify": "^3.5.1",
     "jsdom": "^29.0.0",
     "next": "^16.2.0",
