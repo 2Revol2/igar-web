@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import Script from "next/script";
 import { AppGreenLine } from "@/src/components/AppGreenLine";
 import { getBitrixHtmlClasses } from "@/src/lib/client/bitrix-classes";
+import { config } from "@/config";
 
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
@@ -50,7 +51,7 @@ const RootLayout = async ({
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-NHHMVTZ6');
+            })(window,document,'script','dataLayer','${config.GTM_MEASURE_ID}');
           `,
           }}
         />
@@ -58,7 +59,7 @@ const RootLayout = async ({
       <body id="ab-market" className={`${inter.className} ${roboto.className} ${montserrat.className}`}>
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-NHHMVTZ6"
+            src={`https://www.googletagmanager.com/ns.html?id=${config.GTM_MEASURE_ID}`}
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
