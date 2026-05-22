@@ -42,29 +42,33 @@ const RootLayout = async ({
       <head>
         <link rel="stylesheet" href="/ab-market/partners.bundle.css" />
 
-        <Script
-          id="gtm"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
+        {config.GTM_MEASURE_ID ? (
+          <Script
+            id="gtm"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','${config.GTM_MEASURE_ID}');
           `,
-          }}
-        />
+            }}
+          />
+        ) : null}
       </head>
       <body id="ab-market" className={`${inter.className} ${roboto.className} ${montserrat.className}`}>
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${config.GTM_MEASURE_ID}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript>
+        {config.GTM_MEASURE_ID ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${config.GTM_MEASURE_ID}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            ></iframe>
+          </noscript>
+        ) : null}
 
         <AppGreenLine />
         <div>{children}</div>
