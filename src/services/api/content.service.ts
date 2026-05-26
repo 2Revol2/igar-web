@@ -302,6 +302,7 @@ export class ContentService {
     const { document } = window;
 
     this.replaceLinkValues(document);
+    this.replaceHomepageLinks(document);
 
     const links = this.extractLinks(document);
     const scripts = this.extractScripts(document);
@@ -311,7 +312,6 @@ export class ContentService {
 
     this.removeHeader(document);
     this.removeFooter(document);
-    this.replaceHomepageLinks(document);
     this.pageTransformerService.transform(pathWithKey, document);
 
     const body = document.querySelector("body");
