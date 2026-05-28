@@ -109,6 +109,7 @@ class HeadlessCmsService {
         renamedLinks,
         homepageLink,
       },
+      customPages: response.allCustomPages,
     };
   }
 
@@ -151,9 +152,36 @@ class HeadlessCmsService {
               metadataTextReplacement
             }
           }
+          allCustomPages {
+            title
+            slug
+            pageContent {
+              value
+            }
+            image {
+              url
+              alt
+              title
+              width
+              height
+            }
+            seo {
+              title
+              description
+              twitterCard
+              noIndex
+              image {
+                url
+                alt
+                title
+                width
+                height
+              }
+            }
+          }
         }
       `);
-      logger.info("CMS successfully fetched", fetchResult.config);
+      logger.info("CMS successfully fetched", fetchResult);
       return this.normalize(fetchResult);
     } catch (error) {
       logger.error("Dato CMS fetch error", error);
@@ -180,6 +208,7 @@ class HeadlessCmsService {
     return {
       content: fresh.content,
       contact: fresh.contact,
+      customPages: fresh.customPages,
     };
   }
 }

@@ -65,14 +65,41 @@ type ContactInfo = {
   };
 };
 
-export type PublicCmsData = {
-  contact: ContactInfo;
-  content: CmsContent;
-};
-
 export type CmsLink = {
   url: string;
   text?: string;
+};
+
+type CustomPageImage = {
+  url: string;
+  alt: string;
+  title: string;
+  width: number;
+  height: number;
+};
+
+type CustomPageSeo = {
+  title: string;
+  description: string;
+  twitterCard: string;
+  noIndex: boolean;
+  image: CustomPageImage;
+};
+
+type CustomPage = {
+  title: string;
+  slug: string;
+  pageContent: {
+    value: string;
+  };
+  image: CustomPageImage;
+  seo: CustomPageSeo;
+};
+
+export type PublicCmsData = {
+  contact: ContactInfo;
+  content: CmsContent;
+  customPages?: CustomPage[];
 };
 
 export type CmsDataResponse = {
@@ -90,6 +117,7 @@ export type CmsDataResponse = {
       metadataTextReplacement: Record<string, string>;
     };
   };
+  allCustomPages: CustomPage[];
 };
 
 export type CmsData = {
@@ -105,6 +133,7 @@ export type CmsData = {
     };
     metadataTextReplacement: Record<string, string>;
   };
+  customPages?: CustomPage[];
 };
 
 export type Heartbeat = {
