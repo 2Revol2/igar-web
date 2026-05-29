@@ -1,3 +1,4 @@
+import { headlessCms } from "@/src/services/api/headless-cms.service";
 import { fetchPageData } from "./page-data";
 import type { Metadata } from "next";
 
@@ -10,6 +11,8 @@ export const setPageMeta = async ({ searchParams, params }: PageProps): Promise<
   const sp = await searchParams;
   const { path } = await params;
   const pathname = Array.isArray(path) ? `/${path.join("/")}/` : path ? `/${path}/` : "/";
+
+  const customPage = headlessCms.data?.customPages?.find((page) => page.slug === pathname);
 
   const filtered: Record<string, string> = {};
   for (const [key, value] of Object.entries(sp || {})) {
@@ -26,8 +29,8 @@ export const setPageMeta = async ({ searchParams, params }: PageProps): Promise<
   const { meta } = await fetchPageData(fullUrl);
 
   return {
-    title: meta?.title,
-    description: meta?.description,
-    keywords: meta?.keywords,
+    title: customPage ? customPage.seo.title : meta?.title,
+    description: customPage ? customPage.seo.description : meta?.description,
+    keywords: customPage ? customPage.keywords : meta?.keywords,
   };
 };

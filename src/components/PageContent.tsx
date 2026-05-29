@@ -37,6 +37,12 @@ export const PageContent = async ({ path, cms }: PageRendererProps) => {
       {customPage ? (
         <div className={"container-2025"}>
           <StructuredText data={customPage.pageContent.value} />
+          <img
+            src={customPage.image.url}
+            alt={customPage.image.alt}
+            width={customPage.image.width}
+            height={customPage.image.height}
+          />
         </div>
       ) : (
         <AppSafeContent html={content} />

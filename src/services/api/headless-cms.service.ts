@@ -155,6 +155,7 @@ class HeadlessCmsService {
           allCustomPages {
             label
             slug
+            keywords
             pageContent {
               value
             }

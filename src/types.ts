@@ -91,6 +91,7 @@ type CustomPageSeo = {
 export type CustomPage = {
   label: string;
   slug: string;
+  keywords: string;
   pageContent: {
     value: CdaStructuredTextValue;
   };
