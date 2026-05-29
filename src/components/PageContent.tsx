@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { StructuredText } from "react-datocms";
 import { fetchPageData } from "@/src/lib/client/page-data";
 import { PartnersCssLoader } from "@/src/components/PartnersCssLoader";
 import { AppPageScripts } from "@/src/components/PageScripts";
@@ -16,6 +17,8 @@ interface PageRendererProps {
 export const PageContent = async ({ path, cms }: PageRendererProps) => {
   const { content, links, scripts, headerNavbar } = await fetchPageData(path);
 
+  const customPage = cms?.customPages?.find((page) => page.slug === path);
+
   if (!content) {
     return notFound();
   }
@@ -31,7 +34,14 @@ export const PageContent = async ({ path, cms }: PageRendererProps) => {
       )}
 
       <AppHeader headerNavbar={headerNavbar} cms={cms} />
-      <AppSafeContent html={content} />
+      {customPage ? (
+        <div className={"container-2025"}>
+          <StructuredText data={customPage.pageContent.value} />
+        </div>
+      ) : (
+        <AppSafeContent html={content} />
+      )}
+
       {path !== "/contacts/" && <ContactSection cms={cms} />}
       <AppFooter cms={cms} />
       <AppPageScripts scripts={scripts} />

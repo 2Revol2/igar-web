@@ -1,3 +1,5 @@
+import type { CdaStructuredTextValue } from "react-datocms";
+
 export type PageMetadata = { title: string; description: string; keywords: string };
 
 export type HeadLink = {
@@ -86,11 +88,11 @@ type CustomPageSeo = {
   image: CustomPageImage;
 };
 
-type CustomPage = {
-  title: string;
+export type CustomPage = {
+  label: string;
   slug: string;
   pageContent: {
-    value: string;
+    value: CdaStructuredTextValue;
   };
   image: CustomPageImage;
   seo: CustomPageSeo;

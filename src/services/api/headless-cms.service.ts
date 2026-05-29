@@ -153,7 +153,7 @@ class HeadlessCmsService {
             }
           }
           allCustomPages {
-            title
+            label
             slug
             pageContent {
               value
