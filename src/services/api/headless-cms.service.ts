@@ -158,6 +158,23 @@ class HeadlessCmsService {
             keywords
             pageContent {
               value
+              inlineBlocks {
+                ...on CustomPagesImageRecord {
+                  id
+                  __typename
+                  images {
+                    id 
+                    responsiveImage {
+                      alt
+                      title
+                      src
+                      webpSrcSet
+                      sizes
+                      aspectRatio
+                    }
+                  }
+                }
+              } 
             }
             image {
               url

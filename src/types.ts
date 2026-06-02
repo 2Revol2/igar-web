@@ -80,6 +80,26 @@ type CustomPageImage = {
   height: number;
 };
 
+type CustomPageInlineResponsiveImage = {
+  alt: string | null;
+  title: string | null;
+  src: string;
+  webpSrcSet: string;
+  sizes: string;
+  aspectRatio: number;
+};
+
+type CustomPageInlineImage = {
+  id: string;
+  responsiveImage: CustomPageInlineResponsiveImage;
+};
+
+export type CustomPagesImageRecord = {
+  id: string;
+  __typename: "CustomPagesImageRecord";
+  images: CustomPageInlineImage[];
+};
+
 type CustomPageSeo = {
   title: string;
   description: string;
@@ -92,9 +112,7 @@ export type CustomPage = {
   label: string;
   slug: string;
   keywords: string;
-  pageContent: {
-    value: CdaStructuredTextValue;
-  };
+  pageContent: CdaStructuredTextValue<CustomPagesImageRecord, CustomPagesImageRecord, CustomPagesImageRecord>;
   image: CustomPageImage;
   seo: CustomPageSeo;
 };
