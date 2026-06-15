@@ -15,9 +15,11 @@ interface PageRendererProps {
 }
 
 export const PageContent = async ({ path, cms }: PageRendererProps) => {
-  const { content, links, scripts, headerNavbar } = await fetchPageData(path);
-
   const customPage = cms?.customPages?.find((page) => page.slug === path);
+
+  const pathToFetch = customPage ? "/" : path;
+
+  const { content, links, scripts, headerNavbar } = await fetchPageData(pathToFetch);
 
   if (!content && !customPage) {
     return notFound();
