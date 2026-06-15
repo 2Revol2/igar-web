@@ -1,3 +1,5 @@
+import type { CdaStructuredTextValue } from "react-datocms";
+
 export type PageMetadata = { title: string; description: string; keywords: string };
 
 export type HeadLink = {
@@ -65,14 +67,60 @@ type ContactInfo = {
   };
 };
 
-export type PublicCmsData = {
-  contact: ContactInfo;
-  content: CmsContent;
-};
-
 export type CmsLink = {
   url: string;
   text?: string;
+};
+
+type CustomPageImage = {
+  url: string;
+  alt: string;
+  title: string;
+  width: number;
+  height: number;
+};
+
+type CustomPageInlineResponsiveImage = {
+  alt: string | null;
+  title: string | null;
+  src: string;
+  webpSrcSet: string;
+  sizes: string;
+  aspectRatio: number;
+};
+
+type CustomPageInlineImage = {
+  id: string;
+  responsiveImage: CustomPageInlineResponsiveImage;
+};
+
+export type CustomPagesImageRecord = {
+  id: string;
+  __typename: "CustomPagesImageRecord";
+  images: CustomPageInlineImage[];
+};
+
+type CustomPageSeo = {
+  title: string;
+  description: string;
+  twitterCard: string;
+  noIndex: boolean;
+  image: CustomPageImage;
+};
+
+export type CustomPage = {
+  label: string;
+  slug: string;
+  keywords: string;
+  pageContent: CdaStructuredTextValue<CustomPagesImageRecord, CustomPagesImageRecord, CustomPagesImageRecord>;
+  image: CustomPageImage;
+  seo: CustomPageSeo;
+};
+
+export type PublicCmsData = {
+  contact: ContactInfo;
+  content: CmsContent;
+  customPages?: CustomPage[];
 };
 
 export type CmsDataResponse = {
@@ -90,6 +138,7 @@ export type CmsDataResponse = {
       metadataTextReplacement: Record<string, string>;
     };
   };
+  allCustomPages: CustomPage[];
 };
 
 export type CmsData = {
@@ -105,6 +154,7 @@ export type CmsData = {
     };
     metadataTextReplacement: Record<string, string>;
   };
+  customPages?: CustomPage[];
 };
 
 export type Heartbeat = {

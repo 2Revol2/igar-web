@@ -4,6 +4,7 @@ import { PartnersCssLoader } from "@/src/components/PartnersCssLoader";
 import { AppPageScripts } from "@/src/components/PageScripts";
 import { AppFooter } from "@/src/components/Footer";
 import { ContactSection } from "@/src/components/ContactSection/ContactSection";
+import { CustomPageContent } from "@/src/components/CustomPageContent";
 import { AppHeader } from "./Header/header";
 import { AppSafeContent } from "./content";
 import type { PublicCmsData } from "@/src/types";
@@ -14,9 +15,13 @@ interface PageRendererProps {
 }
 
 export const PageContent = async ({ path, cms }: PageRendererProps) => {
-  const { content, links, scripts, headerNavbar } = await fetchPageData(path);
+  const customPage = cms?.customPages?.find((page) => page.slug === path);
 
-  if (!content) {
+  const pathToFetch = customPage ? "/" : path;
+
+  const { content, links, scripts, headerNavbar } = await fetchPageData(pathToFetch);
+
+  if (!content && !customPage) {
     return notFound();
   }
 
@@ -31,7 +36,8 @@ export const PageContent = async ({ path, cms }: PageRendererProps) => {
       )}
 
       <AppHeader headerNavbar={headerNavbar} cms={cms} />
-      <AppSafeContent html={content} />
+      {customPage ? <CustomPageContent page={customPage} /> : <AppSafeContent html={content} />}
+
       {path !== "/contacts/" && <ContactSection cms={cms} />}
       <AppFooter cms={cms} />
       <AppPageScripts scripts={scripts} />

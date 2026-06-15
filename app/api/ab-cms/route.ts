@@ -13,5 +13,6 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({
     content: headlessCms.data.content,
     contact: headlessCms.data.contact,
+    customPages: headlessCms.data.customPages,
   });
 }

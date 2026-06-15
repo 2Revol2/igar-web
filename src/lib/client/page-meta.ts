@@ -1,4 +1,4 @@
-import { fetchPageData } from "./page-data";
+import { fetchCmsData, fetchPageData } from "./page-data";
 import type { Metadata } from "next";
 
 export type PageProps = {
@@ -10,6 +10,18 @@ export const setPageMeta = async ({ searchParams, params }: PageProps): Promise<
   const sp = await searchParams;
   const { path } = await params;
   const pathname = Array.isArray(path) ? `/${path.join("/")}/` : path ? `/${path}/` : "/";
+
+  const cms = await fetchCmsData(false);
+
+  const customPage = cms?.customPages?.find((page) => page.slug === pathname);
+
+  if (customPage) {
+    return {
+      title: customPage.seo.title,
+      description: customPage.seo.description,
+      keywords: customPage.keywords,
+    };
+  }
 
   const filtered: Record<string, string> = {};
   for (const [key, value] of Object.entries(sp || {})) {

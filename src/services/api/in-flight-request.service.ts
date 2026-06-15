@@ -1,5 +1,6 @@
 import { config } from "@/config";
 import { logger } from "@/src/lib/api/logger";
+import { headlessCms } from "@/src/services/api/headless-cms.service";
 import type { ContentResponse, PagePathWithKey } from "@/src/types";
 import type { FileCacheService as FileCacheServiceImpl } from "./file-cache.service";
 import type { ContentService as ContentServiceImpl } from "./content.service";
@@ -67,6 +68,7 @@ export class InFlightRequestService {
         return await existing;
       }
       const composition = async () => {
+        const customPage = headlessCms.data?.customPages?.some((page) => page.slug === pathWithKey.realPath);
         const html = await this.fetchContent(pathWithKey.realPath);
         // next logic only for successful fetches
         logger.info(`${logInfo} Successful response > ${pathWithKey.realPath}`, { pathWithKey });
@@ -74,12 +76,14 @@ export class InFlightRequestService {
         const cachedHeader = this.getCachedHeader(cachedValue?.headerNavbar);
         const data = this.contentService.parseHtml({ html, pathWithKey, cachedHeader });
 
-        await this.fileCache.store({
-          pathWithKey,
-          data,
-          isNewCache: !cachedValue,
-          isHeaderUpdate: !cachedHeader,
-        });
+        if (!customPage) {
+          await this.fileCache.store({
+            pathWithKey,
+            data,
+            isNewCache: !cachedValue,
+            isHeaderUpdate: !cachedHeader,
+          });
+        }
         return data;
       };
       const promise = composition();

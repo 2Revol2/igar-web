@@ -279,6 +279,43 @@ export class ContentService {
       }
     }
 
+    if (headlessCms.data?.customPages?.length) {
+      const customPages = headlessCms.data.customPages;
+
+      const contactLinks = Array.from(
+        header.querySelectorAll<HTMLAnchorElement>('a.header-nav-link[href="/contacts/"]'),
+      );
+
+      contactLinks.forEach((contactLink) => {
+        const contactsItem = contactLink.closest("li");
+        const parentList = contactsItem?.parentElement;
+        if (!contactsItem || !parentList) {
+          return;
+        }
+
+        customPages.forEach((page) => {
+          if (!page.label || !page.slug) {
+            return;
+          }
+          const href = page.slug;
+          if (parentList.querySelector(`a[href="${href}"]`)) {
+            return;
+          }
+
+          const li = header.ownerDocument.createElement("li");
+          li.className = "header-nav-item";
+
+          const a = header.ownerDocument.createElement("a");
+          a.className = "header-nav-link";
+          a.href = href;
+          a.textContent = page.label;
+
+          li.appendChild(a);
+          parentList.insertBefore(li, contactsItem);
+        });
+      });
+    }
+
     const innerHeader = header.querySelector(".header__inner")?.outerHTML ?? "";
     const headerMobile = header.querySelector(".header-mobile")?.outerHTML ?? "";
     const headerMobileOverlay = header.querySelector(".header-mobile-overlay")?.outerHTML ?? "";
